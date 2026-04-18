@@ -11,7 +11,7 @@ export default function Icon({ icon }) {
   if (icon.type === "file") {
     return (
       <img
-        src={`/res/${icon.value}`}
+        src={`res/${icon.value}`}
         alt=""
         className="w-5 h-5 object-contain"
       />

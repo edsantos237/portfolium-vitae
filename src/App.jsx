@@ -22,7 +22,7 @@ function CoverSection({ activeSection, onJump }) {
       <div className="w-full max-w-5xl text-center">
         <div className="flex justify-center mb-6">
           <img
-            src="/res/profile_torso.png"
+            src="res/profile_torso.png"
             alt="Eduardo Santos"
             className="w-40 h-40 sm:w-52 sm:h-52 rounded-3xl object-cover border border-gray-800 shadow-2xl"
           />
@@ -71,7 +71,7 @@ function SidebarNav({ activeSection, visible, onJump }) {
       {/* Sticky wrapper */}
       <div className="sticky top-0 flex flex-col items-center gap-5 pt-6">
         <img
-          src="/res/profile_torso.png"
+          src="res/profile_torso.png"
           alt="Eduardo Santos"
           className="w-20 h-20 rounded-2xl object-cover border border-gray-800"
         />
