@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { sections } from "../config/sections";
 import { heroBackgroundStyle } from "../config/heroTheme";
+import { about } from "../data/about";
 
 export default function Cover({ activeSection, onJump }) {
   const sectionRef = useRef(null);
@@ -39,7 +40,7 @@ export default function Cover({ activeSection, onJump }) {
   return (
     <section
       ref={sectionRef}
-      id="about"
+      id="start"
       className="relative h-screen min-h-screen grid place-items-center px-6 overflow-hidden"
     >
       {/* BACKGROUND IMAGE (fixed) */}
@@ -59,8 +60,8 @@ export default function Cover({ activeSection, onJump }) {
         <div ref={contentRef} className="w-full">
           <div className="flex justify-center mb-6">
             <img
-              src="res/profile_torso.png"
-              alt="Eduardo Santos"
+              src={about.picture}
+              alt={about.name}
               className="w-40 h-40 sm:w-52 sm:h-52 rounded-3xl object-contain shadow-2xl"
             />
           </div>
@@ -70,13 +71,16 @@ export default function Cover({ activeSection, onJump }) {
           </p>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
-            Eduardo Santos
+            {about.name}
           </h1>
 
           <p className="mt-4 text-lg text-gray-300">
-            Unity & Backend Developer @ CCG/ZGDV Institute.
-            <br />
-            MSc in Telecommunications and Informatics Engineering @ University of Minho.
+            {about.headline_long.map((line, idx) => (
+              <span key={idx}>
+                {line}
+                {idx < about.headline_long.length - 1 && <br />}
+              </span>
+            ))}
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">

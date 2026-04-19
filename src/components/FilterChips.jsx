@@ -1,3 +1,5 @@
+import { useRef, useEffect } from "react";
+
 export default function FilterChips({
   professional = [],
   academic = [],
@@ -8,6 +10,20 @@ export default function FilterChips({
   onRemovePersonal,
   onRemoveSkill,
 }) {
+  const containerRef = useRef(null);
+  const prevCountRef = useRef(0);
+  const totalCount = professional.length + academic.length + (personal ? 1 : 0) + skills.length;
+
+  useEffect(() => {
+    if (totalCount > prevCountRef.current && containerRef.current) {
+      containerRef.current.scrollTo({
+        left: containerRef.current.scrollWidth,
+        behavior: 'smooth',
+      });
+    }
+    prevCountRef.current = totalCount;
+  }, [totalCount]);
+
   const hasAny =
     professional.length ||
     academic.length ||
@@ -17,7 +33,7 @@ export default function FilterChips({
   if (!hasAny) return null;
 
   return (
-    <div className="flex flex-wrap gap-2 mb-6 text-xs text-gray-300 items-center">
+    <div ref={containerRef} className="flex gap-2 mb-6 text-xs text-gray-300 items-center overflow-x-auto whitespace-nowrap filter-chips-scrollbar">
       
       {/* PROFESSIONAL */}
       {professional.map((c) => (

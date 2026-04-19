@@ -42,21 +42,21 @@ export const publications = [
     {
         title: "QuizHuntAR: A location-based Augmented Reality game for education",
         publisher: "IEEE",
-        tags: ["arcticle, ccg"],
+        tags: ["arcticle, college"],
         date: "2021/11/04",
         links: ["https://ieeexplore.ieee.org/document/9655273"],
         description: [
             "Presented at ICGI'2021 - International Conference on Graphics and Interaction"
         ]
     },
-    {
-        title: "E-Scudo",
-        publisher: "INNCYBER Innovation Hub",
-        tags: ["project, college"],
-        date: "2020/11",
-        files: ["Certificado de Participação-José Eduardo da Silva Santos.pdf"],
-        description: [
-            "Participated in the 1st edition of INNCYBER Innovation Award (2019/2020)"
-        ]
-    }
+    // {
+    //     title: "E-Scudo",
+    //     publisher: "INNCYBER Innovation Hub",
+    //     tags: ["project, college"],
+    //     date: "2020/11",
+    //     files: ["Certificado de Participação-José Eduardo da Silva Santos.pdf"],
+    //     description: [
+    //         "Participated in the 1st edition of INNCYBER Innovation Award (2019/2020)"
+    //     ]
+    // }
 ]

@@ -1,10 +1,11 @@
 import Icon from "./Icon";
+import { formatRange } from "../utils/dateFormat";
 
 export default function EducationCard({ school, open, onToggle }) {
     const formatDate = (d) => {
         if (!d) return "";
-        const [y, m] = d.split("/");
-        return m ? `${m}/${y}` : y;
+        if (typeof d === 'string') return d;
+        return formatRange(d);
     };
 
     const gradePercent =
@@ -51,9 +52,8 @@ export default function EducationCard({ school, open, onToggle }) {
                 <div className="mt-4 ml-11 space-y-4 border-l border-gray-800 pl-4">
 
                     {/* DATES */}
-                    <p className="text-sm text-gray-400">
-                        {formatDate(school.date_start)}
-                        {school.date_end && ` → ${formatDate(school.date_end)}`}
+                            <p className="text-sm text-gray-400">
+                        {formatDate(school.date)}
                     </p>
 
                     {/* DEGREES */}

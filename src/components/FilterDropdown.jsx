@@ -1,13 +1,16 @@
-import React from "react";
+import { forwardRef } from "react";
 
-export default function FilterDropdown({
-  label,
-  selectedCount = 0,
-  totalCount = 0,
-  open,
-  setOpen,
-  id,
-}) {
+const FilterDropdown = forwardRef(function FilterDropdown(
+  {
+    label,
+    selectedCount = 0,
+    totalCount = 0,
+    open,
+    setOpen,
+    id,
+  },
+  ref
+) {
   const isOpen = open === id;
   const isAllSelected = totalCount > 0 && selectedCount === totalCount;
   const isPartialSelected = selectedCount > 0 && selectedCount < totalCount;
@@ -18,6 +21,7 @@ export default function FilterDropdown({
 
   return (
     <button
+      ref={ref}
       type="button"
       onClick={(e) => {
         e.stopPropagation();
@@ -33,4 +37,6 @@ export default function FilterDropdown({
       </span>
     </button>
   );
-}
+});
+
+export default FilterDropdown;

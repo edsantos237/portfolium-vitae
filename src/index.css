@@ -1,3 +1,36 @@
+/* Custom horizontal scrollbar for FilterChips to match page background */
+.filter-chips-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+.filter-chips-scrollbar::-webkit-scrollbar-thumb {
+  background: #374151; /* Tailwind gray-700 */
+  border-radius: 4px;
+}
+.filter-chips-scrollbar::-webkit-scrollbar-track {
+  background: #0f172a; /* Tailwind gray-950 */
+}
+
+/* For Firefox */
+.filter-chips-scrollbar {
+  scrollbar-color: #374151 #0f172a;
+  scrollbar-width: thin;
+}
+
+/* Vertical scrollbar for filter drawers */
+.filter-drawer-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.filter-drawer-scrollbar::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+.filter-drawer-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.filter-drawer-scrollbar {
+  scrollbar-color: #374151 transparent;
+  scrollbar-width: thin;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

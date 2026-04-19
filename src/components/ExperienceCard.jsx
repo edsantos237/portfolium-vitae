@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Icon from "./Icon";
+import { formatRange } from "../utils/dateFormat";
 
 export default function ExperienceCard({ company }) {
   const [open, setOpen] = useState(false);
 
   const formatDate = (d) => {
     if (!d) return "";
-    const [y, m] = d.split("/");
-    return m ? `${m}/${y}` : y;
+    // expect d to be an object { start, end } or a string
+    if (typeof d === "string") return d;
+    return formatRange(d);
   };
 
   return (
@@ -58,8 +60,7 @@ export default function ExperienceCard({ company }) {
 
               {/* DATES */}
               <p className="text-xs text-gray-400">
-                {formatDate(role.date_start)}
-                {role.date_end && ` → ${formatDate(role.date_end)}`}
+                {formatDate(role.date)}
               </p>
 
               {/* DESCRIPTION */}

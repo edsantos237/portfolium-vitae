@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 import Cover from "./Cover";
 import SidebarNav from "./SidebarNav";
 import MobileTopBar from "./MobileTopBar";
+import About from "./About";
 
 import Projects from "./Projects";
+import Publications from "./Publications";
+import Activities from "./Activities";
 import Skills from "./Skills";
 import Experience from "./Experience";
 import Education from "./Education";
+import Contact from "./Contact";
 
 import { sections } from "../config/sections";
 import { heroBackgroundStyle } from "../config/heroTheme";
 
 export default function Layout() {
-  const [activeSection, setActiveSection] = useState("about");
+  const [activeSection, setActiveSection] = useState(sections[0].id);
   const [isPastHero, setIsPastHero] = useState(false);
   const [isManualScrolling, setIsManualScrolling] = useState(false);
   const [focusedSkill, setFocusedSkill] = useState(null);
@@ -34,23 +38,41 @@ export default function Layout() {
     const handleScroll = () => {
       if (isManualScrolling) return;
 
-      let current = sections[0].id;
+      // Choose the section that currently has the largest visible height
+      let bestId = sections[0].id;
+      let bestVisible = -1;
+
+      const vh = window.innerHeight || document.documentElement.clientHeight;
 
       for (const s of sections) {
         const el = document.getElementById(s.id);
         if (!el) continue;
 
         const rect = el.getBoundingClientRect();
-        if (rect.top <= 120) current = s.id;
+
+        // compute visible vertical overlap between element and viewport
+        const visibleTop = Math.max(rect.top, 0);
+        const visibleBottom = Math.min(rect.bottom, vh);
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+
+        if (visibleHeight > bestVisible) {
+          bestVisible = visibleHeight;
+          bestId = s.id;
+        }
       }
 
-      setActiveSection(current);
+      // Always update active section (React will bail out if same)
+      setActiveSection(bestId);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, [isManualScrolling]);
 
   const jumpTo = (id) => {
@@ -60,7 +82,16 @@ export default function Layout() {
     const el = document.getElementById(id);
     if (!el) return;
 
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Use explicit scrollTo with computed absolute offset for better
+    // reliability across mobile browsers (address bar, transforms, etc.)
+    const rect = el.getBoundingClientRect();
+    const absoluteTop = window.scrollY + rect.top;
+    // Subtract any visible sticky header (mobile top bar) height so the
+    // target section isn't hidden under it after layout shifts.
+    const mobileBar = document.getElementById("mobile-top-bar");
+    const headerOffset = mobileBar ? mobileBar.offsetHeight : 0;
+    const target = Math.max(0, absoluteTop - headerOffset);
+    window.scrollTo({ top: target, behavior: "smooth" });
 
     let t;
     const onScroll = () => {
@@ -68,7 +99,7 @@ export default function Layout() {
       t = setTimeout(() => {
         setIsManualScrolling(false);
         window.removeEventListener("scroll", onScroll);
-      }, 120);
+      }, 600);
     };
 
     window.addEventListener("scroll", onScroll);
@@ -120,11 +151,19 @@ export default function Layout() {
 
         {/* MAIN CONTENT */}
         <main className="w-full pb-6">
+            <section id="about-me" className={`px-6 lg:px-10 py-16 border-b border-gray-800 transition-colors duration-300 ${
+              activeSection === "about-me" ? "bg-gray-900/25" : ""
+            }`}>
+              <div className="max-w-6xl mx-auto">
+                <About isActive={activeSection === "about-me"} />
+              </div>
+            </section>
+
             <section id="skills" className={`px-6 lg:px-10 py-16 border-b border-gray-800 transition-colors duration-300 ${
               activeSection === "skills" ? "bg-gray-900/25" : ""
             }`}>
               <div className="max-w-6xl mx-auto">
-                <Skills onShowProjects={showProjectsForSkill} />
+                <Skills onShowProjects={showProjectsForSkill} isActive={activeSection === "skills"} />
               </div>
             </section>
 
@@ -132,7 +171,7 @@ export default function Layout() {
               activeSection === "experience" ? "bg-gray-900/25" : ""
             }`}>
               <div className="max-w-6xl mx-auto">
-                <Experience />
+                <Experience isActive={activeSection === "experience"} />
               </div>
             </section>
 
@@ -140,7 +179,7 @@ export default function Layout() {
               activeSection === "education" ? "bg-gray-900/25" : ""
             }`}>
               <div className="max-w-6xl mx-auto">
-                <Education />
+                <Education isActive={activeSection === "education"} />
               </div>
             </section>
 
@@ -148,7 +187,23 @@ export default function Layout() {
               activeSection === "projects" ? "bg-gray-900/25" : ""
             }`}>
               <div className="max-w-6xl mx-auto">
-                <Projects focusedSkill={focusedSkill} setFocusedSkill={setFocusedSkill} />
+                <Projects focusedSkill={focusedSkill} setFocusedSkill={setFocusedSkill} isActive={activeSection === "projects"} />
+              </div>
+            </section>
+
+            <section id="publications" className={`px-6 lg:px-10 py-16 border-b border-gray-800 transition-colors duration-300 ${
+              activeSection === "publications" ? "bg-gray-900/25" : ""
+            }`}>
+              <div className="max-w-6xl mx-auto">
+                <Publications isActive={activeSection === "publications"} />
+              </div>
+            </section>
+
+            <section id="activities" className={`px-6 lg:px-10 py-16 border-b border-gray-800 transition-colors duration-300 ${
+              activeSection === "activities" ? "bg-gray-900/25" : ""
+            }`}>
+              <div className="max-w-6xl mx-auto">
+                <Activities isActive={activeSection === "activities"} />
               </div>
             </section>
 
@@ -156,45 +211,13 @@ export default function Layout() {
               activeSection === "contact" ? "bg-gray-900/25" : ""
             }`}>
               <div className="max-w-6xl mx-auto">
-                <h2 className="text-2xl font-semibold mb-4">Contact</h2>
-                <p className="text-gray-300">Your contact info here</p>
+                <Contact />
               </div>
             </section>
         </main>
       </div>
 
-      {/* ================= MOBILE CONTENT (below hero) ================= */}
-      <div className="lg:hidden px-6">
-        <section id="skills" className={`py-16 border-b border-gray-800 transition-colors duration-300 ${
-          activeSection === "skills" ? "bg-gray-900/25" : ""
-        }`}>
-          <Skills onShowProjects={showProjectsForSkill} />
-        </section>
 
-        <section id="experience" className={`py-16 border-b border-gray-800 transition-colors duration-300 ${
-          activeSection === "experience" ? "bg-gray-900/25" : ""
-        }`}>
-          <Experience />
-        </section>
-
-        <section id="education" className={`py-16 border-b border-gray-800 transition-colors duration-300 ${
-          activeSection === "education" ? "bg-gray-900/25" : ""
-        }`}>
-          <Education />
-        </section>
-
-        <section id="projects" className={`py-16 border-b border-gray-800 transition-colors duration-300 ${
-          activeSection === "projects" ? "bg-gray-900/25" : ""
-        }`}>
-          <Projects focusedSkill={focusedSkill} setFocusedSkill={setFocusedSkill} />
-        </section>
-
-        <section id="contact" className={`py-20 transition-colors duration-300 ${
-          activeSection === "contact" ? "bg-gray-900/25" : ""
-        }`}>
-          <h2 className="text-2xl font-semibold mb-4">Contact</h2>
-        </section>
-      </div>
     </div>
   );
 }

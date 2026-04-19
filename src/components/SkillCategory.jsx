@@ -30,6 +30,7 @@ export default function SkillContainer({
         <div
             ref={containerRef}
             className="bg-gray-900/60 border border-gray-800 rounded-xl p-5"
+            style={{ scrollMarginTop: '10rem' }}
         >
             <h3 className="text-lg font-semibold mb-4 text-gray-300">
                 {label}

@@ -11,6 +11,7 @@ export default function FilterPanel({
     const [openDropdown, setOpenDropdown] = useState(null);
     const drawerRef = useRef(null);
     const measureRef = useRef(null);
+    const buttonRefs = useRef({});
     const [needsStackLayout, setNeedsStackLayout] = useState(false);
 
     // Close dropdown on outside click
@@ -28,6 +29,78 @@ export default function FilterPanel({
             document.addEventListener("click", handleClickOutside);
             return () => document.removeEventListener("click", handleClickOutside);
         }
+    }, [openDropdown]);
+
+    // When dropdown opens: scroll header into sticky position + constrain drawer height
+    useEffect(() => {
+        if (!openDropdown) return;
+
+        let fallbackTimer;
+
+        const onResize = () => {
+            if (!drawerRef.current) return;
+            const rect = drawerRef.current.getBoundingClientRect();
+            const available = window.innerHeight - rect.top - 8;
+            if (available < drawerRef.current.scrollHeight) {
+                drawerRef.current.style.maxHeight = `${Math.max(available, 120)}px`;
+                drawerRef.current.style.overflowY = 'auto';
+            } else {
+                drawerRef.current.style.maxHeight = '';
+                drawerRef.current.style.overflowY = '';
+            }
+        };
+
+        const frame = requestAnimationFrame(() => {
+            if (!drawerRef.current) return;
+
+            // Scroll the dropdown trigger button into view (horizontal)
+            const triggerBtn = buttonRefs.current[openDropdown];
+            if (triggerBtn) {
+                triggerBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+            }
+
+            const stickyHeader = drawerRef.current.closest('.sticky');
+            const stickyTop = stickyHeader
+                ? parseFloat(getComputedStyle(stickyHeader).top) || 0
+                : 0;
+
+            const applyMaxHeight = () => {
+                if (!drawerRef.current) return;
+                const rect = drawerRef.current.getBoundingClientRect();
+                const available = window.innerHeight - rect.top - 8;
+                if (available < drawerRef.current.scrollHeight) {
+                    drawerRef.current.style.maxHeight = `${Math.max(available, 120)}px`;
+                    drawerRef.current.style.overflowY = 'auto';
+                }
+            };
+
+            if (stickyHeader) {
+                const headerRect = stickyHeader.getBoundingClientRect();
+                if (headerRect.top > stickyTop + 2) {
+                    // Scroll page so the header reaches its sticky position
+                    window.scrollBy({ top: headerRect.top - stickyTop, behavior: 'smooth' });
+
+                    const onScrollEnd = () => applyMaxHeight();
+                    window.addEventListener('scrollend', onScrollEnd, { once: true });
+                    fallbackTimer = setTimeout(() => {
+                        window.removeEventListener('scrollend', onScrollEnd);
+                        applyMaxHeight();
+                    }, 600);
+                } else {
+                    applyMaxHeight();
+                }
+            } else {
+                applyMaxHeight();
+            }
+        });
+
+        window.addEventListener('resize', onResize);
+
+        return () => {
+            cancelAnimationFrame(frame);
+            clearTimeout(fallbackTimer);
+            window.removeEventListener('resize', onResize);
+        };
     }, [openDropdown]);
 
     // Check if all items (including label + Clear all) fit in one row
@@ -52,6 +125,14 @@ export default function FilterPanel({
         list.includes(value)
             ? list.filter((v) => v !== value)
             : [...list, value];
+
+    const scrollSectionToTop = () => {
+        const sec = (drawerRef.current && drawerRef.current.closest && drawerRef.current.closest('section')) ||
+            (measureRef.current && measureRef.current.closest && measureRef.current.closest('section'));
+        if (sec) {
+            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
 
     return (
         <>
@@ -101,6 +182,7 @@ export default function FilterPanel({
                 {filters.map((f) => (
                     <Fragment key={f.id}>
                         <FilterDropdown
+                            ref={(el) => (buttonRefs.current[f.id] = el)}
                             id={f.id}
                             label={f.label}
                             selectedCount={f.selected.length}
@@ -116,7 +198,7 @@ export default function FilterPanel({
                         {/* 👇 works for BOTH "acad" and "skill-acad" */}
                         {personal && f.id.includes("acad") && (
                             <button
-                                onClick={() => personal.setValue((v) => !v)}
+                                onClick={() => { personal.setValue((v) => !v); scrollSectionToTop(); }}
                                 className={`px-3 py-1.5 rounded-lg border text-sm whitespace-nowrap ${personal.value
                                     ? "bg-white text-black border-white"
                                     : "bg-gray-900 text-gray-300 border-gray-700"
@@ -131,7 +213,7 @@ export default function FilterPanel({
                 {/* Clear all button: shown only when everything fits in one row */}
                 {!needsStackLayout && (
                     <button
-                        onClick={onClearAll}
+                        onClick={() => { onClearAll(); scrollSectionToTop(); }}
                         className="ml-auto text-sm text-gray-400 hover:text-white whitespace-nowrap"
                     >
                         Clear all
@@ -148,7 +230,7 @@ export default function FilterPanel({
                         ref={drawerRef}
                         onClick={(e) => e.stopPropagation()}
                         key={f.id}
-                        className="mb-6 border border-gray-800 bg-gray-950 rounded-xl p-4"
+                        className="mb-6 border border-gray-800 bg-gray-950 rounded-xl p-4 filter-drawer-scrollbar"
                     >
                         {/* SIMPLE LIST */}
                         {f.items && (
@@ -157,11 +239,12 @@ export default function FilterPanel({
                                     {f.items.map((item) => (
                                         <button
                                             key={item.id}
-                                            onClick={() =>
+                                            onClick={() => {
                                                 f.setSelected((prev) =>
                                                     toggleInList(prev, item.id)
-                                                )
-                                            }
+                                                );
+                                                scrollSectionToTop();
+                                            }}
                                             className={`px-3 py-1.5 rounded-lg border text-sm ${f.selected.includes(item.id)
                                                 ? "bg-white text-black border-white"
                                                 : "bg-gray-900 text-gray-300 border-gray-700"
@@ -174,13 +257,14 @@ export default function FilterPanel({
 
                                 <div className="mt-4 flex justify-between text-xs text-gray-400">
                                     <button
-                                        onClick={() =>
-                                            f.setSelected(f.items.map((i) => i.id))
-                                        }
+                                        onClick={() => {
+                                            f.setSelected(f.items.map((i) => i.id));
+                                            scrollSectionToTop();
+                                        }}
                                     >
                                         All
                                     </button>
-                                    <button onClick={() => f.setSelected([])}>
+                                    <button onClick={() => { f.setSelected([]); scrollSectionToTop(); }}>
                                         Clear
                                     </button>
                                 </div>
@@ -205,11 +289,12 @@ export default function FilterPanel({
                                                     {group.map((skill) => (
                                                         <button
                                                             key={skill.id}
-                                                            onClick={() =>
+                                                            onClick={() => {
                                                                 f.setSelected((prev) =>
                                                                     toggleInList(prev, skill.id)
-                                                                )
-                                                            }
+                                                                );
+                                                                scrollSectionToTop();
+                                                            }}
                                                             className={`px-3 py-1.5 rounded-lg border text-xs ${f.selected.includes(skill.id)
                                                                 ? "bg-white text-black border-white"
                                                                 : "bg-gray-900 text-gray-300 border-gray-700"
@@ -225,7 +310,7 @@ export default function FilterPanel({
                                 </div>
 
                                 <div className="mt-4 flex justify-end text-xs text-gray-400">
-                                    <button onClick={() => f.setSelected([])}>
+                                    <button onClick={() => { f.setSelected([]); scrollSectionToTop(); }}>
                                         Clear
                                     </button>
                                 </div>

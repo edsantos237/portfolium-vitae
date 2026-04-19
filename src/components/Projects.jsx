@@ -9,7 +9,7 @@ import FilterChips from "./FilterChips";
 import FilterPanel from "./FilterPanel";
 import Icon from "./Icon";
 
-export default function Projects({ focusedSkill, setFocusedSkill }) {
+export default function Projects({ focusedSkill, setFocusedSkill, isActive }) {
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const [selectedProfessional, setSelectedProfessional] = useState([]);
@@ -120,42 +120,47 @@ export default function Projects({ focusedSkill, setFocusedSkill }) {
 
   return (
     <section id="projects" className="py-16">
-      <h2 className="text-3xl font-bold mb-6">Projects</h2>
-
-      {/* FILTER BAR */}
-      <FilterPanel
-        filters={[
-          {
-            id: "prof",
-            label: "Professional",
-            items: companies,
-            selected: selectedProfessional,
-            setSelected: setSelectedProfessional,
-          },
-          {
-            id: "acad",
-            label: "Academic",
-            items: schools,
-            selected: selectedAcademic,
-            setSelected: setSelectedAcademic,
-          },
-          {
-            id: "skills",
-            label: "Skills",
-            grouped: skillGroups,
-            order: skillOrder,
-            labels: skillLabels,
-            selected: selectedSkills,
-            setSelected: setSelectedSkills,
-          },
-        ]}
-        personal={{
-          value: personalSelected,
-          setValue: setPersonalSelected,
-        }}
-        onClearAll={clearAll}
-        chips={chips}
-      />
+      {/* Sticky header and filter bar */}
+      <div className="sticky top-12 lg:top-0 z-40 bg-gray-950/95 backdrop-blur border-b border-gray-800 mb-6 relative">
+        <div className={`absolute inset-0 transition-colors duration-300 ${isActive ? "bg-gray-900/25" : ""}`} />
+        <div className="relative pt-4">
+          <h2 className="text-3xl font-bold mb-2">Projects</h2>
+          {/* FILTER BAR */}
+          <FilterPanel
+            filters={[
+              {
+                id: "prof",
+                label: "Professional",
+                items: companies,
+                selected: selectedProfessional,
+                setSelected: setSelectedProfessional,
+              },
+              {
+                id: "acad",
+                label: "Academic",
+                items: schools,
+                selected: selectedAcademic,
+                setSelected: setSelectedAcademic,
+              },
+              {
+                id: "skills",
+                label: "Skills",
+                grouped: skillGroups,
+                order: skillOrder,
+                labels: skillLabels,
+                selected: selectedSkills,
+                setSelected: setSelectedSkills,
+              },
+            ]}
+            personal={{
+              value: personalSelected,
+              setValue: setPersonalSelected,
+            }}
+            onClearAll={clearAll}
+            chips={chips}
+          />
+        </div>
+      </div>
 
       {/* PROJECTS */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

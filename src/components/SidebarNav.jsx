@@ -1,6 +1,7 @@
 import { sections } from "../config/sections";
 import { HERO_BG_IMAGE } from "../config/heroTheme";
 import { heroBackgroundStyle } from "../config/heroTheme";
+import { about } from "../data/about";
 
 export default function SidebarNav({ activeSection, visible, onJump }) {
   return (
@@ -15,15 +16,15 @@ export default function SidebarNav({ activeSection, visible, onJump }) {
 
       <div className="relative z-10 sticky top-0 flex flex-col items-center gap-5 pt-6">
         <img
-          src="res/profile_torso.png"
-          alt="Eduardo Santos"
+          src={about.picture}
+          alt={about.name}
           className="w-20 h-20 rounded-2xl object-contain"
         />
 
         <div>
-          <h2 className="text-lg font-semibold">Eduardo Santos</h2>
+          <h2 className="text-lg font-semibold">{about.name}</h2>
           <p className="text-sm text-gray-400">
-            Unity & Backend Developer
+            {about.headline_short?.[0] ?? ""}
           </p>
         </div>
 
