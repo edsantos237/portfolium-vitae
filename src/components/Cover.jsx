@@ -61,7 +61,7 @@ export default function Cover({ activeSection, onJump }) {
             <img
               src="res/profile_torso.png"
               alt="Eduardo Santos"
-              className="w-40 h-40 sm:w-52 sm:h-52 rounded-3xl object-cover border border-gray-800 shadow-2xl"
+              className="w-40 h-40 sm:w-52 sm:h-52 rounded-3xl object-contain shadow-2xl"
             />
           </div>
 

@@ -10,7 +10,7 @@ export default function FilterPanel({
 }) {
     const [openDropdown, setOpenDropdown] = useState(null);
     const drawerRef = useRef(null);
-    const containerRef = useRef(null);
+    const measureRef = useRef(null);
     const [needsStackLayout, setNeedsStackLayout] = useState(false);
 
     // Close dropdown on outside click
@@ -30,36 +30,21 @@ export default function FilterPanel({
         }
     }, [openDropdown]);
 
-    // Check if buttons fit in one row by measuring in a temporary container
+    // Check if all items (including label + Clear all) fit in one row
     useEffect(() => {
         const checkFitness = () => {
-            if (!containerRef.current) return;
-            const container = containerRef.current;
-            
-            // Temporarily force one-row layout to get true measurement
-            const originalDisplay = container.style.display;
-            const originalFlexWrap = container.style.flexWrap;
-            container.style.display = "flex";
-            container.style.flexWrap = "nowrap";
-            
-            // Get the width needed if everything is in one row
-            const neededWidth = container.scrollWidth;
-            const availableWidth = container.parentElement?.clientWidth || 0;
-            
-            // Restore original styles
-            container.style.display = originalDisplay;
-            container.style.flexWrap = originalFlexWrap;
-            
-            setNeedsStackLayout(neededWidth > availableWidth);
+            if (!measureRef.current) return;
+            const el = measureRef.current;
+            setNeedsStackLayout(el.scrollWidth > el.clientWidth);
         };
 
-        // Small delay to ensure DOM is ready
-        const timer = setTimeout(checkFitness, 0);
+        checkFitness();
         window.addEventListener("resize", checkFitness);
+        const timer = setTimeout(checkFitness, 100);
 
         return () => {
-            clearTimeout(timer);
             window.removeEventListener("resize", checkFitness);
+            clearTimeout(timer);
         };
     }, [filters, personal]);
 
@@ -70,6 +55,25 @@ export default function FilterPanel({
 
     return (
         <>
+            {/* Hidden measurement row: always renders full single-row layout */}
+            <div
+                ref={measureRef}
+                aria-hidden="true"
+                className="flex gap-3 items-center overflow-hidden pointer-events-none"
+                style={{ height: 0, visibility: 'hidden' }}
+            >
+                <span className="text-sm text-gray-400 mr-1 whitespace-nowrap">Filters:</span>
+                {filters.map((f) => (
+                    <Fragment key={f.id}>
+                        <span className="px-3 py-1.5 text-sm whitespace-nowrap">{f.label} ▾</span>
+                        {personal && f.id.includes("acad") && (
+                            <span className="px-3 py-1.5 text-sm whitespace-nowrap">Personal</span>
+                        )}
+                    </Fragment>
+                ))}
+                <span className="ml-auto text-sm whitespace-nowrap">Clear all</span>
+            </div>
+
             {/* FILTER BAR */}
             {/* Stacked header: Filters label and Clear all - shown when buttons don't fit */}
             {needsStackLayout && (
@@ -86,13 +90,14 @@ export default function FilterPanel({
 
             {/* Buttons container */}
             <div 
-                ref={containerRef}
-                className="flex gap-3 mb-4 items-center overflow-x-auto no-scrollbar"
+                className={`flex gap-3 mb-4 items-center no-scrollbar ${needsStackLayout ? 'overflow-x-auto' : ''}`}
             >
-                {/* Always rendered so scrollWidth includes them — hidden in two-row mode */}
-                <span className={`text-sm text-gray-400 mr-1 shrink-0 ${needsStackLayout ? "hidden" : ""}`}>
-                    Filters:
-                </span>
+                {/* Label: shown only when everything fits in one row */}
+                {!needsStackLayout && (
+                    <span className="text-sm text-gray-400 mr-1">
+                        Filters:
+                    </span>
+                )}
                 {filters.map((f) => (
                     <Fragment key={f.id}>
                         <FilterDropdown
@@ -123,13 +128,15 @@ export default function FilterPanel({
                     </Fragment>
                 ))}
 
-                {/* Always rendered so scrollWidth includes it — hidden in two-row mode */}
-                <button
-                    onClick={onClearAll}
-                    className={`ml-auto text-sm text-gray-400 hover:text-white whitespace-nowrap shrink-0 ${needsStackLayout ? "hidden" : ""}`}
-                >
-                    Clear all
-                </button>
+                {/* Clear all button: shown only when everything fits in one row */}
+                {!needsStackLayout && (
+                    <button
+                        onClick={onClearAll}
+                        className="ml-auto text-sm text-gray-400 hover:text-white whitespace-nowrap"
+                    >
+                        Clear all
+                    </button>
+                )}
             </div>
 
             {/* DRAWERS */}

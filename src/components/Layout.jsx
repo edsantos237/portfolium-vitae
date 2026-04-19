@@ -119,7 +119,7 @@ export default function Layout() {
         />
 
         {/* MAIN CONTENT */}
-        <main className="w-full py-6">
+        <main className="w-full pb-6">
             <section id="skills" className={`px-6 lg:px-10 py-16 border-b border-gray-800 transition-colors duration-300 ${
               activeSection === "skills" ? "bg-gray-900/25" : ""
             }`}>

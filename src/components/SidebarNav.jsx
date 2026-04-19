@@ -17,7 +17,7 @@ export default function SidebarNav({ activeSection, visible, onJump }) {
         <img
           src="res/profile_torso.png"
           alt="Eduardo Santos"
-          className="w-20 h-20 rounded-2xl object-cover border border-gray-800"
+          className="w-20 h-20 rounded-2xl object-contain"
         />
 
         <div>
