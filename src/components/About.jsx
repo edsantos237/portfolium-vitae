@@ -59,7 +59,7 @@ export default function About({ isActive }) {
 
               <div>
                 <div className="text-xs text-gray-400">Age</div>
-                <div className="font-medium">{age ?? "—"}</div>
+                <div className="font-medium">{age !== null ? `${age} years old` : "—"}</div>
               </div>
 
               <div>
@@ -128,11 +128,20 @@ export default function About({ isActive }) {
                       </div>
                     </button>
 
-                    {isOpen && (
-                      <div className="-mt-1 rounded-b-lg border border-t-0 p-5 text-sm text-gray-300 relative z-0 section-card">
-                        {s.description}
+                    <div
+                      className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                        isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div
+                          className="-mt-1 rounded-b-lg border p-5 text-sm text-gray-300 relative z-0 section-card"
+                          style={{ borderColor: 'var(--section-accent-border)' }}
+                        >
+                          {s.description}
+                        </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 );
               })}

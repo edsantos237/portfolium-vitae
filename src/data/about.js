@@ -128,7 +128,7 @@ export const hobbies = [
         }
     },
     {
-        title: "Watch series/movies",
+        title: "Watching series/movies",
         icon: {
             type: "react",
             value: MdMovie

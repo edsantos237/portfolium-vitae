@@ -74,18 +74,18 @@ export default function Publications({ isActive }) {
 
                   const school = schools.find((s) => s.id === tag);
                   if (school) {
+                    const schoolLabel = school.labels?.[0] ?? school.label ?? school.title;
                     return (
                       <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
                         <Icon icon={school.icon} />
-                        {school.title}
+                        {schoolLabel}
                       </span>
                     );
                   }
 
                   if (tag.toLowerCase() === "personal") {
                     return (
-                      <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
-                        <Icon icon="user" />
+                      <span key={tag} className="px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
                         Personal
                       </span>
                     );

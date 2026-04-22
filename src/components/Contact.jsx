@@ -7,6 +7,7 @@ export default function Contact({ isActive, isPrevious = false, activeAccentLine
 
   return (
     <section id="contact" className="py-20 px-6">
+
       <div
         className="sticky top-12 lg:top-0 z-40 backdrop-blur border-b mb-6 relative transition-colors duration-300"
         style={{
@@ -22,7 +23,7 @@ export default function Contact({ isActive, isPrevious = false, activeAccentLine
           className="absolute inset-0 transition-colors duration-300"
           style={{ backgroundColor: isActive ? sectionTheme.stickyActiveOverlay : "transparent" }}
         />
-        <div className="relative pt-4">
+        <div className="relative pt-4 pb-2">
           <h2 className="text-3xl font-bold">Contact</h2>
         </div>
       </div>

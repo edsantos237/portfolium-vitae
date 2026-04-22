@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AnimatedCollapse from "./AnimatedCollapse";
 import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
@@ -26,7 +27,7 @@ export default function ExperienceCard({ company, open, onToggle, forceOpen, rol
           <div className="w-full text-left flex items-center gap-4">
             <div className="flex items-center gap-3">
               {/* ICON */}
-              <div className="w-8 h-8">
+              <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center">
                 <Icon icon={company.icon} />
               </div>
               {/* TITLE */}
@@ -48,7 +49,7 @@ export default function ExperienceCard({ company, open, onToggle, forceOpen, rol
           >
             <div className="flex items-center gap-3">
               {/* ICON */}
-              <div className="w-8 h-8">
+              <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center">
                 <Icon icon={company.icon} />
               </div>
               {/* TITLE */}
@@ -67,25 +68,27 @@ export default function ExperienceCard({ company, open, onToggle, forceOpen, rol
           </button>
         )}
 
-        {/* Show Projects Button */}
-        {showProjectsButton && (
-          <ShowProjectsButton onClick={onShowProjects} count={projectCount} />
-        )}
+        {/* Show Projects Button is shown on top of the sub-entries list (right of the left border) */}
       </div>
 
       {/* EXPANDED ROLES */}
-      {isOpen && (
-        <div className="mt-4 ml-11 space-y-6 border-l border-gray-800 pl-4">
-          {company.roles.map((role, i) => {
-            const roleId = `${company.id}__role${i}`;
-            const selected = roleSelectable && selectedRoleId === roleId;
-            return (
-              <div
-                key={i}
-                className={`space-y-1 ${roleSelectable ? "cursor-pointer rounded transition section-soft-hover" : ""} ${selected ? "section-soft-highlight section-outline-active border-l-4 pl-2" : ""}`}
-                onClick={roleSelectable ? () => onSelectRole(i) : undefined}
-                tabIndex={roleSelectable ? 0 : -1}
-              >
+      <AnimatedCollapse open={isOpen}>
+        <div className="section-subentries mt-4 ml-11 pl-4">
+          {showProjectsButton && (
+            <div className="mb-2">
+              <ShowProjectsButton onClick={onShowProjects} count={projectCount} />
+            </div>
+          )}
+           {company.roles.map((role, i) => {
+             const roleId = `${company.id}__role${i}`;
+             const selected = roleSelectable && selectedRoleId === roleId;
+             return (
+               <div
+                 key={i}
+                 className={`space-y-1 ${roleSelectable ? "cursor-pointer rounded transition section-soft-hover" : ""} ${selected ? "section-soft-highlight pl-2" : ""}`}
+                 onClick={roleSelectable ? () => onSelectRole(i) : undefined}
+                 tabIndex={roleSelectable ? 0 : -1}
+               >
                 {/* ROLE TITLE */}
                 <h4 className="font-medium text-gray-200">
                   {role.title}
@@ -112,7 +115,7 @@ export default function ExperienceCard({ company, open, onToggle, forceOpen, rol
             );
           })}
         </div>
-      )}
+      </AnimatedCollapse>
     </div>
   );
 }

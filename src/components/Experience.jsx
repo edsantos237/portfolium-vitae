@@ -34,14 +34,21 @@ export default function Experience({ isActive, onShowProjects }) {
       }));
     } else {
       return sorted.map((company) => {
-        const starts = company.roles.map((r) => r.date?.start).filter(Boolean);
-        const ends = company.roles.map((r) => r.date?.end).filter(Boolean);
-        const startDate = starts.sort()[0];
-        const endDate = ends.length === company.roles.length ? ends.sort().at(-1) : null;
-        return { id: company.id, startDate, endDate };
+        const periods = (company.roles || []).map((r, idx) => ({
+          id: `${company.id}__role${idx}`,
+          startDate: r.date?.start,
+          endDate: r.date?.end,
+        }));
+
+        const starts = periods.map((p) => p.startDate).filter(Boolean).sort();
+        const ends = periods.map((p) => p.endDate).filter(Boolean).sort();
+        const startDate = starts[0];
+        const endDate = ends.length === (company.roles || []).length ? ends.at(-1) : null;
+
+        return { id: company.id, startDate, endDate, periods };
       });
     }
-  }, [single, companies, sorted]);
+  }, [single, sorted]);
 
   // For single, highlight selected role; for multi, highlight selected company
   const activeId = single ? selectedId : openId;
@@ -70,29 +77,33 @@ export default function Experience({ isActive, onShowProjects }) {
         <VerticalTimeline entries={timelineEntries} activeId={activeId} />
 
         {/* Cards */}
-        <div className="flex-1 space-y-10">
-          {sorted.map((company, cidx) => {
+        <div className="flex-1">
+          {sorted.map((company) => {
             // Only show button if entry is open/selected (not sub-entry)
             const isEntryOpen = single || openId === company.id;
             // Count projects with this company id as tag
             const projectCount = projects.filter(p => p.tags.includes(company.id)).length;
             return (
-              <ExperienceCard
+              <div
                 key={company.id}
-                company={company}
-                open={isEntryOpen}
-                onToggle={single ? undefined : () => setOpenId(openId === company.id ? null : company.id)}
-                forceOpen={single}
-                roleSelectable={single}
-                selectedRoleId={selectedId}
-                onSelectRole={single ? (idx) => {
-                  const roleId = `${company.id}__role${idx}`;
-                  setSelectedId(selectedId === roleId ? null : roleId);
-                } : undefined}
-                showProjectsButton={isEntryOpen && projectCount > 0}
-                projectCount={projectCount}
-                onShowProjects={() => onShowProjects && onShowProjects(company.id)}
-              />
+                className={`section-entry pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
+              >
+                <ExperienceCard
+                  company={company}
+                  open={isEntryOpen}
+                  onToggle={single ? undefined : () => setOpenId(openId === company.id ? null : company.id)}
+                  forceOpen={single}
+                  roleSelectable={single}
+                  selectedRoleId={selectedId}
+                  onSelectRole={single ? (idx) => {
+                    const roleId = `${company.id}__role${idx}`;
+                    setSelectedId(selectedId === roleId ? null : roleId);
+                  } : undefined}
+                  showProjectsButton={isEntryOpen && projectCount > 0}
+                  projectCount={projectCount}
+                  onShowProjects={() => onShowProjects && onShowProjects(company.id)}
+                />
+              </div>
             );
           })}
         </div>

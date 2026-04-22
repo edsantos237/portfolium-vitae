@@ -236,23 +236,28 @@ export default function FilterPanel({
                         {f.items && (
                             <>
                                 <div className="flex flex-wrap gap-2">
-                                    {f.items.map((item) => (
-                                        <button
-                                            key={item.id}
-                                            onClick={() => {
-                                                f.setSelected((prev) =>
-                                                    toggleInList(prev, item.id)
-                                                );
-                                                scrollSectionToTop();
-                                            }}
-                                            className={`px-3 py-1.5 rounded-lg border text-sm ${f.selected.includes(item.id)
-                                                ? "section-control-active"
-                                                : "section-control-idle"
-                                                }`}
-                                        >
-                                            {item.title}
-                                        </button>
-                                    ))}
+                                    {f.items.map((item) => {
+                                            const displayTitle = f.id && f.id.includes("acad")
+                                                ? (item.labels?.[0] ?? item.label ?? item.title)
+                                                : item.title;
+                                            return (
+                                                <button
+                                                    key={item.id}
+                                                    onClick={() => {
+                                                        f.setSelected((prev) =>
+                                                            toggleInList(prev, item.id)
+                                                        );
+                                                        scrollSectionToTop();
+                                                    }}
+                                                    className={`px-3 py-1.5 rounded-lg border text-sm ${f.selected.includes(item.id)
+                                                        ? "section-control-active"
+                                                        : "section-control-idle"
+                                                        }`}
+                                                >
+                                                    {displayTitle}
+                                                </button>
+                                            );
+                                        })}
                                 </div>
 
                                 <div className="mt-4 flex justify-between text-xs text-gray-400">

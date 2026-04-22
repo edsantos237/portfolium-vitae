@@ -1,3 +1,4 @@
+import AnimatedCollapse from "./AnimatedCollapse";
 import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
@@ -14,8 +15,13 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
             ? Math.round((school.grade.value / school.grade.range) * 100)
             : null;
 
+    const labelArray = school.labels ?? (school.label ? [school.label] : []);
     const isOpen = forceOpen ? true : open;
     const toggle = forceOpen ? undefined : onToggle;
+
+    const collapsedHeadline = [...labelArray, school.course].filter(Boolean).join(' • ');
+    // When expanded, show only the course; if no course, hide label (empty string)
+    const headlineText = isOpen ? (school.course ? school.course : '') : collapsedHeadline;
 
 
     return (
@@ -30,7 +36,7 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                 >
                     <div className="flex items-center gap-3">
                         {/* ICON */}
-                        <div className="w-8 h-8">
+                        <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center">
                             <Icon icon={school.icon} />
                         </div>
                         {/* TITLE */}
@@ -39,7 +45,7 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                                 {school.title}
                             </h3>
                             <p className="text-sm text-gray-400">
-                                {school.course}
+                                {headlineText}
                             </p>
                         </div>
                     </div>
@@ -47,14 +53,17 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                         {isOpen ? "−" : "+"}
                     </span>
                 </button>
-                {showProjectsButton && (
-                    <ShowProjectsButton onClick={onShowProjects} count={projectCount} />
-                )}
+                {/* Show Projects Button is shown on top of the expanded content (right of the left border) */}
             </div>
 
             {/* EXPANDED CONTENT */}
-            {isOpen && (
-                <div className="mt-4 ml-11 space-y-4 border-l border-gray-800 pl-4">
+            <AnimatedCollapse open={isOpen}>
+                <div className="section-subentries mt-4 ml-11 pl-4">
+                    {showProjectsButton && (
+                        <div className="mb-2">
+                            <ShowProjectsButton onClick={onShowProjects} count={projectCount} />
+                        </div>
+                    )}
 
                     {/* DATES */}
                     <p className="text-sm text-gray-400">
@@ -64,20 +73,20 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                     {/* DEGREES */}
                     {school.degrees && (
                         <div className="text-sm text-gray-300 space-y-1">
-                            {school.degrees.map((deg, i) => {
-                                const degId = `${school.id}__deg${i}`;
-                                const selected = degreeSelectable && selectedDegreeId === degId;
-                                return (
-                                    <p
-                                        key={i}
-                                        className={`pl-2 py-1 rounded cursor-pointer transition ${degreeSelectable ? "section-soft-hover" : ""} ${selected ? "section-soft-highlight section-outline-active border-l-4" : ""}`}
-                                        onClick={degreeSelectable ? () => onSelectDegree(i) : undefined}
-                                        tabIndex={degreeSelectable ? 0 : -1}
-                                    >
-                                        • {deg}
-                                    </p>
-                                );
-                            })}
+                                {school.degrees.map((deg, i) => {
+                                    const degId = `${school.id}__deg${i}`;
+                                    const selected = degreeSelectable && selectedDegreeId === degId;
+                                    return (
+                                        <p
+                                            key={i}
+                                            className={`pl-2 py-1 rounded cursor-pointer transition ${degreeSelectable ? "section-soft-hover" : ""} ${selected ? "section-soft-highlight" : ""}`}
+                                            onClick={degreeSelectable ? () => onSelectDegree(i) : undefined}
+                                            tabIndex={degreeSelectable ? 0 : -1}
+                                        >
+                                            • {deg}
+                                        </p>
+                                    );
+                                })}
                         </div>
                     )}
 
@@ -104,7 +113,7 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                     )}
 
                 </div>
-            )}
+            </AnimatedCollapse>
         </div>
     );
 }

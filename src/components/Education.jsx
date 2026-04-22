@@ -30,13 +30,27 @@ export default function Education({ isActive, onShowProjects }) {
         endDate: school.date?.end,
       }));
     } else {
-      return sorted.map((school) => ({
-        id: school.id,
-        startDate: school.date?.start,
-        endDate: school.date?.end,
-      }));
+      return sorted.map((school) => {
+        // If degrees carry individual dates, expose them as periods so gaps are visible
+        if (Array.isArray(school.degrees) && school.degrees.length && typeof school.degrees[0] === "object" && (school.degrees[0].date?.start || school.degrees[0].date?.end)) {
+          const periods = (school.degrees || []).map((deg, idx) => ({
+            id: `${school.id}__deg${idx}`,
+            startDate: deg.date?.start,
+            endDate: deg.date?.end,
+          }));
+
+          const starts = periods.map((p) => p.startDate).filter(Boolean).sort();
+          const ends = periods.map((p) => p.endDate).filter(Boolean).sort();
+          const startDate = starts[0];
+          const endDate = ends.length === (school.degrees || []).length ? ends.at(-1) : null;
+
+          return { id: school.id, startDate, endDate, periods };
+        }
+
+        return { id: school.id, startDate: school.date?.start, endDate: school.date?.end };
+      });
     }
-  }, [single, schools, sorted]);
+  }, [single, sorted]);
 
   const activeId = single ? selectedId : openId;
 
@@ -64,24 +78,28 @@ export default function Education({ isActive, onShowProjects }) {
         <VerticalTimeline entries={timelineEntries} activeId={activeId} />
 
         {/* Cards */}
-        <div className="flex-1 space-y-10">
-          {sorted.map((school, sidx) => {
+        <div className="flex-1">
+          {sorted.map((school) => {
             const isEntryOpen = single || openId === school.id;
             const projectCount = projects.filter(p => p.tags.includes(school.id)).length;
             return (
-              <EducationCard
+              <div
                 key={school.id}
-                school={school}
-                open={isEntryOpen}
-                onToggle={single ? undefined : () => setOpenId(openId === school.id ? null : school.id)}
-                forceOpen={single}
-                degreeSelectable={single}
-                selectedDegreeId={selectedId}
-                onSelectDegree={single ? (idx) => setSelectedId(`${school.id}__deg${idx}`) : undefined}
-                showProjectsButton={isEntryOpen && projectCount > 0}
-                projectCount={projectCount}
-                onShowProjects={() => onShowProjects && onShowProjects(school.id)}
-              />
+                className={`section-entry pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
+              >
+                <EducationCard
+                  school={school}
+                  open={isEntryOpen}
+                  onToggle={single ? undefined : () => setOpenId(openId === school.id ? null : school.id)}
+                  forceOpen={single}
+                  degreeSelectable={single}
+                  selectedDegreeId={selectedId}
+                  onSelectDegree={single ? (idx) => setSelectedId(`${school.id}__deg${idx}`) : undefined}
+                  showProjectsButton={isEntryOpen && projectCount > 0}
+                  projectCount={projectCount}
+                  onShowProjects={() => onShowProjects && onShowProjects(school.id)}
+                />
+              </div>
             );
           })}
         </div>

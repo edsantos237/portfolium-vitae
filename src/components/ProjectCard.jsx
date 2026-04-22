@@ -57,7 +57,7 @@ export default function ProjectCard({
     if (school) {
       origins.push({
         id: school.id,
-        title: school.title,
+        title: school.labels?.[0] ?? school.label ?? school.title,
         icon: school.icon,
       });
     }
@@ -66,7 +66,6 @@ export default function ProjectCard({
       origins.push({
         id: "personal",
         title: "Personal",
-        icon: "user", // or null if you prefer no icon
       });
     }
   });

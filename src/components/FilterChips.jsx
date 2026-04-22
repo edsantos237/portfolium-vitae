@@ -57,20 +57,23 @@ export default function FilterChips({
         )}
 
       {/* ACADEMIC */}
-      {academic.map((s) => (
-        <span
-          key={s.id}
-          className="px-2 py-1 border rounded flex items-center gap-1 section-chip"
-        >
-          {s.title}
-          <button
-            onClick={() => onRemoveAcademic(s.id)}
-            className="text-gray-400 hover:text-red-400"
+      {academic.map((s) => {
+        const labelText = s.labels?.[0] ?? s.label ?? s.title;
+        return (
+          <span
+            key={s.id}
+            className="px-2 py-1 border rounded flex items-center gap-1 section-chip"
           >
-            ×
-          </button>
-        </span>
-      ))}
+            {labelText}
+            <button
+              onClick={() => onRemoveAcademic(s.id)}
+              className="text-gray-400 hover:text-red-400"
+            >
+              ×
+            </button>
+          </span>
+        );
+      })}
 
       {academic.length > 0 &&
         (personal || skills.length > 0) && (

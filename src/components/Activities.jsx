@@ -4,6 +4,7 @@ import { activities } from "../data/activities";
 import { companies } from "../data/experience";
 import { schools } from "../data/education";
 import { projects } from "../data/projects";
+import AnimatedCollapse from "./AnimatedCollapse";
 import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
@@ -36,14 +37,21 @@ export default function Activities({ isActive, onShowProjects }) {
       }));
     } else {
       return sorted.map((act) => {
-        const starts = act.roles.map((r) => r.date?.start).filter(Boolean);
-        const ends = act.roles.map((r) => r.date?.end).filter(Boolean);
-        const startDate = starts.sort()[0];
-        const endDate = ends.length === act.roles.length ? ends.sort().at(-1) : null;
-        return { id: act.title, startDate, endDate };
+        const periods = (act.roles || []).map((r, idx) => ({
+          id: `${act.title}__role${idx}`,
+          startDate: r.date?.start,
+          endDate: r.date?.end,
+        }));
+
+        const starts = periods.map((p) => p.startDate).filter(Boolean).sort();
+        const ends = periods.map((p) => p.endDate).filter(Boolean).sort();
+        const startDate = starts[0];
+        const endDate = ends.length === (act.roles || []).length ? ends.at(-1) : null;
+
+        return { id: act.title, startDate, endDate, periods };
       });
     }
-  }, [single, activities, sorted]);
+  }, [single, sorted]);
 
   const activeId = single ? selectedId : openId;
 
@@ -70,14 +78,17 @@ export default function Activities({ isActive, onShowProjects }) {
         <VerticalTimeline entries={timelineEntries} activeId={activeId} />
 
         {/* Cards */}
-        <div className="flex-1 space-y-10">
+        <div className="flex-1">
 
-        {sorted.map((act, i) => {
+        {sorted.map((act) => {
           const isEntryOpen = single || openId === act.title;
           // Count projects with this activity title as tag
           const projectCount = projects.filter(p => p.tags.includes(act.title)).length;
           return (
-            <div key={act.title} className="relative">
+            <div
+              key={act.title}
+              className={`section-entry relative pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
+            >
               <div className="flex flex-col gap-2">
                 <button
                   onClick={single ? undefined : () => setOpenId(openId === act.title ? null : act.title)}
@@ -86,103 +97,111 @@ export default function Activities({ isActive, onShowProjects }) {
                   tabIndex={single ? -1 : 0}
                 >
                   <div>
-                    <h3 className="text-lg font-semibold">{act.title}</h3>
-                    {/** Origins (company / school / personal / raw tags) */}
-                    {act.tags && (
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {act.tags.map((tag) => {
-                          const company = companies.find((c) => c.id === tag);
-                          if (company) {
-                            return (
-                              <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
-                                <Icon icon={company.icon} />
-                                {company.title}
-                              </span>
-                            );
-                          }
-
-                          const school = schools.find((s) => s.id === tag);
-                          if (school) {
-                            return (
-                              <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
-                                <Icon icon={school.icon} />
-                                {school.title}
-                              </span>
-                            );
-                          }
-
-                          if (tag === "personal") {
-                            return (
-                              <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
-                                <Icon icon="user" />
-                                Personal
-                              </span>
-                            );
-                          }
-
-                          if (tag === "volunteering") {
-                            return (
-                              <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
-                                <Icon icon="user" />
-                                Volunteering
-                              </span>
-                            );
-                          }
-
-                          // fallback: render raw tag label
-                          return (
-                            <span key={tag} className="px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
-                              {tag}
-                            </span>
-                          );
-                        })}
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center">
+                        {act.icon && <Icon icon={act.icon} />}
                       </div>
-                    )}
+                      <div>
+                        <h3 className="text-lg font-semibold">{act.title}</h3>
+                        {/** Origins (company / school / personal / raw tags) */}
+                        {act.tags && (
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {act.tags.map((tag) => {
+                              const company = companies.find((c) => c.id === tag);
+                              if (company) {
+                                return (
+                                  <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                                    <Icon icon={company.icon} />
+                                    {company.title}
+                                  </span>
+                                );
+                              }
+
+                              const school = schools.find((s) => s.id === tag);
+                              if (school) {
+                                const schoolLabel = school.labels?.[0] ?? school.label ?? school.title;
+                                return (
+                                  <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                                    <Icon icon={school.icon} />
+                                    {schoolLabel}
+                                  </span>
+                                );
+                              }
+
+                              if (tag === "personal") {
+                                return (
+                                  <span key={tag} className="px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                                    Personal
+                                  </span>
+                                );
+                              }
+
+                              if (tag === "volunteering") {
+                                return (
+                                  <span key={tag} className="px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                                    Volunteering
+                                  </span>
+                                );
+                              }
+
+                              // fallback: render raw tag label
+                              return (
+                                <span key={tag} className="px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                                  {tag}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   <span className="text-gray-400 text-sm">{single ? "−" : openId === act.title ? '−' : '+'}</span>
                 </button>
 
-                {/* Show Projects Button */}
-                {isEntryOpen && projectCount > 0 && (
-                  <ShowProjectsButton
-                    className="ml-11 mt-1 shadow"
-                    onClick={() => onShowProjects && onShowProjects(act.title)}
-                    count={projectCount}
-                  />
-                )}
               </div>
 
               {/* Expanded roles (sub-entries) */}
-              {(single || openId === act.title) && (
-                <div className="mt-4 ml-11 space-y-6 border-l border-gray-800 pl-4">
-                  {act.roles.map((role, idx) => {
-                    const roleId = `${act.title}__role${idx}`;
-                    const selected = single && roleId === selectedId;
-                    return (
-                      <div
-                        key={idx}
-                        className={`space-y-1 ${single ? "cursor-pointer rounded transition section-soft-hover" : ""} ${selected ? "section-soft-highlight section-outline-active border-l-4 pl-2" : ""}`}
-                        onClick={single ? () => setSelectedId(roleId) : undefined}
-                        tabIndex={single ? 0 : -1}
-                      >
-                        {role.title && <h4 className="font-medium text-gray-200">{role.title}</h4>}
+              <AnimatedCollapse open={isEntryOpen}>
+                <div className="ml-11">
+                  {projectCount > 0 && (
+                    <ShowProjectsButton
+                      className="mt-1 shadow"
+                      onClick={() => onShowProjects && onShowProjects(act.title)}
+                      count={projectCount}
+                    />
+                  )}
 
-                        <p className="text-xs text-gray-400">
-                          {formatRange(role.date)}
-                        </p>
+                  <div className={`section-subentries pl-4 ${projectCount > 0 ? "mt-3 ml-11" : "mt-4 ml-11"}` }>
+                    {act.roles.map((role, idx) => {
+                      const roleId = `${act.title}__role${idx}`;
+                      const selected = single && roleId === selectedId;
+                      return (
+                        <div
+                          key={idx}
+                          className={`space-y-1 ${single ? "cursor-pointer rounded transition section-soft-hover" : ""} ${selected ? "section-soft-highlight pl-2" : ""}`}
+                          onClick={single ? () => setSelectedId(roleId) : undefined}
+                          tabIndex={single ? 0 : -1}
+                        >
+                          {role.title && <h4 className="font-medium text-gray-200">{role.title}</h4>}
 
-                        {Array.isArray(role.description)
-                          ? role.description.map((line, j) => (
-                              <p key={j} className="text-sm text-gray-300">{line}</p>
-                            ))
-                          : <p className="text-sm text-gray-300">{role.description}</p>
-                        }
-                      </div>
-                    );
-                  })}
+                          <p className="text-xs text-gray-400">
+                            {formatRange(role.date)}
+                          </p>
+
+                          {Array.isArray(role.description)
+                            ? role.description.map((line, j) => (
+                                <p key={j} className="text-sm text-gray-300">{line}</p>
+                              ))
+                            : <p className="text-sm text-gray-300">{role.description}</p>
+                          }
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              )}
+              </AnimatedCollapse>
             </div>
           );
         })}

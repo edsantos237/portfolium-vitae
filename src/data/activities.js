@@ -1,6 +1,10 @@
 export const activities = [
     {
         title: "Refood",
+        icon: {
+            type: "file",
+            value: "refood.png"            
+        },
         tags: ["volunteering"],
         roles: [
             {
@@ -16,6 +20,10 @@ export const activities = [
     },
     {
         title: "NETIUM",
+        icon: {
+            type: "file",
+            value: "netium.png"
+        },
         tags: ["college", "volunteering"],
         roles: [
             {
@@ -55,8 +63,28 @@ export const activities = [
             }
         ]
     },
+    // {
+    //     title: "Gette it Onne!",
+    //     tags: ["volunteering"],
+    //     roles: [
+    //         {
+    //             title: "Founder and Administrator",
+    //             date: {
+    //                 start: "2017-10",
+    //                 end: "2018-07"
+    //             },
+    //             description: [
+    //                 "I founded and managed a Team Fortress 2 competitive league, where 44 teams, from Europe and North America, participated in the first season."
+    //             ]
+    //         }
+    //     ]
+    // },
     {
         title: "Praxe",
+        icon: {
+            type: "file",
+            value: "praxe.png"
+        },
         tags: ["college"],
         roles: [
             {
@@ -66,7 +94,7 @@ export const activities = [
                     end: "2019-05"
                 },
                 description: [
-                    "\"Mr. Engineer Fósforo Sheldon\" with a very short active duty."
+                    "\"Mr. Engineer Fósforo Cooper\" with a very short active duty."
                 ]
             },
             {
@@ -76,7 +104,127 @@ export const activities = [
                     end: "2017-05"
                 },
                 description: [
-                    "Had my weekly push-ups routine, participated in Guimarães's \"Latada\" and Braga's \"Enterro da Gata\", and got baptized as \"Fósforo Sheldon\" with Francesinha sauce."
+                    "Had my weekly push-ups routine, participated in Guimarães's \"Latada\" and Braga's \"Enterro da Gata\", and got baptized as \"Fósforo Cooper\" with Francesinha sauce."
+                ]
+            }
+        ]
+    },
+    {
+        title: "Swimming",
+        roles: [
+            {
+                title: "Famalicão",
+                date: {
+                    start: "2014-11",
+                    end: "2016-05"
+                },
+                description: [
+                    "Participated in swimming classes and competitions representing my high school city."
+                ]
+            },
+            {
+                title: "Ribeirão",
+                date: {
+                    start: "2009-10",
+                    end: "2013-10"
+                },
+                description: [
+                    "Participated in swimming classes and competitions representing my town."
+                ]
+            }
+        ]
+    },
+    {
+        title: "Students Association",
+        tags: ["basic_school", "volunteering"],
+        roles: [
+            {
+                date: {
+                    start: "2012-09",
+                    end: "2013-06"
+                },
+                description: [
+                    "Organized events for the whole school."
+                ]
+            }
+        ]
+    },
+    // {
+    //     title: "Toma Lá Baxouras",
+    //     tags: ["volunteering"],
+    //     roles: [
+    //         {
+    //             title: "Founder and Administrator",
+    //             date: {
+    //                 start: "2012-10",
+    //                 end: "2013-03"
+    //             },
+    //             description: [
+    //                 "I founded and managed a Counter-Strike server and community."
+    //             ]
+    //         }
+    //     ]
+    // },
+    {
+        title: "Futsal",
+        tags: ["basic_school"],
+        roles: [
+            {
+                date: {
+                    start: "2011-10",
+                    end: "2012-05"
+                },
+                description: [
+                    "Participated in futsal competitions representing my school."
+                ]
+            }
+        ]
+    },
+    {
+        title: "Chess",
+        tags: ["basic_school"],
+        roles: [
+            {
+                date: {
+                    start: "2009-10",
+                    end: "2010-06"
+                },
+                description: [
+                    "Participated in chess competitions representing my school."
+                ]
+            }
+        ]
+    },
+    {
+        title: "CCDR - Clube de Cultura e Desporto de Ribeirão",
+        icon: {
+            type: "file",
+            value: "ccdr.png"
+        },
+        roles: [
+            {
+                title: "Athlete",
+                date: {
+                    start: "2007-04",
+                    end: "2011-07"
+                },
+                description: [
+                    "Participated in athletics classes and competitions representing my town."
+                ]
+            }
+        ]
+    },
+    {
+        title: "Informatics Course",
+        tags: ["basic_school"],
+        roles: [
+            {
+                date: {
+                    start: "2008-12",
+                    end: "2009-06"
+                },
+                description: [
+                    "Learned how to work with Windows Explorer, basic Command Line commands, and Microsoft Office Word, Excel and PowerPoint."
                 ]
             }
         ]

@@ -60,8 +60,8 @@ export const contact = [
     },
     {
         title: "Address",
-        value: "V. N. Famalicão, Braga, Portugal",
-        address: "https://maps.app.goo.gl/7wERf3HiUqbahwvt5",
+        value: "Ribeirão, V. N. Famalicão, Braga, Portugal",
+        address: "https://maps.app.goo.gl/rRuBWw7iG1NDAhwx8",
         icon: {
             type: "react",
             value: IoLocationSharp

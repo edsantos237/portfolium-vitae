@@ -4,7 +4,7 @@ export const companies = [
         title: "CCG/ZGDV Institute",
         icon: {
             type: "file",
-            value: "ccg.jpg"
+            value: "ccg.svg"
         },
         department: "CVIG-CG - Computer Vision, Interaction and Graphics - Computer Graphics",
         roles: [
