@@ -1,4 +1,7 @@
-import { about, hobbies, strengths, languages } from "../data/about";
+import { about } from "../data/about";
+import { hobbies } from "../data/hobbies";
+import { strengths } from "../data/strengths";
+import { languages } from "../data/languages";
 import { getSectionTheme } from "../config/sections";
 import Icon from "./Icon";
 import { useState } from "react";
@@ -63,8 +66,8 @@ export default function About({ isActive }) {
               </div>
 
               <div>
-                <div className="text-xs text-gray-400">Address</div>
-                <div className="font-medium">{about.address}</div>
+                <div className="text-xs text-gray-400">Location</div>
+                <div className="font-medium">{about.location}</div>
               </div>
 
               <div>

@@ -58,7 +58,7 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
 
             {/* EXPANDED CONTENT */}
             <AnimatedCollapse open={isOpen}>
-                <div className="section-subentries mt-4 ml-11 pl-4">
+                <div className="section-subentries mt-4 ml-4 pl-4 sm:ml-11">
                     {showProjectsButton && (
                         <div className="mb-2">
                             <ShowProjectsButton onClick={onShowProjects} count={projectCount} />

@@ -1,3 +1,44 @@
+/* Mobile top bar selected tab stretches to top edge and loses bottom corners */
+.mobile-topbar-tab {
+  width: auto;
+  min-width: fit-content;
+  flex: 0 0 auto;
+}
+
+.mobile-topbar-tab-selected {
+  border-radius: 1rem 1rem 0 0 !important;
+  margin-bottom: -10px;
+  padding-bottom: calc(0.5rem + 3px);
+  z-index: 10;
+  position: relative;
+  background-image: linear-gradient(
+    to bottom,
+    var(--section-accent-bg) 0%,
+    var(--section-accent-bg) 78%,
+    var(--section-bg, #0f172a) 100%
+  ) !important;
+}
+/* Draw the top bar bottom outline using a pseudo-element so buttons can overlap it */
+#mobile-top-bar {
+  position: sticky; /* keep intended positioning semantics */
+}
+#mobile-top-bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--mobile-topbar-border, #374151);
+  z-index: 0; /* sit below buttons */
+  pointer-events: none;
+}
+
+/* Ensure mobile tabs sit above the pseudo-element */
+.mobile-topbar-tab {
+  position: relative;
+  z-index: 5;
+}
 /* Both sides rounded by default, but only right side for idle, left for active */
 .sidebar-tab-btn {
   border-radius: 1rem 1rem 1rem 1rem;
@@ -27,6 +68,10 @@
   background-color: var(--section-accent-bg);
   color: var(--section-accent-text);
   border-color: var(--section-accent-border);
+}
+/* Shift selected sidebar tab text slightly right for emphasis (only when stretched on sidebar) */
+.sidebar-tab-btn.sidebar-tab-active:not(.mobile-topbar-tab) {
+  padding-left: 1.125rem;
 }
 .sidebar-tab-active {
   box-shadow: 2px 0 8px 0 rgba(0,0,0,0.08);
@@ -170,6 +215,20 @@ body {
 
 .section-year-tick-active {
   background-color: var(--section-accent-line);
+}
+
+.vertical-timeline {
+  --timeline-width: 88px;
+  --timeline-track-x: 68px;
+  --timeline-label-width: 54px;
+}
+
+@media (max-width: 639px) {
+  .vertical-timeline {
+    --timeline-width: 64px;
+    --timeline-track-x: 44px;
+    --timeline-label-width: 30px;
+  }
 }
 
 /* Animated left-accent for entries */

@@ -6,7 +6,7 @@ export default function Contact({ isActive, isPrevious = false, activeAccentLine
   const sectionTheme = getSectionTheme("contact");
 
   return (
-    <section id="contact" className="py-20 px-6">
+    <section id="contact" className="py-16">
 
       <div
         className="sticky top-12 lg:top-0 z-40 backdrop-blur border-b mb-6 relative transition-colors duration-300"

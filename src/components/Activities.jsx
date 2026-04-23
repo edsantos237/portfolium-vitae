@@ -73,7 +73,7 @@ export default function Activities({ isActive, onShowProjects }) {
         </div>
       </div>
 
-      <div className="flex gap-4 items-stretch">
+      <div className="flex gap-2 sm:gap-4 items-stretch">
         {/* Vertical timeline */}
         <VerticalTimeline entries={timelineEntries} activeId={activeId} />
 
@@ -164,7 +164,7 @@ export default function Activities({ isActive, onShowProjects }) {
 
               {/* Expanded roles (sub-entries) */}
               <AnimatedCollapse open={isEntryOpen}>
-                <div className="ml-11">
+                <div className="ml-4 sm:ml-11">
                   {projectCount > 0 && (
                     <ShowProjectsButton
                       className="mt-1 shadow"
@@ -173,7 +173,7 @@ export default function Activities({ isActive, onShowProjects }) {
                     />
                   )}
 
-                  <div className={`section-subentries pl-4 ${projectCount > 0 ? "mt-3 ml-11" : "mt-4 ml-11"}` }>
+                  <div className={`section-subentries pl-4 ${projectCount > 0 ? "mt-3 ml-0 sm:ml-11" : "mt-4 ml-0 sm:ml-11"}`}>
                     {act.roles.map((role, idx) => {
                       const roleId = `${act.title}__role${idx}`;
                       const selected = single && roleId === selectedId;

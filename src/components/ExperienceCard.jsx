@@ -73,7 +73,7 @@ export default function ExperienceCard({ company, open, onToggle, forceOpen, rol
 
       {/* EXPANDED ROLES */}
       <AnimatedCollapse open={isOpen}>
-        <div className="section-subentries mt-4 ml-11 pl-4">
+        <div className="section-subentries mt-4 ml-4 pl-4 sm:ml-11">
           {showProjectsButton && (
             <div className="mb-2">
               <ShowProjectsButton onClick={onShowProjects} count={projectCount} />

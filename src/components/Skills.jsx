@@ -9,10 +9,12 @@ import { schools } from "../data/education";
 
 export default function Skills({ onShowProjects, isActive, isPrevious = false, activeAccentLine }) {
     const sectionTheme = getSectionTheme("skills");
+    // Only use activeAccentLine if isPrevious is true AND activeAccentLine is from Skills section
+    // Otherwise, use Skills' own accentBorder
     const headerBottomColor = isActive
         ? sectionTheme.accentBorder
-        : isPrevious
-        ? activeAccentLine
+        : isPrevious && activeAccentLine === sectionTheme.accentLine
+        ? sectionTheme.accentLine
         : sectionTheme.controlBorder;
     const [selectedProfessional, setSelectedProfessional] = useState([]);
     const [selectedAcademic, setSelectedAcademic] = useState([]);

@@ -12,10 +12,10 @@ import { useMemo } from "react";
  */
 export default function VerticalTimeline({ entries, activeId }) {
   const NOW = "2026-04";
-  const TIMELINE_WIDTH = 88;
-  const TRACK_X = 68;
+  const TIMELINE_WIDTH = "var(--timeline-width, 88px)";
+  const TRACK_X = "var(--timeline-track-x, 68px)";
   const TICK_WIDTH = 16;
-  const LABEL_WIDTH = TRACK_X - TICK_WIDTH / 2 - 6;
+  const LABEL_WIDTH = "var(--timeline-label-width, 54px)";
 
   // Convert a date string to an integer month index.
   // If `isEnd` is true, treat the date as inclusive end-of-period (end of month / end of year),
@@ -156,7 +156,7 @@ export default function VerticalTimeline({ entries, activeId }) {
   const unionBotFrac = activePeriods.length > 0 ? Math.max(...activePeriods.map((p) => toFrac(p.startDate, false))) : 0;
 
   return (
-    <div className="relative self-stretch" style={{ width: TIMELINE_WIDTH, minWidth: TIMELINE_WIDTH }}>
+    <div className="vertical-timeline relative self-stretch" style={{ width: TIMELINE_WIDTH, minWidth: TIMELINE_WIDTH }}>
       {/* Main vertical line */}
       <div
         className="absolute bg-gray-700"
@@ -251,7 +251,7 @@ export default function VerticalTimeline({ entries, activeId }) {
             {!hideTick && (
               <span
                 className={`${isActiveYear ? "section-year-tick-active" : "bg-gray-600"}`}
-                style={{ position: "absolute", left: TRACK_X - TICK_WIDTH / 2, width: TICK_WIDTH, height: 1 }}
+                style={{ position: "absolute", left: `calc(${TRACK_X} - ${TICK_WIDTH / 2}px)`, width: TICK_WIDTH, height: 1 }}
               />
             )}
           </div>

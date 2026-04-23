@@ -72,7 +72,7 @@ export default function Experience({ isActive, onShowProjects }) {
 		</div>
 	  </div>
 
-      <div className="flex gap-4 items-stretch">
+      <div className="flex gap-2 sm:gap-4 items-stretch">
         {/* Vertical timeline */}
         <VerticalTimeline entries={timelineEntries} activeId={activeId} />
 

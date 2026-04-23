@@ -42,8 +42,8 @@ export default function Cover({ activeSection, onJump }) {
     <section
       ref={sectionRef}
       id="start"
-      style={navThemeVars}
-      className="relative h-screen min-h-screen grid place-items-center px-6 overflow-hidden"
+      style={{ ...navThemeVars, minHeight: "100dvh" }}
+      className="relative min-h-screen grid place-items-center px-6 overflow-hidden"
     >
       {/* BACKGROUND IMAGE (fixed) */}
       <div
@@ -86,23 +86,25 @@ export default function Cover({ activeSection, onJump }) {
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {sections.map((s) => {
-              const sectionVars = getSectionStyleVars(s.id);
-              return (
-                <button
-                  key={s.id}
-                  onClick={() => onJump(s.id)}
-                  className={`px-4 py-2 rounded-lg border text-sm ${
-                    activeSection === s.id
-                      ? "section-control-active"
-                      : "section-control-idle"
-                  }`}
-                  style={activeSection === s.id ? undefined : sectionVars}
-                >
-                  {s.label}
-                </button>
-              );
-            })}
+            {sections
+              .filter((s) => s.id !== "start")
+              .map((s) => {
+                const sectionVars = getSectionStyleVars(s.id);
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => onJump(s.id)}
+                    className={`px-4 py-2 rounded-lg border text-sm ${
+                      activeSection === s.id
+                        ? "section-control-active"
+                        : "section-control-idle"
+                    }`}
+                    style={activeSection === s.id ? undefined : sectionVars}
+                  >
+                    {s.label}
+                  </button>
+                );
+              })}
           </div>
         </div>
       </div>
