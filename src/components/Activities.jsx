@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getSectionTheme } from "../config/sections";
 import { activities } from "../data/activities";
 import { companies } from "../data/experience";
@@ -10,11 +10,15 @@ import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
 import VerticalTimeline from "./VerticalTimeline";
 
-export default function Activities({ isActive, onShowProjects }) {
+function getActivityId(activity) {
+  return activity.id ?? activity.title;
+}
+
+export default function Activities({ isActive, onShowProjects, focusedActivityId, setFocusedActivityId }) {
   const sectionTheme = getSectionTheme("activities");
   const single = activities.length === 1;
   const [selectedId, setSelectedId] = useState(null);
-  const [openId, setOpenId] = useState(single ? activities[0].title : null);
+  const activityRefs = useRef({});
 
   const sorted = useMemo(
     () =>
@@ -22,23 +26,33 @@ export default function Activities({ isActive, onShowProjects }) {
         const aDate = a.roles?.[0]?.date?.start || "";
         const bDate = b.roles?.[0]?.date?.start || "";
         return bDate.localeCompare(aDate);
-      }),
+      }).map((activity) => ({
+        ...activity,
+        resolvedId: getActivityId(activity),
+      })),
     []
   );
+
+  const [openId, setOpenId] = useState(single ? sorted[0]?.resolvedId ?? null : null);
 
   // Timeline: if single, use roles as entries; else, use activities
   const timelineEntries = useMemo(() => {
     if (single) {
-      const act = activities[0];
+      const act = sorted[0];
+
+      if (!act) {
+        return [];
+      }
+
       return act.roles.map((role, idx) => ({
-        id: `${act.title}__role${idx}`,
+        id: `${act.resolvedId}__role${idx}`,
         startDate: role.date?.start,
         endDate: role.date?.end,
       }));
     } else {
       return sorted.map((act) => {
         const periods = (act.roles || []).map((r, idx) => ({
-          id: `${act.title}__role${idx}`,
+          id: `${act.resolvedId}__role${idx}`,
           startDate: r.date?.start,
           endDate: r.date?.end,
         }));
@@ -48,10 +62,23 @@ export default function Activities({ isActive, onShowProjects }) {
         const startDate = starts[0];
         const endDate = ends.length === (act.roles || []).length ? ends.at(-1) : null;
 
-        return { id: act.title, startDate, endDate, periods };
+        return { id: act.resolvedId, startDate, endDate, periods };
       });
     }
   }, [single, sorted]);
+
+  useEffect(() => {
+    if (!focusedActivityId) {
+      return;
+    }
+
+    setOpenId(focusedActivityId);
+    activityRefs.current[focusedActivityId]?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+    setFocusedActivityId?.(null);
+  }, [focusedActivityId, setFocusedActivityId]);
 
   const activeId = single ? selectedId : openId;
 
@@ -81,17 +108,21 @@ export default function Activities({ isActive, onShowProjects }) {
         <div className="flex-1">
 
         {sorted.map((act) => {
-          const isEntryOpen = single || openId === act.title;
+          const isEntryOpen = single || openId === act.resolvedId;
           // Count projects with this activity title as tag
           const projectCount = projects.filter(p => p.tags.includes(act.title)).length;
           return (
             <div
-              key={act.title}
+              key={act.resolvedId}
+              ref={(element) => {
+                activityRefs.current[act.resolvedId] = element;
+              }}
+              data-activity-id={act.resolvedId}
               className={`section-entry relative pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
             >
               <div className="flex flex-col gap-2">
                 <button
-                  onClick={single ? undefined : () => setOpenId(openId === act.title ? null : act.title)}
+                  onClick={single ? undefined : () => setOpenId(openId === act.resolvedId ? null : act.resolvedId)}
                   className={`w-full text-left flex items-center justify-between gap-4 ${single ? "cursor-default" : ""}`}
                   disabled={!!single}
                   tabIndex={single ? -1 : 0}
@@ -157,7 +188,7 @@ export default function Activities({ isActive, onShowProjects }) {
                     </div>
                   </div>
 
-                  <span className="text-gray-400 text-sm">{single ? "−" : openId === act.title ? '−' : '+'}</span>
+                  <span className="text-gray-400 text-sm">{single ? "−" : openId === act.resolvedId ? '−' : '+'}</span>
                 </button>
 
               </div>
@@ -175,7 +206,7 @@ export default function Activities({ isActive, onShowProjects }) {
 
                   <div className={`section-subentries pl-4 ${projectCount > 0 ? "mt-3 ml-0 sm:ml-11" : "mt-4 ml-0 sm:ml-11"}`}>
                     {act.roles.map((role, idx) => {
-                      const roleId = `${act.title}__role${idx}`;
+                      const roleId = `${act.resolvedId}__role${idx}`;
                       const selected = single && roleId === selectedId;
                       return (
                         <div

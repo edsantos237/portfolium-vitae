@@ -10,7 +10,7 @@ import FilterPanel from "./FilterPanel";
 import Icon from "./Icon";
 import { getSectionTheme } from "../config/sections";
 
-export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany, setFocusedCompany, focusedActivity, setFocusedActivity, focusedAcademic, setFocusedAcademic, isActive }) {
+export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany, setFocusedCompany, focusedActivity, setFocusedActivity, focusedProjectFilters, setFocusedProjectFilters, focusedAcademic, setFocusedAcademic, isActive }) {
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const [selectedProfessional, setSelectedProfessional] = useState([]);
@@ -62,6 +62,37 @@ export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany
       setFocusedAcademic(null);
     }
   }, [focusedAcademic]);
+
+  useEffect(() => {
+    if (!Array.isArray(focusedProjectFilters) || focusedProjectFilters.length === 0) {
+      return;
+    }
+
+    setSelectedProfessional(
+      focusedProjectFilters.filter((filter) =>
+        companies.some((company) => company.id === filter)
+      )
+    );
+    setSelectedAcademic(
+      focusedProjectFilters.filter((filter) =>
+        schools.some((school) => school.id === filter)
+      )
+    );
+    setSelectedSkills(
+      focusedProjectFilters.filter((filter) =>
+        skills.some((skill) => skill.id === filter)
+      )
+    );
+    setPersonalSelected(focusedProjectFilters.includes("personal"));
+    setOpenDropdown(null);
+    setFocusedSkill(null);
+    setFocusedCompany(null);
+    setFocusedActivity(null);
+    setFocusedAcademic(null);
+    const section = document.getElementById("projects");
+    section?.scrollIntoView({ behavior: "smooth" });
+    setFocusedProjectFilters(null);
+  }, [focusedProjectFilters, setFocusedActivity, setFocusedAcademic, setFocusedCompany, setFocusedProjectFilters, setFocusedSkill]);
 
   // 🔥 Apply activity from Activities section
   useEffect(() => {

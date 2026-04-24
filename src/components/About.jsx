@@ -3,8 +3,8 @@ import { hobbies } from "../data/hobbies";
 import { strengths } from "../data/strengths";
 import { languages } from "../data/languages";
 import { getSectionTheme } from "../config/sections";
-import Icon from "./Icon";
 import { useState } from "react";
+import HobbyGrid from "./HobbyGrid";
 
 function calculateAge(birthdate) {
   if (!birthdate) return null;
@@ -18,7 +18,7 @@ function calculateAge(birthdate) {
   return age;
 }
 
-export default function About({ isActive }) {
+export default function About({ isActive, onShowProjectFilters, onShowActivity }) {
   const age = calculateAge(about.birthdate);
   const [openStrength, setOpenStrength] = useState(null);
   const sectionTheme = getSectionTheme("about-me");
@@ -87,22 +87,11 @@ export default function About({ isActive }) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="border rounded-xl p-5 section-card" style={{ scrollMarginTop: '10rem' }}>
-            <h3 className="text-lg font-semibold mb-4 text-gray-300">Hobbies</h3>
-            <div className="grid grid-cols-2 gap-3">
-              {hobbies.map((h) => {
-                const IconComp = h.icon?.value;
-                return (
-                  <div key={h.title} className="flex min-w-0 items-center gap-3 px-3 py-2 rounded-lg border section-chip">
-                    <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center text-gray-300">
-                      {IconComp ? <IconComp className="w-5 h-5" /> : null}
-                    </div>
-                    <div className="text-sm text-gray-300 break-words">{h.title}</div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <HobbyGrid
+            hobbies={hobbies}
+            onShowProjectFilters={onShowProjectFilters}
+            onShowActivity={onShowActivity}
+          />
 
           <div className="border rounded-xl p-5 section-card" style={{ scrollMarginTop: '10rem' }}>
             <h3 className="text-lg font-semibold mb-4 text-gray-300">Strengths</h3>

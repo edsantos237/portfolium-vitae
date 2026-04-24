@@ -1,5 +1,6 @@
 export const activities = [
     {
+        id: "refood",
         title: "Refood",
         icon: {
             type: "file",
@@ -19,6 +20,7 @@ export const activities = [
         ]
     },
     {
+        id: "netium",
         title: "NETIUM",
         icon: {
             type: "file",
@@ -49,6 +51,7 @@ export const activities = [
         ]
     },
     {
+        id: "mieti_party_committee",
         title: "MIETI Party Committee",
         tags: ["college", "volunteering"],
         roles: [
@@ -80,6 +83,7 @@ export const activities = [
     //     ]
     // },
     {
+        id: "praxe",
         title: "Praxe",
         icon: {
             type: "file",
@@ -110,6 +114,7 @@ export const activities = [
         ]
     },
     {
+        id: "swimming",
         title: "Swimming",
         roles: [
             {
@@ -135,6 +140,7 @@ export const activities = [
         ]
     },
     {
+        id: "students_association",
         title: "Students Association",
         tags: ["basic_school", "volunteering"],
         roles: [
@@ -166,6 +172,7 @@ export const activities = [
     //     ]
     // },
     {
+        id: "futsal",
         title: "Futsal",
         tags: ["basic_school"],
         roles: [
@@ -181,6 +188,7 @@ export const activities = [
         ]
     },
     {
+        id: "chess",
         title: "Chess",
         tags: ["basic_school"],
         roles: [
@@ -196,6 +204,7 @@ export const activities = [
         ]
     },
     {
+        id: "ccdr",
         title: "CCDR - Clube de Cultura e Desporto de Ribeirão",
         icon: {
             type: "file",

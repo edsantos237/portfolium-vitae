@@ -22,6 +22,8 @@ export default function Layout() {
   const [focusedSkill, setFocusedSkill] = useState(null);
   const [focusedCompany, setFocusedCompany] = useState(null);
   const [focusedActivity, setFocusedActivity] = useState(null);
+  const [focusedActivityId, setFocusedActivityId] = useState(null);
+  const [focusedProjectFilters, setFocusedProjectFilters] = useState(null);
   // Academic filter for Education → Projects
   const [focusedAcademic, setFocusedAcademic] = useState(null);
   const showProjectsForAcademic = (schoolId) => {
@@ -125,6 +127,14 @@ export default function Layout() {
     setFocusedActivity(activityTitle);
     jumpTo("projects");
   };
+  const showProjectsForFilters = (filters) => {
+    setFocusedProjectFilters(filters);
+    jumpTo("projects");
+  };
+  const showActivityById = (activityId) => {
+    setFocusedActivityId(activityId);
+    jumpTo("activities");
+  };
 
   const getSectionSurfaceStyle = (sectionId) => {
     const theme = getSectionTheme(sectionId);
@@ -189,7 +199,11 @@ export default function Layout() {
         <main className="w-full pb-6">
             <section id="about-me" style={getSectionSurfaceStyle("about-me")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
-                <About isActive={activeSection === "about-me"} />
+                <About
+                  isActive={activeSection === "about-me"}
+                  onShowProjectFilters={showProjectsForFilters}
+                  onShowActivity={showActivityById}
+                />
               </div>
             </section>
 
@@ -222,6 +236,7 @@ export default function Layout() {
                   focusedSkill={focusedSkill} setFocusedSkill={setFocusedSkill}
                   focusedCompany={focusedCompany} setFocusedCompany={setFocusedCompany}
                   focusedActivity={focusedActivity} setFocusedActivity={setFocusedActivity}
+                  focusedProjectFilters={focusedProjectFilters} setFocusedProjectFilters={setFocusedProjectFilters}
                   focusedAcademic={focusedAcademic} setFocusedAcademic={setFocusedAcademic}
                   isActive={activeSection === "projects"}
                 />
@@ -236,7 +251,12 @@ export default function Layout() {
 
             <section id="activities" style={getSectionSurfaceStyle("activities")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
-                <Activities isActive={activeSection === "activities"} onShowProjects={showProjectsForActivity} />
+                <Activities
+                  isActive={activeSection === "activities"}
+                  onShowProjects={showProjectsForActivity}
+                  focusedActivityId={focusedActivityId}
+                  setFocusedActivityId={setFocusedActivityId}
+                />
               </div>
             </section>
 

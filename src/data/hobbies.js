@@ -12,10 +12,17 @@ export const hobbies = [
             type: "react",
             value: MdOutlineDeveloperMode
         },
-        details: {
-            type: "button",
-            value: ["projects", "personal"]
-        }
+        details: [
+            "I have lots of ideas for projects and whenever I have the time, I try to develop what sounds more promissing.",
+            {
+                type: "button",
+                label: "Show personal projects",
+                link: {
+                    type: "projects",
+                    filters: ["personal"]
+                }
+            }
+        ]
     },
     {
         title: "Astro-photography",
@@ -23,10 +30,13 @@ export const hobbies = [
             type: "react",
             value: IoAperture
         },
-        details: {
-            type: "file",
-            value: []
-        }
+        details: [
+            "Trying to capture the wonders of the cosmos with my camera and telescope.",
+            {
+                type: "image",
+                path: "infinity_moons.png"
+            }
+        ]
     },
     {
         title: "Drawing",
@@ -34,10 +44,13 @@ export const hobbies = [
             type: "react",
             value: TbWritingSignFilled
         },
-        details: {
-            type: "file",
-            value: []
-        }
+        details: [
+            "This might be my oldest hobby, and making a living out of it was probably my first \"what I want to be when I grow up\".",
+            {
+                type: "image",
+                path: "drawing_moon.jpg"
+            }
+        ]
     },
     {
         title: "Gym",
@@ -45,10 +58,9 @@ export const hobbies = [
             type: "react",
             value: IoMdFitness
         },
-        details: {
-            type: "text",
-            value: ["I try to workout 3x a week"]
-        }
+        details: [
+            "I try to workout 3x a week."
+        ]
     },
     {
         title: "Hiking",
@@ -56,10 +68,9 @@ export const hobbies = [
             type: "react",
             value: FaPersonHiking
         },
-        details: {
-            type: "text",
-            value: ["I have quite the tendency to get lost in the woods with my dog."]
-        }
+        details: [
+            "I have quite the tendency to get lost in the woods with my dog."
+        ]
     },
     {
         title: "Listening to music",
@@ -67,24 +78,39 @@ export const hobbies = [
             type: "react",
             value: MdHeadphones
         },
-        details: {
-            type: "file",
-            value: []
-        }
+        details: [
+            "I'm particlarly fond of instrumental music, like movie soundtracks, epic scores and piano.",
+            "• Favorite song since 2020:",
+            {
+                type: "spotify",
+                link: "https://open.spotify.com/track/098x2YmtSd6W3UixT1P0i1?si=68ee589cd4224e23"
+            }
+        ]
     },
     {
         title: "Playing piano",
         icon: {
             type: "react",
             value: MdPiano
-        }
+        },
+        details: [
+            "Trying to learn on my own since 2024 whenever I have the time.",
+            "• Yiruma - River Flows in You:",
+            {
+                type: "video",
+                path: "river_flows_in_you.mp4"
+            }
+        ]
     },
     {
         title: "Stargazing",
         icon: {
             type: "react",
             value: IoTelescope
-        }
+        },
+        details: [
+            "Sometimes I just lay on my garden and look up."
+        ]
     },
     {
         title: "Traveling",
@@ -93,10 +119,7 @@ export const hobbies = [
             value: BiWorld
         },
         details: [
-            {
-                type: "text",
-                value: ["I have traveled a total of 13 countries (15 if you count layovers) across 4 continents."]
-            }
+            "I have traveled a total of 13 countries (15 if you count layovers) across 4 continents."
         ]
     },
     {
@@ -104,20 +127,39 @@ export const hobbies = [
         icon: {
             type: "react",
             value: BiSolidDonateHeart
-        }
+        },
+        details: [
+            "Trying to do my part in saving the world.",
+            {
+                type: "button",
+                label: "Refood",
+                link: {
+                    type: "activities",
+                    activity: "refood",
+                }
+            }
+        ]
     },
     {
-        title: "Watching series/movies",
+        title: "Watching movies/series",
         icon: {
             type: "react",
             value: MdMovie
-        }
+        },
+        details: [
+            "I'm the biggest fan of mind-bending movies and series.",
+            "• Favorite movie: Interstellar (2014)",
+            "• Favorite series: Dark (2017-2020)"
+        ]
     },
     {
         title: "Writing",
         icon: {
             type: "react",
             value: TbWritingFilled
-        }
+        },
+        details: [
+            "I have been idealizing since 2011, and writting since 2019, the most epic piece of fiction spanning along 24 seasons that might never see the light of day."
+        ]
     }
 ];
