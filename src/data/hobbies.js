@@ -82,8 +82,9 @@ export const hobbies = [
             "I'm particlarly fond of instrumental music, like movie soundtracks, epic scores and piano.",
             "• Favorite song since 2020:",
             {
-                type: "spotify",
-                link: "https://open.spotify.com/track/098x2YmtSd6W3UixT1P0i1?si=68ee589cd4224e23"
+                type: "bandcamp",
+                // link: "https://open.spotify.com/embed/track/098x2YmtSd6W3UixT1P0i1",
+                link: "https://bandcamp.com/EmbeddedPlayer/track=1585406331"
             }
         ]
     },
@@ -132,6 +133,10 @@ export const hobbies = [
             "Trying to do my part in saving the world.",
             {
                 type: "button",
+                icon: {
+                    type: "file",
+                    value: "refood.png"
+                },
                 label: "Refood",
                 link: {
                     type: "activities",
@@ -159,7 +164,7 @@ export const hobbies = [
             value: TbWritingFilled
         },
         details: [
-            "I have been idealizing since 2011, and writting since 2019, the most epic piece of fiction spanning along 24 seasons that might never see the light of day."
+            "I have been idealizing since my 7th grade, and writting since 2019, the most epic piece of fiction spanning across 24 seasons that might never see the light of day."
         ]
     }
 ];

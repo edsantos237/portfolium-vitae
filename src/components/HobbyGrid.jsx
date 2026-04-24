@@ -1,6 +1,9 @@
 import { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { getSectionTheme } from "../config/sections";
 import Icon from "./Icon";
 import SkillCard from "./SkillCard";
+
+const aboutTheme = getSectionTheme("about-me");
 
 function getHobbyId(hobby) {
   return hobby.id ?? hobby.title;
@@ -14,6 +17,30 @@ function getSpotifyEmbedUrl(url) {
   }
 
   return `https://open.spotify.com/embed/track/${match[1]}?utm_source=generator`;
+}
+
+function cssColorToHex(color, fallback = "0f172a") {
+  const match = color?.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+
+  if (!match) {
+    return fallback;
+  }
+
+  return match.slice(1, 4).map((channel) => Number(channel).toString(16).padStart(2, "0")).join("");
+}
+
+function getBandcampEmbedUrl(url) {
+  const mediaMatch = url?.match(/\/(track|album)=([^/?]+)/i);
+
+  if (!mediaMatch) {
+    return url;
+  }
+
+  const [, mediaType, mediaId] = mediaMatch;
+  const backgroundColor = cssColorToHex(aboutTheme.cardBackgroundStrong, "131b2c");
+  const linkColor = cssColorToHex(aboutTheme.accentLine, "86b7ff");
+
+  return `https://bandcamp.com/EmbeddedPlayer/${mediaType}=${mediaId}/size=large/bgcol=${backgroundColor}/linkcol=${linkColor}/artwork=small/transparent=true/`;
 }
 
 export default function HobbyGrid({
@@ -181,17 +208,30 @@ export default function HobbyGrid({
       : null;
 
   const handleDetailButtonClick = (link) => {
-    if (!link) {
-      return;
-    }
+    if (!link) return;
+
+    // Helper to scroll section to top like sidebar/top bar
+    const scrollSectionToTop = (sectionId) => {
+      const el = document.getElementById(sectionId);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const absoluteTop = window.scrollY + rect.top;
+      const mobileBar = document.getElementById("mobile-top-bar");
+      const headerOffset = mobileBar ? mobileBar.offsetHeight : 0;
+      const target = Math.max(0, absoluteTop - headerOffset);
+      window.scrollTo({ top: target, behavior: "smooth" });
+    };
 
     if (link.type === "projects") {
       onShowProjectFilters?.(link.filters || []);
+      setTimeout(() => scrollSectionToTop("projects"), 0);
       return;
     }
 
     if (link.type === "activities") {
       onShowActivity?.(link.activity);
+      setTimeout(() => scrollSectionToTop("activities"), 0);
+      return;
     }
   };
 
@@ -221,7 +261,15 @@ export default function HobbyGrid({
           disabled={isDisabled}
           className="w-fit rounded border px-3 py-2 text-xs font-normal transition section-accent-button disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {detail.label}
+          <span className="flex items-center gap-2">
+            {detail.icon ? (
+              <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-gray-300">
+                <Icon icon={detail.icon} className="w-4 h-4" />
+              </span>
+            ) : null}
+
+            <span>{detail.label}</span>
+          </span>
         </button>
       );
     }
@@ -263,6 +311,38 @@ export default function HobbyGrid({
       );
     }
 
+    if (detail.type === "bandcamp") {
+      return (
+        <div
+          key={`${hobby.id}-bandcamp-${index}`}
+          className="overflow-hidden rounded-xl"
+          style={{
+            background: "linear-gradient(180deg, var(--section-soft-bg) 0%, var(--section-card-bg-strong) 100%)",
+            boxShadow: "0 20px 36px -28px rgba(0, 0, 0, 0.85)",
+          }}
+        >
+          <div
+            className="overflow-hidden rounded-lg"
+            style={{
+              backgroundColor: "var(--section-control-bg)",
+              boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.04)",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            <iframe
+              src={getBandcampEmbedUrl(detail.link)}
+              title={`${hobby.title} Bandcamp player`}
+              className="block w-full rounded-lg"
+              style={{ minHeight: 120, border: 0, margin: 0, padding: 0 }}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      );
+    }
+
     return null;
   };
 
@@ -292,10 +372,6 @@ export default function HobbyGrid({
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg border section-icon-surface">
-                  <Icon icon={hobby.icon} />
-                </div>
-
                 <h4 className="text-sm font-semibold text-white">{hobby.title}</h4>
               </div>
 
