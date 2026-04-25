@@ -9,7 +9,7 @@ import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
 import VerticalTimeline from "./VerticalTimeline";
-import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
+import { groupDescriptionItems, renderGroups, renderFlatButtons } from "../utils/descriptionRenderer.jsx";
 
 function getActivityId(activity) {
   return activity.id ?? activity.title;
@@ -230,16 +230,17 @@ export default function Activities({ isActive, onShowProjects, focusedActivityId
                                   {renderGroups(otherGroups, `activity-desc-${act.resolvedId}-other`, onProjectLink, { compact: true })}
                                 </div>
                               )}
-                              <div className="flex items-center gap-2">
-                                {projectCount > 0 && (
-                                  <ShowProjectsButton
-                                    className="mt-1 shadow"
-                                    onClick={() => onShowProjects && onShowProjects(act.title)}
-                                    count={projectCount}
-                                  />
-                                )}
-                                {trailing.length > 0 && renderGroups([{ type: 'button', items: trailing }], `activity-desc-trail-${act.resolvedId}`, onProjectLink)}
-                              </div>
+                              {(projectCount > 0 || trailing.length > 0) && (
+                                <div className="flex flex-wrap gap-2">
+                                  {projectCount > 0 && (
+                                    <ShowProjectsButton
+                                      onClick={() => onShowProjects && onShowProjects(act.title)}
+                                      count={projectCount}
+                                    />
+                                  )}
+                                  {renderFlatButtons(trailing, `activity-desc-trail-${act.resolvedId}`, onProjectLink)}
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>

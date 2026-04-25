@@ -2,7 +2,7 @@ import AnimatedCollapse from "./AnimatedCollapse";
 import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
-import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
+import { groupDescriptionItems, renderGroups, renderFlatButtons } from "../utils/descriptionRenderer.jsx";
 
 export default function EducationCard({ school, open, onToggle, forceOpen, degreeSelectable, selectedDegreeId, onSelectDegree, showProjectsButton, projectCount, onShowProjects, onProjectLink }) {
     const formatDate = (d) => {
@@ -99,10 +99,12 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                                                         {renderGroups(otherGroups, `school-desc-${school.id}-other`, onProjectLink, { compact: true })}
                                                     </div>
                                                 )}
-                                                <div className="flex items-center gap-2">
-                                                    {showProjectsButton && <ShowProjectsButton onClick={onShowProjects} count={projectCount} />}
-                                                    {trailing.length > 0 && renderGroups([{ type: 'button', items: trailing }], `school-desc-trail-${school.id}`, onProjectLink)}
-                                                </div>
+                                                {(showProjectsButton || trailing.length > 0) && (
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {showProjectsButton && <ShowProjectsButton onClick={onShowProjects} count={projectCount} />}
+                                                        {renderFlatButtons(trailing, `school-desc-trail-${school.id}`, onProjectLink)}
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
                                     </div>

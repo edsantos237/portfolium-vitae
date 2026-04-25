@@ -185,17 +185,20 @@ body {
   color: rgba(255, 255, 255, 0.96);
 }
 
+
 .section-accent-button {
   background-color: var(--section-accent-bg);
   border-color: var(--section-accent-border);
   color: var(--section-accent-text);
-}
-
-/* Ensure accent buttons have consistent height and vertical alignment */
-.section-accent-button {
   display: inline-flex;
-  align-items: center;
-  height: 2rem; /* enforce uniform height (h-8) */
+  align-items: flex-start;
+  text-align: left;
+  min-height: 2rem;
+  height: auto;
+  white-space: normal;
+  line-height: 1.35;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .section-accent-button:hover {

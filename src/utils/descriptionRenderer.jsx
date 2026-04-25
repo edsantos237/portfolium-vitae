@@ -82,6 +82,50 @@ export function renderMediaItem(item, key, opts = {}) {
   return null;
 }
 
+// Renders button items as a flat array (no wrapping div) — use inside your own flex container
+export function renderFlatButtons(items, keyPrefix, onProjectLink) {
+  return items.map((item, ii) => {
+    const link = item.link;
+    if (link && typeof link === "object") {
+      return (
+        <button
+          key={`${keyPrefix}-flatbtn-${ii}`}
+          type="button"
+          onClick={() => onProjectLink?.(link)}
+          className="w-fit rounded border px-3 py-2 text-xs font-normal transition section-accent-button"
+        >
+          <span className="flex items-center gap-2">
+            {item.icon ? (
+              <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-gray-300">
+                <Icon icon={item.icon} className="w-4 h-4" />
+              </span>
+            ) : null}
+            <span>{item.label}</span>
+          </span>
+        </button>
+      );
+    }
+    return (
+      <a
+        key={`${keyPrefix}-flatbtn-${ii}`}
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-fit rounded border px-3 py-2 text-xs font-normal transition section-accent-button"
+      >
+        <span className="flex items-center gap-2">
+          {item.icon ? (
+            <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-gray-300">
+              <Icon icon={item.icon} className="w-4 h-4" />
+            </span>
+          ) : null}
+          <span>{item.label}</span>
+        </span>
+      </a>
+    );
+  });
+}
+
 export function renderGroups(groups, keyPrefix, onProjectLink, opts = {}) {
   return groups.map((group, gi) => {
     if (group.type === "text") {

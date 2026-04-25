@@ -76,6 +76,22 @@ export default function Skills({ onShowProjects, isActive, isPrevious = false, a
             return { professional, academic, personal, relatedProjects };
         };
 
+        const companiesWithSkills = useMemo(() =>
+            companies.filter((c) =>
+                projects.some((p) => p.tags.includes(c.id) && skills.some((s) => p.tags.includes(s.id)))
+            ),
+        []);
+
+        const schoolsWithSkills = useMemo(() =>
+            schools.filter((s) =>
+                projects.some((p) => p.tags.includes(s.id) && skills.some((sk) => p.tags.includes(sk.id)))
+            ),
+        []);
+
+        const hasPersonalSkills = useMemo(() =>
+            projects.some((p) => p.tags.includes("personal") && skills.some((s) => p.tags.includes(s.id))),
+        []);
+
         const chips = {
             professional: companies.filter((c) =>
                 selectedProfessional.includes(c.id)
@@ -176,22 +192,22 @@ export default function Skills({ onShowProjects, isActive, isPrevious = false, a
                                 {
                                     id: "skill-prof",
                                     label: "Professional",
-                                    items: companies,
+                                    items: companiesWithSkills,
                                     selected: selectedProfessional,
                                     setSelected: setSelectedProfessional,
                                 },
                                 {
                                     id: "skill-acad",
                                     label: "Academic",
-                                    items: schools,
+                                    items: schoolsWithSkills,
                                     selected: selectedAcademic,
                                     setSelected: setSelectedAcademic,
                                 },
                             ]}
-                            personal={{
+                            personal={hasPersonalSkills ? {
                                 value: personalSelected,
                                 setValue: setPersonalSelected,
-                            }}
+                            } : null}
                             onClearAll={clearAll}
                             chips={chips}
                         />

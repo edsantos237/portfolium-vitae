@@ -174,8 +174,23 @@ export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany
     domain: "Domains",
   };
 
+  const companiesWithProjects = useMemo(() =>
+    companies.filter((c) => projects.some((p) => p.tags.includes(c.id))),
+  []);
+
+  const schoolsWithProjects = useMemo(() =>
+    schools.filter((s) => projects.some((p) => p.tags.includes(s.id))),
+  []);
+
+  const hasPersonalProjects = useMemo(() =>
+    projects.some((p) => p.tags.includes("personal")),
+  []);
+
   const skillGroups = useMemo(() => {
-    return skills.reduce((acc, skill) => {
+    const skillsWithProjects = skills.filter((skill) =>
+      projects.some((p) => p.tags.includes(skill.id))
+    );
+    return skillsWithProjects.reduce((acc, skill) => {
       const type = skill.tags?.[0] || "tool";
       if (!acc[type]) acc[type] = [];
       acc[type].push(skill);
@@ -234,14 +249,14 @@ export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany
               {
                 id: "prof",
                 label: "Professional",
-                items: companies,
+                items: companiesWithProjects,
                 selected: selectedProfessional,
                 setSelected: setSelectedProfessional,
               },
               {
                 id: "acad",
                 label: "Academic",
-                items: schools,
+                items: schoolsWithProjects,
                 selected: selectedAcademic,
                 setSelected: setSelectedAcademic,
               },
@@ -255,10 +270,10 @@ export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany
                 setSelected: setSelectedSkills,
               },
             ]}
-            personal={{
+            personal={hasPersonalProjects ? {
               value: personalSelected,
               setValue: setPersonalSelected,
-            }}
+            } : null}
             onClearAll={clearAll}
             chips={chips}
           />
