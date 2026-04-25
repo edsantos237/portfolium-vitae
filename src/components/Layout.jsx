@@ -5,6 +5,7 @@ import MobileTopBar from "./MobileTopBar";
 import About from "./About";
 
 import Projects from "./Projects";
+import ProjectPage from "./ProjectPage";
 import Publications from "./Publications";
 import Activities from "./Activities";
 import Skills from "./Skills";
@@ -26,6 +27,7 @@ export default function Layout() {
   const [focusedProjectFilters, setFocusedProjectFilters] = useState(null);
   // Academic filter for Education → Projects
   const [focusedAcademic, setFocusedAcademic] = useState(null);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
   const showProjectsForAcademic = (schoolId) => {
     setFocusedAcademic(schoolId);
     jumpTo("projects");
@@ -131,6 +133,45 @@ export default function Layout() {
     setFocusedProjectFilters(filters);
     jumpTo("projects");
   };
+
+  // Open a specific project (scroll to projects and open the project page)
+  const showProject = (projectId) => {
+    if (!projectId) return;
+    if (activeSection === "projects") {
+      setSelectedProjectId(projectId);
+      return;
+    }
+
+    jumpTo("projects");
+    // allow scroll animation to start before opening the modal
+    setTimeout(() => setSelectedProjectId(projectId), 420);
+  };
+
+  // Generic handler for link objects that point to projects/activities
+  const handleProjectLink = (link) => {
+    if (!link) return;
+    if (typeof link === "string") {
+      // fallback: open external links in new tab
+      window.open(link, "_blank");
+      return;
+    }
+
+    if (link.type === "projects") {
+      if (link.project) {
+        showProject(link.project);
+        return;
+      }
+      if (link.filters) {
+        showProjectsForFilters(link.filters);
+        return;
+      }
+    }
+
+    if (link.type === "activities" && link.activity) {
+      showProjectsForActivity(link.activity);
+      return;
+    }
+  };
   const showActivityById = (activityId) => {
     setFocusedActivityId(activityId);
     jumpTo("activities");
@@ -203,6 +244,7 @@ export default function Layout() {
                   isActive={activeSection === "about-me"}
                   onShowProjectFilters={showProjectsForFilters}
                   onShowActivity={showActivityById}
+                  onProjectLink={handleProjectLink}
                 />
               </div>
             </section>
@@ -220,13 +262,13 @@ export default function Layout() {
 
             <section id="experience" style={getSectionSurfaceStyle("experience")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
-                <Experience isActive={activeSection === "experience"} onShowProjects={showProjectsForCompany} />
+                <Experience isActive={activeSection === "experience"} onShowProjects={showProjectsForCompany} onProjectLink={handleProjectLink} />
               </div>
             </section>
 
             <section id="education" style={getSectionSurfaceStyle("education")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
-                <Education isActive={activeSection === "education"} onShowProjects={showProjectsForAcademic} />
+                <Education isActive={activeSection === "education"} onShowProjects={showProjectsForAcademic} onProjectLink={handleProjectLink} />
               </div>
             </section>
 
@@ -239,6 +281,7 @@ export default function Layout() {
                   focusedProjectFilters={focusedProjectFilters} setFocusedProjectFilters={setFocusedProjectFilters}
                   focusedAcademic={focusedAcademic} setFocusedAcademic={setFocusedAcademic}
                   isActive={activeSection === "projects"}
+                  onProjectClick={showProject}
                 />
               </div>
             </section>
@@ -254,6 +297,7 @@ export default function Layout() {
                 <Activities
                   isActive={activeSection === "activities"}
                   onShowProjects={showProjectsForActivity}
+                  onProjectLink={handleProjectLink}
                   focusedActivityId={focusedActivityId}
                   setFocusedActivityId={setFocusedActivityId}
                 />
@@ -272,7 +316,14 @@ export default function Layout() {
         </main>
       </div>
 
-
+      {/* ── Project detail page overlay ── */}
+      {selectedProjectId && (
+        <ProjectPage
+          projectId={selectedProjectId}
+          onBack={() => setSelectedProjectId(null)}
+          onProjectLink={handleProjectLink}
+        />
+      )}
     </div>
   );
 }

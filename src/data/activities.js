@@ -1,3 +1,6 @@
+import { BiSolidDonateHeart } from "react-icons/bi";
+import { FaInstagram, FaBlogger } from "react-icons/fa6";
+
 export const activities = [
     {
         id: "refood",
@@ -7,6 +10,26 @@ export const activities = [
             value: "refood.png"            
         },
         tags: ["volunteering"],
+        description: [            
+            {
+                type: "button",
+                icon: {
+                    type: "file",
+                    value: "refood.png"
+                },
+                label: "Website",
+                link: "https://re-food.org/en"
+            },
+            {
+                type: "button",
+                icon: {
+                    type: "react",
+                    value: BiSolidDonateHeart
+                },
+                label: "Become a volunteer!",
+                link: "https://re-food.org/en/volunteer/"
+            }
+        ],
         roles: [
             {
                 date: {
@@ -27,6 +50,18 @@ export const activities = [
             value: "netium.png"
         },
         tags: ["college", "volunteering"],
+        description: [
+            "Núcleo de Estudantes de Engenharia de Telecomunicações e Informática da Universidade do Minho",
+            {
+                type: "button",
+                icon: {
+                    type: "file",
+                    value: "netium.png"
+                },
+                label: "Website",
+                link: "https://netium.dsi.uminho.pt/netium"
+            }
+        ],
         roles: [
             {
                 title: "Treasurer",
@@ -54,6 +89,17 @@ export const activities = [
         id: "mieti_party_committee",
         title: "MIETI Party Committee",
         tags: ["college", "volunteering"],
+        description: [
+            {
+                type: "button",
+                icon: {
+                    type: "react",
+                    value: FaInstagram
+                },
+                label: "Instagram",
+                link: "https://www.instagram.com/comissaodefestasleti/"
+            }
+        ],
         roles: [
             {
                 date: {
@@ -90,6 +136,17 @@ export const activities = [
             value: "praxe.png"
         },
         tags: ["college"],
+        description: [
+            {
+                type: "button",
+                icon: {
+                    type: "react",
+                    value: FaBlogger
+                },
+                label: "Cabido de Cardeais",
+                link: "https://cabidodecardeais.blogspot.com/"
+            }
+        ],
         roles: [
             {
                 title: "MIETI Praxe Committee",
@@ -124,7 +181,12 @@ export const activities = [
                     end: "2016-05"
                 },
                 description: [
-                    "Participated in swimming classes and competitions representing my high school city."
+                    "Participated in swimming classes and competitions representing my high school city.",
+                    {
+                        type: "button",
+                        label: "Website",
+                        link: "https://www.famalicaodesportivo.pt/_piscinas_vn_famalicao"
+                    }
                 ]
             },
             {
@@ -134,7 +196,12 @@ export const activities = [
                     end: "2013-10"
                 },
                 description: [
-                    "Participated in swimming classes and competitions representing my town."
+                    "Participated in swimming classes and competitions representing my town.",
+                    {
+                        type: "button",
+                        label: "Website",
+                        link: "https://www.famalicaodesportivo.pt/_piscinas_ribeirao"
+                    }
                 ]
             }
         ]
@@ -210,6 +277,17 @@ export const activities = [
             type: "file",
             value: "ccdr.png"
         },
+        description: [            
+            {
+                type: "button",
+                icon: {
+                    type: "file",
+                    value: "ccdr.png"
+                },
+                label: "Website",
+                link: "https://www.ccdr.pt/"
+            }
+        ],
         roles: [
             {
                 title: "Athlete",

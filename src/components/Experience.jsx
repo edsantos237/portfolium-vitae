@@ -5,7 +5,7 @@ import { projects } from "../data/projects";
 import ExperienceCard from "./ExperienceCard";
 import VerticalTimeline from "./VerticalTimeline";
 
-export default function Experience({ isActive, onShowProjects }) {
+export default function Experience({ isActive, onShowProjects, onProjectLink }) {
   const sectionTheme = getSectionTheme("experience");
   // If only one company, sub-entries (roles) are selectable and always expanded
   const single = companies.length === 1;
@@ -102,6 +102,7 @@ export default function Experience({ isActive, onShowProjects }) {
                   showProjectsButton={isEntryOpen && projectCount > 0}
                   projectCount={projectCount}
                   onShowProjects={() => onShowProjects && onShowProjects(company.id)}
+                  onProjectLink={onProjectLink}
                 />
               </div>
             );

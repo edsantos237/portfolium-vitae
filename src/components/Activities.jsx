@@ -9,12 +9,13 @@ import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
 import VerticalTimeline from "./VerticalTimeline";
+import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
 
 function getActivityId(activity) {
   return activity.id ?? activity.title;
 }
 
-export default function Activities({ isActive, onShowProjects, focusedActivityId, setFocusedActivityId }) {
+export default function Activities({ isActive, onShowProjects, focusedActivityId, setFocusedActivityId, onProjectLink }) {
   const sectionTheme = getSectionTheme("activities");
   const single = activities.length === 1;
   const [selectedId, setSelectedId] = useState(null);
@@ -195,42 +196,81 @@ export default function Activities({ isActive, onShowProjects, focusedActivityId
 
               {/* Expanded roles (sub-entries) */}
               <AnimatedCollapse open={isEntryOpen}>
-                <div className="ml-4 sm:ml-11">
-                  {projectCount > 0 && (
-                    <ShowProjectsButton
-                      className="mt-1 shadow"
-                      onClick={() => onShowProjects && onShowProjects(act.title)}
-                      count={projectCount}
-                    />
-                  )}
+                <div className="section-subentries mt-4 ml-4 pl-4 sm:ml-11">
 
-                  <div className={`section-subentries pl-4 ${projectCount > 0 ? "mt-3 ml-0 sm:ml-11" : "mt-4 ml-0 sm:ml-11"}`}>
-                    {act.roles.map((role, idx) => {
-                      const roleId = `${act.resolvedId}__role${idx}`;
-                      const selected = single && roleId === selectedId;
+                  {(() => {
+                    const desc = Array.isArray(act.description) ? act.description.slice() : [];
+                    const trailing = [];
+                    while (desc.length > 0) {
+                      const last = desc[desc.length - 1];
+                      if (last && typeof last === 'object' && last.type === 'button') {
+                        trailing.unshift(last);
+                        desc.pop();
+                        continue;
+                      }
+                      break;
+                    }
+                    const groups = groupDescriptionItems(desc || []);
+                    const textGroups = groups.filter((g) => g.type === 'text');
+                    const otherGroups = groups.filter((g) => g.type !== 'text');
+
+                    if (textGroups.length > 0 || otherGroups.length > 0 || projectCount > 0 || trailing.length > 0) {
                       return (
-                        <div
-                          key={idx}
-                          className={`space-y-1 ${single ? "cursor-pointer rounded transition section-soft-hover" : ""} ${selected ? "section-soft-highlight pl-2" : ""}`}
-                          onClick={single ? () => setSelectedId(roleId) : undefined}
-                          tabIndex={single ? 0 : -1}
-                        >
-                          {role.title && <h4 className="font-medium text-gray-200">{role.title}</h4>}
+                        <div className="mb-2">
+                          {textGroups.length > 0 && (
+                            <div className="space-y-1">
+                              {renderGroups(textGroups, `activity-desc-${act.resolvedId}-text`, onProjectLink)}
+                            </div>
+                          )}
 
-                          <p className="text-xs text-gray-400">
-                            {formatRange(role.date)}
-                          </p>
-
-                          {Array.isArray(role.description)
-                            ? role.description.map((line, j) => (
-                                <p key={j} className="text-sm text-gray-300">{line}</p>
-                              ))
-                            : <p className="text-sm text-gray-300">{role.description}</p>
-                          }
+                          {(otherGroups.length > 0 || projectCount > 0 || trailing.length > 0) && (
+                            <div className="flex items-start gap-3 flex-wrap mt-2">
+                              {otherGroups.length > 0 && (
+                                <div className="min-w-0">
+                                  {renderGroups(otherGroups, `activity-desc-${act.resolvedId}-other`, onProjectLink, { compact: true })}
+                                </div>
+                              )}
+                              <div className="flex items-center gap-2">
+                                {projectCount > 0 && (
+                                  <ShowProjectsButton
+                                    className="mt-1 shadow"
+                                    onClick={() => onShowProjects && onShowProjects(act.title)}
+                                    count={projectCount}
+                                  />
+                                )}
+                                {trailing.length > 0 && renderGroups([{ type: 'button', items: trailing }], `activity-desc-trail-${act.resolvedId}`, onProjectLink)}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       );
-                    })}
-                  </div>
+                    }
+                    return null;
+                  })()}
+
+                  {act.roles.map((role, idx) => {
+                    const roleId = `${act.resolvedId}__role${idx}`;
+                    const selected = single && roleId === selectedId;
+                    return (
+                      <div
+                        key={idx}
+                        className={`space-y-1 ${single ? "cursor-pointer rounded transition section-soft-hover" : ""} ${selected ? "section-soft-highlight pl-2" : ""}`}
+                        onClick={single ? () => setSelectedId(roleId) : undefined}
+                        tabIndex={single ? 0 : -1}
+                      >
+                        {role.title && <h4 className="font-medium text-gray-200">{role.title}</h4>}
+
+                        <p className="text-xs text-gray-400">
+                          {formatRange(role.date)}
+                        </p>
+
+                        {Array.isArray(role.description)
+                          ? renderGroups(groupDescriptionItems(role.description), `${act.resolvedId}__role${idx}`, onProjectLink)
+                          : <p className="text-sm text-gray-300">{role.description}</p>
+                        }
+                      </div>
+                    );
+                  })}
                 </div>
               </AnimatedCollapse>
             </div>

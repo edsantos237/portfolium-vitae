@@ -47,6 +47,7 @@ export default function HobbyGrid({
   hobbies = [],
   onShowProjectFilters,
   onShowActivity,
+  onProjectLink,
 }) {
   const [selectedHobbyId, setSelectedHobbyId] = useState(null);
   const [activeInspectorId, setActiveInspectorId] = useState(null);
@@ -223,6 +224,10 @@ export default function HobbyGrid({
     };
 
     if (link.type === "projects") {
+      if (link.project) {
+        onProjectLink?.(link);
+        return;
+      }
       onShowProjectFilters?.(link.filters || []);
       setTimeout(() => scrollSectionToTop("projects"), 0);
       return;

@@ -2,8 +2,9 @@ import AnimatedCollapse from "./AnimatedCollapse";
 import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
 import { formatRange } from "../utils/dateFormat";
+import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
 
-export default function EducationCard({ school, open, onToggle, forceOpen, degreeSelectable, selectedDegreeId, onSelectDegree, showProjectsButton, projectCount, onShowProjects }) {
+export default function EducationCard({ school, open, onToggle, forceOpen, degreeSelectable, selectedDegreeId, onSelectDegree, showProjectsButton, projectCount, onShowProjects, onProjectLink }) {
     const formatDate = (d) => {
         if (!d) return "";
         if (typeof d === 'string') return d;
@@ -59,11 +60,56 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
             {/* EXPANDED CONTENT */}
             <AnimatedCollapse open={isOpen}>
                 <div className="section-subentries mt-4 ml-4 pl-4 sm:ml-11">
-                    {showProjectsButton && (
-                        <div className="mb-2">
-                            <ShowProjectsButton onClick={onShowProjects} count={projectCount} />
-                        </div>
-                    )}
+
+                        {/* School-level description preview + ShowProjectsButton / trailing buttons */}
+                        {(() => {
+                            const desc = Array.isArray(school.description) ? school.description.slice() : [];
+                            const trailing = [];
+                            while (desc.length > 0) {
+                                const last = desc[desc.length - 1];
+                                if (last && typeof last === 'object' && last.type === 'button') {
+                                    trailing.unshift(last);
+                                    desc.pop();
+                                    continue;
+                                }
+                                break;
+                            }
+                            const groups = groupDescriptionItems(desc || []);
+                            const textGroups = groups.filter((g) => g.type === 'text');
+                            const otherGroups = groups.filter((g) => g.type !== 'text');
+                            // Only render if there is any content or button
+                            if (
+                                textGroups.length > 0 ||
+                                otherGroups.length > 0 ||
+                                showProjectsButton ||
+                                trailing.length > 0
+                            ) {
+                                return (
+                                    <div className="mb-2">
+                                        {textGroups.length > 0 && (
+                                            <div className="space-y-1">
+                                                {renderGroups(textGroups, `school-desc-${school.id}-text`, onProjectLink)}
+                                            </div>
+                                        )}
+
+                                        {(otherGroups.length > 0 || showProjectsButton || trailing.length > 0) && (
+                                            <div className="flex items-start gap-3 flex-wrap mt-2">
+                                                {otherGroups.length > 0 && (
+                                                    <div className="min-w-0">
+                                                        {renderGroups(otherGroups, `school-desc-${school.id}-other`, onProjectLink, { compact: true })}
+                                                    </div>
+                                                )}
+                                                <div className="flex items-center gap-2">
+                                                    {showProjectsButton && <ShowProjectsButton onClick={onShowProjects} count={projectCount} />}
+                                                    {trailing.length > 0 && renderGroups([{ type: 'button', items: trailing }], `school-desc-trail-${school.id}`, onProjectLink)}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })()}
 
                     {/* DATES */}
                     <p className="text-sm text-gray-400">

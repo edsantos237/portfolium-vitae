@@ -1,5 +1,6 @@
 import { Fragment, useLayoutEffect, useMemo, useState, useRef } from "react";
 import SkillCard from "./SkillCard";
+import Icon from "./Icon";
 
 export default function SkillContainer({
     type,
@@ -157,37 +158,28 @@ export default function SkillContainer({
                                 {usage.professional?.map((company) => (
                                     <span
                                         key={company.id}
-                                        className="px-2 py-1 border rounded section-chip"
+                                        className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
                                     >
+                                        {company.icon && <Icon icon={company.icon} />}
                                         {company.title}
                                     </span>
                                 ))}
-
-                                {usage.professional?.length > 0 &&
-                                    (usage.academic?.length > 0 ||
-                                        usage.personal?.length > 0) && (
-                                        <span className="text-gray-600">|</span>
-                                    )}
 
                                 {usage.academic?.map((school) => {
                                     const labelText = school.labels?.[0] ?? school.label ?? school.title;
                                     return (
                                         <span
                                             key={school.id}
-                                            className="px-2 py-1 border rounded section-chip"
+                                            className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
                                         >
+                                            {school.icon && <Icon icon={school.icon} />}
                                             {labelText}
                                         </span>
                                     );
                                 })}
 
-                                {usage.academic?.length > 0 &&
-                                    usage.personal?.length > 0 && (
-                                        <span className="text-gray-600">|</span>
-                                    )}
-
                                 {usage.personal?.length > 0 && (
-                                    <span className="px-2 py-1 border rounded section-chip">
+                                    <span className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
                                         Personal
                                     </span>
                                 )}

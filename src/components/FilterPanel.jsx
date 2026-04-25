@@ -1,4 +1,5 @@
-import { useState, Fragment, useRef, useEffect } from "react";
+import { useState, Fragment, useRef, useEffect, useLayoutEffect } from "react";
+import AnimatedCollapse from "./AnimatedCollapse";
 import FilterDropdown from "./FilterDropdown";
 import FilterChips from "./FilterChips";
 
@@ -9,10 +10,14 @@ export default function FilterPanel({
     chips, // ✅ NEW (passed from parent)
 }) {
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [activeDropdownId, setActiveDropdownId] = useState(null);
+    const [contentVisible, setContentVisible] = useState(true);
     const drawerRef = useRef(null);
     const measureRef = useRef(null);
     const buttonRefs = useRef({});
+    const prevOpenDropdownRef = useRef(null);
     const [needsStackLayout, setNeedsStackLayout] = useState(false);
+    const contentFadeDuration = 180;
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -101,6 +106,40 @@ export default function FilterPanel({
             clearTimeout(fallbackTimer);
             window.removeEventListener('resize', onResize);
         };
+    }, [openDropdown, activeDropdownId]);
+
+    useLayoutEffect(() => {
+        let fadeTimeoutId;
+        let animationFrameId;
+        const prevOpenDropdown = prevOpenDropdownRef.current;
+
+        if (prevOpenDropdown === openDropdown) {
+            // no-op
+        } else if (!prevOpenDropdown && openDropdown) {
+            setActiveDropdownId(openDropdown);
+            setContentVisible(true);
+        } else if (prevOpenDropdown && !openDropdown) {
+            setContentVisible(true);
+        } else {
+            setContentVisible(false);
+            fadeTimeoutId = window.setTimeout(() => {
+                setActiveDropdownId(openDropdown);
+                animationFrameId = window.requestAnimationFrame(() => {
+                    setContentVisible(true);
+                });
+            }, contentFadeDuration);
+        }
+
+        prevOpenDropdownRef.current = openDropdown;
+
+        return () => {
+            if (animationFrameId) {
+                window.cancelAnimationFrame(animationFrameId);
+            }
+            if (fadeTimeoutId) {
+                window.clearTimeout(fadeTimeoutId);
+            }
+        };
     }, [openDropdown]);
 
     // Check if all items (including label + Clear all) fit in one row
@@ -133,6 +172,106 @@ export default function FilterPanel({
             sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
+
+    const renderDropdownContent = (filter) => {
+        if (!filter) {
+            return null;
+        }
+
+        return (
+            <div className={`transition-opacity duration-200 ease-in-out ${contentVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                {filter.items && (
+                    <>
+                        <div className="flex flex-wrap gap-2">
+                            {filter.items.map((item) => {
+                                    const displayTitle = filter.id && filter.id.includes("acad")
+                                        ? (item.labels?.[0] ?? item.label ?? item.title)
+                                        : item.title;
+                                    return (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => {
+                                                filter.setSelected((prev) =>
+                                                    toggleInList(prev, item.id)
+                                                );
+                                                scrollSectionToTop();
+                                            }}
+                                            className={`px-3 py-1.5 rounded-lg border text-sm ${filter.selected.includes(item.id)
+                                                ? "section-control-active"
+                                                : "section-control-idle"
+                                                }`}
+                                        >
+                                            {displayTitle}
+                                        </button>
+                                    );
+                                })}
+                        </div>
+
+                        <div className="mt-4 flex justify-between text-xs text-gray-400">
+                            <button
+                                onClick={() => {
+                                    filter.setSelected(filter.items.map((i) => i.id));
+                                    scrollSectionToTop();
+                                }}
+                            >
+                                All
+                            </button>
+                            <button onClick={() => { filter.setSelected([]); scrollSectionToTop(); }}>
+                                Clear
+                            </button>
+                        </div>
+                    </>
+                )}
+
+                {filter.grouped && (
+                    <>
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                            {filter.order.map((type) => {
+                                const group = filter.grouped[type];
+                                if (!group) return null;
+
+                                return (
+                                    <div key={type}>
+                                        <h4 className="text-gray-400 mb-2">
+                                            {filter.labels[type]}
+                                        </h4>
+
+                                        <div className="flex flex-wrap gap-2">
+                                            {group.map((skill) => (
+                                                <button
+                                                    key={skill.id}
+                                                    onClick={() => {
+                                                        filter.setSelected((prev) =>
+                                                            toggleInList(prev, skill.id)
+                                                        );
+                                                        scrollSectionToTop();
+                                                    }}
+                                                    className={`px-3 py-1.5 rounded-lg border text-xs ${filter.selected.includes(skill.id)
+                                                        ? "section-control-active"
+                                                        : "section-control-idle"
+                                                        }`}
+                                                >
+                                                    {skill.title}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="mt-4 flex justify-end text-xs text-gray-400">
+                            <button onClick={() => { filter.setSelected([]); scrollSectionToTop(); }}>
+                                Clear
+                            </button>
+                        </div>
+                    </>
+                )}
+            </div>
+        );
+    };
+
+    const activeDropdownFilter = filters.find((filter) => filter.id === activeDropdownId) ?? null;
 
     return (
         <>
@@ -171,7 +310,7 @@ export default function FilterPanel({
 
             {/* Buttons container */}
             <div 
-                className={`flex gap-3 mb-4 items-center no-scrollbar ${needsStackLayout ? 'overflow-x-auto' : ''}`}
+                className={`flex gap-3 ${openDropdown ? 'mb-2' : 'mb-4'} items-center overflow-y-visible no-scrollbar ${needsStackLayout ? 'overflow-x-auto' : ''}`}
             >
                 {/* Label: shown only when everything fits in one row */}
                 {!needsStackLayout && (
@@ -221,109 +360,26 @@ export default function FilterPanel({
                 )}
             </div>
 
-            {/* DRAWERS */}
-            {filters.map((f) => {
-                if (openDropdown !== f.id) return null;
-
-                return (
+            {/* DRAWER */}
+            <AnimatedCollapse open={!!openDropdown} className="mb-6">
+                {activeDropdownFilter && (
                     <div
                         ref={drawerRef}
                         onClick={(e) => e.stopPropagation()}
-                        key={f.id}
-                        className="mb-6 border rounded-xl p-4 filter-drawer-scrollbar section-card-strong"
+                        className="relative z-10 border rounded-xl p-4 filter-drawer-scrollbar section-card-strong"
+                        style={{
+                            borderTopColor: 'var(--section-accent-border)',
+                            borderLeftColor: 'var(--section-accent-border)',
+                            borderRightColor: 'var(--section-accent-border)',
+                            borderBottomColor: 'var(--section-accent-border)',
+                            marginTop: 0,
+                            zIndex: 10
+                        }}
                     >
-                        {/* SIMPLE LIST */}
-                        {f.items && (
-                            <>
-                                <div className="flex flex-wrap gap-2">
-                                    {f.items.map((item) => {
-                                            const displayTitle = f.id && f.id.includes("acad")
-                                                ? (item.labels?.[0] ?? item.label ?? item.title)
-                                                : item.title;
-                                            return (
-                                                <button
-                                                    key={item.id}
-                                                    onClick={() => {
-                                                        f.setSelected((prev) =>
-                                                            toggleInList(prev, item.id)
-                                                        );
-                                                        scrollSectionToTop();
-                                                    }}
-                                                    className={`px-3 py-1.5 rounded-lg border text-sm ${f.selected.includes(item.id)
-                                                        ? "section-control-active"
-                                                        : "section-control-idle"
-                                                        }`}
-                                                >
-                                                    {displayTitle}
-                                                </button>
-                                            );
-                                        })}
-                                </div>
-
-                                <div className="mt-4 flex justify-between text-xs text-gray-400">
-                                    <button
-                                        onClick={() => {
-                                            f.setSelected(f.items.map((i) => i.id));
-                                            scrollSectionToTop();
-                                        }}
-                                    >
-                                        All
-                                    </button>
-                                    <button onClick={() => { f.setSelected([]); scrollSectionToTop(); }}>
-                                        Clear
-                                    </button>
-                                </div>
-                            </>
-                        )}
-
-                        {/* GROUPED (skills) */}
-                        {f.grouped && (
-                            <>
-                                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-                                    {f.order.map((type) => {
-                                        const group = f.grouped[type];
-                                        if (!group) return null;
-
-                                        return (
-                                            <div key={type}>
-                                                <h4 className="text-gray-400 mb-2">
-                                                    {f.labels[type]}
-                                                </h4>
-
-                                                <div className="flex flex-wrap gap-2">
-                                                    {group.map((skill) => (
-                                                        <button
-                                                            key={skill.id}
-                                                            onClick={() => {
-                                                                f.setSelected((prev) =>
-                                                                    toggleInList(prev, skill.id)
-                                                                );
-                                                                scrollSectionToTop();
-                                                            }}
-                                                            className={`px-3 py-1.5 rounded-lg border text-xs ${f.selected.includes(skill.id)
-                                                                ? "section-control-active"
-                                                                : "section-control-idle"
-                                                                }`}
-                                                        >
-                                                            {skill.title}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-
-                                <div className="mt-4 flex justify-end text-xs text-gray-400">
-                                    <button onClick={() => { f.setSelected([]); scrollSectionToTop(); }}>
-                                        Clear
-                                    </button>
-                                </div>
-                            </>
-                        )}
+                        {renderDropdownContent(activeDropdownFilter)}
                     </div>
-                );
-            })}
+                )}
+            </AnimatedCollapse>
 
             {/* CHIPS (now passed cleanly) */}
             {chips && <FilterChips {...chips} />}

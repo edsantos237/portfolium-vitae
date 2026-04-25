@@ -48,7 +48,7 @@ export const hobbies = [
             "This might be my oldest hobby, and making a living out of it was probably my first \"what I want to be when I grow up\".",
             {
                 type: "image",
-                path: "drawing_moon.jpg"
+                path: "drawing_dragon.jpg"
             }
         ]
     },

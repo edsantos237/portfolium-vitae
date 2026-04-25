@@ -37,6 +37,7 @@ export default function ProjectCard({
   orderedSkills,
   companies,
   schools,
+  onProjectClick,
 }) {
   const dateLabel = formatRange(project.date);
 
@@ -71,7 +72,13 @@ export default function ProjectCard({
   });
 
   return (
-    <div className="p-4 rounded-lg border h-full flex flex-col section-card">
+    <div
+      className="p-4 rounded-lg border h-full flex flex-col section-card cursor-pointer transition-colors section-soft-hover"
+      onClick={() => onProjectClick?.(project.id)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onProjectClick?.(project.id); }}
+    >
       
       {/* HEADER */}
       <div className="mb-2">
@@ -101,13 +108,19 @@ export default function ProjectCard({
         </div>
       )}
 
-      {/* DESCRIPTION */}
-      <div className="text-sm text-gray-400 mb-4 space-y-1 flex-1">
-        {Array.isArray(project.description)
-          ? project.description.map((line, idx) => (
-              <p key={idx}>{line}</p>
-            ))
-          : <p>{project.description}</p>}
+      {/* SUMMARY */}
+      <div className="mb-4 flex-1">
+        {project.summary && typeof project.summary === "object" && project.summary.type === "image" ? (
+          <img
+            src={`res/${project.summary.path}`}
+            alt={project.title}
+            className="w-full rounded-lg object-contain max-h-48"
+            style={{display: 'block', margin: '0 auto'}}
+            loading="lazy"
+          />
+        ) : (
+          <p className="text-sm text-gray-400">{project.summary}</p>
+        )}
       </div>
 
       {/* SKILLS */}

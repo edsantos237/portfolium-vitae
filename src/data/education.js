@@ -16,7 +16,30 @@ export const schools = [
         date: {
             start: "2016-09",
             end: "2022-03"
-        }
+        },
+        description: [
+            {
+                type: "button",
+                icon: {
+                    type: "file",
+                    value: "uminho.jpg"
+                },
+                label: "Website",
+                link: "https://www.uminho.pt/EN"
+            },
+            {
+                type: "button",
+                icon: {
+                    type: "file",
+                    value: "uminho.jpg"
+                },
+                label: "Master's Dissertation",
+                link: {
+                    type: "projects",
+                    project: "dissertation",
+                }
+            }
+        ]
     },
     {
         id: "high_school",
@@ -35,7 +58,18 @@ export const schools = [
         date: {
             start: "2013-09",
             end: "2016-06"
-        }
+        },
+        description: [
+            {
+                type: "button",
+                icon: {
+                    type: "file",
+                    value: "aesancho.png"
+                },
+                label: "Website",
+                link: "https://aesancho.pt/"
+            }
+        ]
     },
     {
         id: "basic_school",
@@ -53,7 +87,18 @@ export const schools = [
         date: {
             start: "2008-09",
             end: "2013-06"
-        }
+        },
+        description: [
+            {
+                type: "button",
+                icon: {
+                    type: "file",
+                    value: "eb23ribeirao.png"
+                },
+                label: "Website",
+                link: "https://eb23-ribeirao.pt/"
+            }
+        ]
     },
     {
         id: "primary_school",

@@ -18,7 +18,7 @@ function calculateAge(birthdate) {
   return age;
 }
 
-export default function About({ isActive, onShowProjectFilters, onShowActivity }) {
+export default function About({ isActive, onShowProjectFilters, onShowActivity, onProjectLink }) {
   const age = calculateAge(about.birthdate);
   const [openStrength, setOpenStrength] = useState(null);
   const sectionTheme = getSectionTheme("about-me");
@@ -91,6 +91,7 @@ export default function About({ isActive, onShowProjectFilters, onShowActivity }
             hobbies={hobbies}
             onShowProjectFilters={onShowProjectFilters}
             onShowActivity={onShowActivity}
+            onProjectLink={onProjectLink}
           />
 
           <div className="border rounded-xl p-5 section-card" style={{ scrollMarginTop: '10rem' }}>

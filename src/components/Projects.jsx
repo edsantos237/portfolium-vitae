@@ -10,7 +10,7 @@ import FilterPanel from "./FilterPanel";
 import Icon from "./Icon";
 import { getSectionTheme } from "../config/sections";
 
-export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany, setFocusedCompany, focusedActivity, setFocusedActivity, focusedProjectFilters, setFocusedProjectFilters, focusedAcademic, setFocusedAcademic, isActive }) {
+export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany, setFocusedCompany, focusedActivity, setFocusedActivity, focusedProjectFilters, setFocusedProjectFilters, focusedAcademic, setFocusedAcademic, isActive, onProjectClick }) {
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const [selectedProfessional, setSelectedProfessional] = useState([]);
@@ -274,6 +274,7 @@ export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany
             orderedSkills={renderProjectSkills(project)}
             companies={companies}
             schools={schools}
+            onProjectClick={onProjectClick}
           />
         ))}
       </div>

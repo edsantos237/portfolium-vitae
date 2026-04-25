@@ -5,7 +5,7 @@ import { projects } from "../data/projects";
 import EducationCard from "./EducationCard";
 import VerticalTimeline from "./VerticalTimeline";
 
-export default function Education({ isActive, onShowProjects }) {
+export default function Education({ isActive, onShowProjects, onProjectLink }) {
   const sectionTheme = getSectionTheme("education");
   const single = schools.length === 1;
   const [selectedId, setSelectedId] = useState(null);
@@ -98,6 +98,7 @@ export default function Education({ isActive, onShowProjects }) {
                   showProjectsButton={isEntryOpen && projectCount > 0}
                   projectCount={projectCount}
                   onShowProjects={() => onShowProjects && onShowProjects(school.id)}
+                  onProjectLink={onProjectLink}
                 />
               </div>
             );

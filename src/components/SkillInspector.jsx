@@ -46,9 +46,10 @@ export default function SkillInspector({ skill, usage, onShowProjects }) {
                 {usage.professional.map((item) => (
                   <span
                     key={item.id}
-                    className="px-2 py-1 rounded border text-xs section-chip"
+                    className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
                   >
-                    {item.label}
+                    {item.icon && <Icon icon={item.icon} />}
+                    {item.title ?? item.label}
                   </span>
                 ))}
               </div>
@@ -66,9 +67,10 @@ export default function SkillInspector({ skill, usage, onShowProjects }) {
                 {usage.academic.map((item) => (
                   <span
                     key={item.id}
-                    className="px-2 py-1 rounded border text-xs section-chip"
+                    className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
                   >
-                    {item.label}
+                    {item.icon && <Icon icon={item.icon} />}
+                    {item.labels?.[0] ?? item.label ?? item.title}
                   </span>
                 ))}
               </div>
@@ -76,6 +78,17 @@ export default function SkillInspector({ skill, usage, onShowProjects }) {
               <p className="text-xs text-gray-500">None</p>
             )}
           </div>
+
+          {usage?.personal?.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold text-gray-200 mb-2">
+                Personal
+              </h4>
+              <span className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                Personal
+              </span>
+            </div>
+          )}
         </div>
 
         <ShowProjectsButton onClick={() => onShowProjects(skill.id)} />
