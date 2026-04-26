@@ -62,6 +62,7 @@ export const projects = [
             path: "nyxium_horiz.jpg"
         },
         description: [
+            "Mobile app with clock and compass to display the orientation of celestial bodies, with astronomy and astrology (with birth chart) modes.",            
             {
                 type: "image",
                 path: "nyxium_horiz.jpg"
@@ -69,8 +70,7 @@ export const projects = [
             {
                 type: "image",
                 path: "nyxium_astrol.jpg"
-            },
-            "Mobile app with clock and compass to display the orientation of celestial bodies, with astronomy and astrology (with birth chart) modes."
+            }
         ]
     },
     {
@@ -936,7 +936,7 @@ export const projects = [
         ]
     },
     {
-        id: "mp2_1",
+        id: "mp1_1",
         title: "Morse dictionary decoder",
         grade: {
             value: 13,
