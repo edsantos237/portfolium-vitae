@@ -3,7 +3,7 @@ import { IoPerson } from "react-icons/io5";
 export default function Icon({ icon, className = "w-5 h-5" }) {
   if (!icon) return null;
 
-  // Simple string aliases (e.g. "user") -> map to a react icon
+  // Plain string: either an alias or a file path (relative to public/res)
   if (typeof icon === "string") {
     const map = {
       user: IoPerson,
@@ -11,7 +11,14 @@ export default function Icon({ icon, className = "w-5 h-5" }) {
     };
     const Component = map[icon];
     if (Component) return <Component className={className} />;
-    return null;
+    // Treat as a file path relative to public/res
+    return (
+      <img
+        src={`res/${icon}`}
+        alt=""
+        className={`${className} object-contain`}
+      />
+    );
   }
 
   // If a raw React component was passed directly

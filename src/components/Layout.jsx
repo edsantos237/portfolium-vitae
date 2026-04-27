@@ -18,6 +18,7 @@ import { heroBackgroundStyle } from "../config/heroTheme";
 
 export default function Layout() {
   const [activeSection, setActiveSection] = useState(sections[0].id);
+  const sectionIds = new Set(sections.map((s) => s.id));
   const [isPastHero, setIsPastHero] = useState(false);
   const [isManualScrolling, setIsManualScrolling] = useState(false);
   const [focusedSkill, setFocusedSkill] = useState(null);
@@ -157,18 +158,17 @@ export default function Layout() {
     setTimeout(() => setSelectedProjectId(projectId), 420);
   };
 
-  // Generic handler for link objects that point to projects/activities
+  // Generic handler for link objects that point to projects/activities/sections
   const handleProjectLink = (link) => {
     if (!link) return;
     if (typeof link === "string") {
-      // fallback: open external links in new tab
       window.open(link, "_blank");
       return;
     }
 
     if (link.type === "projects") {
-      if (link.project) {
-        showProject(link.project);
+      if (link.entry) {
+        showProject(link.entry);
         return;
       }
       if (link.filters) {
@@ -177,8 +177,30 @@ export default function Layout() {
       }
     }
 
-    if (link.type === "activities" && link.activity) {
-      showProjectsForActivity(link.activity);
+    if (link.type === "activities" && link.entry) {
+      showActivityById(link.entry);
+      return;
+    }
+
+    if (link.type === "skills") {
+      const filters = link.filters || [];
+      setFocusedSkillFilters({
+        professional: filters.filter((f) => f !== "personal" && f !== "featured"),
+        academic: [],
+        personal: filters.includes("personal"),
+        featured: filters.includes("featured"),
+      });
+      jumpTo("skills");
+      return;
+    }
+
+    if (link.type === "experience") {
+      jumpTo("experience");
+      return;
+    }
+
+    if (link.type === "education") {
+      jumpTo("education");
       return;
     }
   };
@@ -248,6 +270,7 @@ export default function Layout() {
 
         {/* MAIN CONTENT */}
         <main className="w-full pb-6">
+            {sectionIds.has("about-me") && (
             <section id="about-me" style={getSectionSurfaceStyle("about-me")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <About
@@ -258,7 +281,9 @@ export default function Layout() {
                 />
               </div>
             </section>
+            )}
 
+            {sectionIds.has("skills") && (
             <section id="skills" style={getSectionSurfaceStyle("skills")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Skills
@@ -271,19 +296,25 @@ export default function Layout() {
                 />
               </div>
             </section>
+            )}
 
+            {sectionIds.has("experience") && (
             <section id="experience" style={getSectionSurfaceStyle("experience")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Experience isActive={activeSection === "experience"} onShowProjects={showProjectsForCompany} onShowSkills={showSkillsForCompany} onProjectLink={handleProjectLink} />
               </div>
             </section>
+            )}
 
+            {sectionIds.has("education") && (
             <section id="education" style={getSectionSurfaceStyle("education")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Education isActive={activeSection === "education"} onShowProjects={showProjectsForAcademic} onShowSkills={showSkillsForAcademic} onProjectLink={handleProjectLink} />
               </div>
             </section>
+            )}
 
+            {sectionIds.has("projects") && (
             <section id="projects" style={getSectionSurfaceStyle("projects")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Projects
@@ -297,13 +328,17 @@ export default function Layout() {
                 />
               </div>
             </section>
+            )}
 
+            {sectionIds.has("publications") && (
             <section id="publications" style={getSectionSurfaceStyle("publications")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Publications isActive={activeSection === "publications"} />
               </div>
             </section>
+            )}
 
+            {sectionIds.has("activities") && (
             <section id="activities" style={getSectionSurfaceStyle("activities")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Activities
@@ -315,7 +350,9 @@ export default function Layout() {
                 />
               </div>
             </section>
+            )}
 
+            {sectionIds.has("contact") && (
             <section id="contact" style={getSectionSurfaceStyle("contact")} className="px-6 lg:px-10 py-20 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Contact
@@ -325,6 +362,7 @@ export default function Layout() {
                 />
               </div>
             </section>
+            )}
         </main>
       </div>
 

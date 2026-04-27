@@ -1,7 +1,50 @@
 import { useEffect, useRef, useState } from "react";
+import React from "react";
 import { getSectionStyleVars, sections } from "../config/sections";
 import { heroBackgroundStyle } from "../config/heroTheme";
-import { about } from "../data/about";
+import { cover } from "@datapack/cover";
+import Icon from "./Icon";
+
+function renderHeadlineItem(item, idx, onJump) {
+  if (typeof item === "string") return <span key={idx}>{item}</span>;
+  if (React.isValidElement(item)) return <span key={idx}>{item}</span>;
+  if (item && typeof item === "object" && item.type === "button") {
+    const link = item.link;
+    if (link && typeof link === "object") {
+      const target = link.type;
+      return (
+        <button
+          key={idx}
+          type="button"
+          onClick={() => {
+            if (target === "experience" || target === "education" || target === "projects" || target === "activities" || target === "skills") {
+              onJump(target);
+            }
+          }}
+          className="inline-flex items-center gap-1 px-3 py-1 rounded border text-sm section-control-idle"
+        >
+          {item.icon && <Icon icon={item.icon} className="w-4 h-4" />}
+          {item.label}
+        </button>
+      );
+    }
+    if (typeof link === "string") {
+      return (
+        <a
+          key={idx}
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 px-3 py-1 rounded border text-sm section-control-idle"
+        >
+          {item.icon && <Icon icon={item.icon} className="w-4 h-4" />}
+          {item.label}
+        </a>
+      );
+    }
+  }
+  return null;
+}
 
 export default function Cover({ activeSection, onJump }) {
   const sectionRef = useRef(null);
@@ -62,8 +105,8 @@ export default function Cover({ activeSection, onJump }) {
         <div ref={contentRef} className="w-full">
           <div className="flex justify-center mb-6">
             <img
-              src={about.picture}
-              alt={about.name}
+              src={`res/${cover.picture}`}
+              alt={cover.name}
               className="w-40 h-40 sm:w-52 sm:h-52 rounded-3xl object-contain shadow-2xl"
             />
           </div>
@@ -73,17 +116,16 @@ export default function Cover({ activeSection, onJump }) {
           </p>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
-            {about.name}
+            {cover.name}
           </h1>
 
-          <p className="mt-4 text-lg text-gray-300">
-            {about.headline_long.map((line, idx) => (
-              <span key={idx}>
-                {line}
-                {idx < about.headline_long.length - 1 && <br />}
-              </span>
+          <div className="mt-4 text-lg text-gray-300 flex flex-col items-center gap-1">
+            {cover.headline_long.map((item, idx) => (
+              <div key={idx}>
+                {renderHeadlineItem(item, idx, onJump)}
+              </div>
             ))}
-          </p>
+          </div>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {sections

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getSectionStyleVars, getSectionTheme, sections } from "../config/sections";
 import { heroBackgroundStyle } from "../config/heroTheme";
-import { about } from "../data/about";
+import { cover } from "@datapack/cover";
 
 export default function SidebarNav({ activeSection, visible, onJump }) {
 
@@ -52,15 +52,21 @@ export default function SidebarNav({ activeSection, visible, onJump }) {
 
       <div className="relative z-10 sticky top-0 flex w-full flex-col items-center gap-5 pt-6">
         <img
-          src={about.picture}
-          alt={about.name}
+          src={`res/${cover.picture}`}
+          alt={cover.name}
           className="w-20 h-20 rounded-2xl object-contain"
         />
 
         <div>
-          <h2 className="text-lg font-semibold">{about.name}</h2>
+          <h2 className="text-lg font-semibold">{cover.name}</h2>
           <p className="text-sm text-gray-400">
-            {about.headline_short?.[0] ?? ""}
+            {(() => {
+              const item = cover.headline_short?.[0];
+              if (!item) return "";
+              if (typeof item === "string") return item;
+              if (item && typeof item === "object" && item.label) return item.label;
+              return "";
+            })()}
           </p>
         </div>
 

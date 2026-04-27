@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getSectionTheme } from "../config/sections";
-import { activities } from "../data/activities";
-import { companies } from "../data/experience";
-import { schools } from "../data/education";
-import { projects } from "../data/projects";
+import { activities } from "@datapack/activities";
+import { companies } from "@datapack/experience";
+import { schools } from "@datapack/education";
+import { projects } from "@datapack/projects";
 import AnimatedCollapse from "./AnimatedCollapse";
 import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";

@@ -2,10 +2,10 @@ import SkillCategory from "./SkillCategory";
 import FilterPanel from "./FilterPanel";
 import { useState, useRef, useMemo, useEffect } from "react";
 import { getSectionTheme } from "../config/sections";
-import { skills, categories, getSkillCategoryId } from "../data/skills";
-import { projects } from "../data/projects";
-import { companies } from "../data/experience";
-import { schools } from "../data/education";
+import { skills, categories, getSkillCategoryId } from "@datapack/skills";
+import { projects } from "@datapack/projects";
+import { companies } from "@datapack/experience";
+import { schools } from "@datapack/education";
 
 export default function Skills({ onShowProjects, isActive, isPrevious = false, activeAccentLine, focusFilters = null, onClearFocusFilters }) {
     const sectionTheme = getSectionTheme("skills");

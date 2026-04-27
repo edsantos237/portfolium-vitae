@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { getSectionTheme } from "../config/sections";
-import { schools } from "../data/education";
-import { projects } from "../data/projects";
-import { skills } from "../data/skills";
+import { schools } from "@datapack/education";
+import { projects } from "@datapack/projects";
+import { skills } from "@datapack/skills";
 import EducationCard from "./EducationCard";
 import VerticalTimeline from "./VerticalTimeline";
 

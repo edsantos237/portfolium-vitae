@@ -1,7 +1,7 @@
-export const HERO_BG_IMAGE = "res/54Y2I.jpg";
+import { cover } from "@datapack/cover";
 
 export const heroBackgroundStyle = {
-  backgroundImage: `url("${HERO_BG_IMAGE}")`,
+  backgroundImage: `url("res/${cover.background}")`,
   backgroundSize: "cover",
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",

@@ -1,8 +1,9 @@
 import Icon from "./Icon";
 import ShowProjectsButton from "./ShowProjectsButton";
-import { getSkillCategoryTitle } from "../data/skills";
+import { getSkillCategoryTitle } from "@datapack/skills";
+import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
 
-export default function SkillInspector({ skill, usage, onShowProjects }) {
+export default function SkillInspector({ skill, usage, onShowProjects, onProjectLink }) {
   if (!skill) {
     return (
       <aside className="lg:sticky lg:top-24">
@@ -93,6 +94,12 @@ export default function SkillInspector({ skill, usage, onShowProjects }) {
         </div>
 
         <ShowProjectsButton onClick={() => onShowProjects(skill.id)} />
+
+        {skill.description?.length > 0 && (
+          <div className="space-y-2 text-sm text-gray-300 border-t pt-4" style={{ borderColor: "var(--section-control-border)" }}>
+            {renderGroups(groupDescriptionItems(skill.description), `skill-desc-${skill.id}`, onProjectLink ?? onShowProjects)}
+          </div>
+        )}
       </div>
     </aside>
   );

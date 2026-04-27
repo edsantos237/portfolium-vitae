@@ -1,7 +1,7 @@
-import { publications } from "../data/publications";
+import { publications } from "@datapack/publications";
 import { getSectionTheme } from "../config/sections";
-import { companies } from "../data/experience";
-import { schools } from "../data/education";
+import { companies } from "@datapack/experience";
+import { schools } from "@datapack/education";
 import Icon from "./Icon";
 
 function renderDate(date) {
@@ -102,9 +102,9 @@ export default function Publications({ isActive }) {
             )}
 
             <div className="text-sm text-gray-400 mb-4 flex-1">
-              {Array.isArray(pub.description)
-                ? pub.description.map((d, i) => <p key={i}>{d}</p>)
-                : <p>{pub.description}</p>}
+              {Array.isArray(pub.summary)
+                ? pub.summary.map((d, i) => <p key={i}>{d}</p>)
+                : <p>{pub.summary}</p>}
             </div>
 
             {pub.links && pub.links.length > 0 && (

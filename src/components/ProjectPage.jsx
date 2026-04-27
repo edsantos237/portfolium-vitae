@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { getSectionTheme, getSectionStyleVars } from "../config/sections";
-import { companies } from "../data/experience";
-import { schools } from "../data/education";
-import { skills, categories, getSkillCategoryId } from "../data/skills";
-import { projects } from "../data/projects";
+import { companies } from "@datapack/experience";
+import { schools } from "@datapack/education";
+import { skills, categories, getSkillCategoryId } from "@datapack/skills";
+import { projects } from "@datapack/projects";
 import { formatRange } from "../utils/dateFormat";
 import Icon from "./Icon";
 import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";

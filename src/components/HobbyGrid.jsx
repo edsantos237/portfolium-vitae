@@ -234,7 +234,7 @@ export default function HobbyGrid({
     }
 
     if (link.type === "activities") {
-      onShowActivity?.(link.activity);
+      onShowActivity?.(link.entry);
       setTimeout(() => scrollSectionToTop("activities"), 0);
       return;
     }
@@ -381,7 +381,7 @@ export default function HobbyGrid({
               </div>
 
               <div className="space-y-3">
-                {(hobby.details || []).map((detail, index) =>
+                {(hobby.description || []).map((detail, index) =>
                   renderDetail(detail, hobby, index)
                 )}
               </div>

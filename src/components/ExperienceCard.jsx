@@ -142,6 +142,11 @@ export default function ExperienceCard({ company, open, onToggle, forceOpen, rol
                   {role.title}
                 </h4>
 
+                {/* ROLE DEPARTMENT (if different from company) */}
+                {role.department && (
+                  <p className="text-xs text-gray-400">{role.department}</p>
+                )}
+
                 {/* DATES */}
                 <p className="text-xs text-gray-400">
                   {formatDate(role.date)}
@@ -149,125 +154,9 @@ export default function ExperienceCard({ company, open, onToggle, forceOpen, rol
 
                 {/* DESCRIPTION */}
                 {Array.isArray(role.description) ? (
-                  role.description.map((line, idx) => {
-                    if (typeof line === "string") {
-                      return (
-                        <p key={idx} className="text-sm text-gray-300">
-                          {line}
-                        </p>
-                      );
-                    }
-
-                    if (!line || typeof line !== "object") return null;
-
-                    // media items
-                    if (["image", "video", "youtube"].includes(line.type)) {
-                      if (line.type === "image") {
-                        return (
-                          <img
-                            key={idx}
-                            src={`res/${line.path}`}
-                            alt={line.alt || ""}
-                            className="w-full rounded-lg object-contain max-h-[20rem]"
-                            loading="lazy"
-                          />
-                        );
-                      }
-
-                      if (line.type === "video") {
-                        return (
-                          <video key={idx} className="w-full rounded-lg" controls preload="metadata">
-                            <source src={`res/${line.path}`} />
-                          </video>
-                        );
-                      }
-
-                      if (line.type === "youtube") {
-                        return (
-                          <iframe
-                            key={idx}
-                            src={line.link}
-                            className="w-full aspect-video rounded-lg"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            loading="lazy"
-                            title={`Video ${idx}`}
-                          />
-                        );
-                      }
-                    }
-
-                    // button
-                    if (line.type === "button") {
-                      const link = line.link;
-
-                      // link to internal projects (object)
-                      if (link && typeof link === "object" && link.type === "projects") {
-                        return (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => onProjectLink?.(link)}
-                            className="inline-block w-fit rounded border px-3 py-2 text-xs font-normal transition section-accent-button"
-                          >
-                            <span className="flex items-center gap-2">
-                              {line.icon ? (
-                                <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-gray-300">
-                                  <Icon icon={line.icon} className="w-4 h-4" />
-                                </span>
-                              ) : null}
-                              <span>{line.label}</span>
-                            </span>
-                          </button>
-                        );
-                      }
-
-                      // generic object link (let parent handler decide) -> call onProjectLink
-                      if (link && typeof link === "object") {
-                        return (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => onProjectLink?.(link)}
-                            className="inline-block w-fit rounded border px-3 py-2 text-xs font-normal transition section-accent-button"
-                          >
-                            <span className="flex items-center gap-2">
-                              {line.icon ? (
-                                <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-gray-300">
-                                  <Icon icon={line.icon} className="w-4 h-4" />
-                                </span>
-                              ) : null}
-                              <span>{line.label}</span>
-                            </span>
-                          </button>
-                        );
-                      }
-
-                      // string URL -> regular anchor
-                      if (typeof link === "string") {
-                        return (
-                          <a
-                            key={idx}
-                            href={link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block w-fit rounded border px-3 py-2 text-xs font-normal transition section-accent-button"
-                          >
-                            <span className="flex items-center gap-2">
-                              {line.icon ? (
-                                <span className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-gray-300">
-                                  <Icon icon={line.icon} className="w-4 h-4" />
-                                </span>
-                              ) : null}
-                              <span>{line.label}</span>
-                            </span>
-                          </a>
-                        );
-                      }
-                    }
-
-                    return null;
-                  })
+                  <div className="space-y-1">
+                    {renderGroups(groupDescriptionItems(role.description), `role-desc-${company.id}-${i}`, onProjectLink)}
+                  </div>
                 ) : (
                   <p className="text-sm text-gray-300">{role.description}</p>
                 )}

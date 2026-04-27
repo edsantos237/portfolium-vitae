@@ -1,10 +1,11 @@
-import { about } from "../data/about";
-import { hobbies } from "../data/hobbies";
-import { strengths } from "../data/strengths";
-import { languages } from "../data/languages";
+import { about } from "@datapack/about";
+import { hobbies } from "@datapack/hobbies";
+import { strengths } from "@datapack/strengths";
+import { languages } from "@datapack/languages";
 import { getSectionTheme } from "../config/sections";
 import { useState } from "react";
 import HobbyGrid from "./HobbyGrid";
+import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
 
 function calculateAge(birthdate) {
   if (!birthdate) return null;
@@ -46,9 +47,7 @@ export default function About({ isActive, onShowProjectFilters, onShowActivity, 
           <div className="md:col-span-2 border rounded-xl p-5 section-card" style={{ scrollMarginTop: '10rem' }}>
             <h3 className="text-lg font-semibold mb-4 text-gray-300">Who am I?</h3>
             <div className="text-gray-300 space-y-3">
-              {about.summary.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
+              {renderGroups(groupDescriptionItems(about.description || []), "about-desc", onProjectLink)}
             </div>
           </div>
 

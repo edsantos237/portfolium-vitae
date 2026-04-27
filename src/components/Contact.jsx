@@ -1,5 +1,5 @@
 import Icon from "./Icon";
-import { contact } from "../data/contact";
+import { contact } from "@datapack/contact";
 import { getSectionTheme } from "../config/sections";
 
 export default function Contact({ isActive, isPrevious = false, activeAccentLine }) {

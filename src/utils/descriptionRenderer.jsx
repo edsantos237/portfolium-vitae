@@ -72,7 +72,7 @@ function renderInlineHtml(text, keyPrefix) {
 export function getItemGroup(item) {
   if (typeof item === "string") return "text";
   if (!item || typeof item !== "object") return "text";
-  if (["image", "video", "youtube", "pdf"].includes(item.type)) return "media";
+  if (["image", "video", "youtube", "pdf", "spotify", "bandcamp"].includes(item.type)) return "media";
   if (item.type === "button") return "button";
   return "text";
 }
@@ -144,6 +144,34 @@ export function renderMediaItem(item, key, opts = {}) {
           </a>
         </div>
       </div>
+    );
+  }
+
+  if (item.type === "spotify") {
+    return (
+      <iframe
+        key={key}
+        src={item.link}
+        className="w-full rounded-lg"
+        style={{ height: compact ? "80px" : "152px" }}
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+        title={`Spotify ${key}`}
+      />
+    );
+  }
+
+  if (item.type === "bandcamp") {
+    return (
+      <iframe
+        key={key}
+        src={item.link}
+        className="w-full rounded-lg"
+        style={{ height: compact ? "120px" : "241px" }}
+        seamless
+        loading="lazy"
+        title={`Bandcamp ${key}`}
+      />
     );
   }
 
