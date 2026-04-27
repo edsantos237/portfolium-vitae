@@ -353,7 +353,7 @@ export const skills = [
         id: "pascal",
         title: "Pascal",
         icon: FaCode,
-        tags: ["featured", "language", "high_school"]
+        tags: ["language", "high_school"]
     },
     {
         id: "photoshop",
