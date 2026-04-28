@@ -223,12 +223,36 @@ export function renderFlatButtons(items, keyPrefix, onProjectLink) {
   });
 }
 
+const HEADING_CLASSES = {
+  h1: "text-base font-semibold text-white",
+  h2: "text-sm font-semibold text-white",
+  h3: "text-sm font-medium text-gray-100",
+  h4: "text-sm font-medium text-gray-200",
+  h5: "text-sm font-medium text-gray-300",
+  h6: "text-sm text-gray-300",
+};
+
 export function renderGroups(groups, keyPrefix, onProjectLink, opts = {}) {
   return groups.map((group, gi) => {
     if (group.type === "text") {
+      const item = group.items[0];
+      const key = `${keyPrefix}-text-${gi}`;
+
+      if (typeof item === "string") {
+        const headingMatch = item.match(/^<(h[1-6])\b[^>]*>([\s\S]*?)<\/\1>\s*$/i);
+        if (headingMatch) {
+          const tag = headingMatch[1].toLowerCase();
+          return React.createElement(
+            tag,
+            { key, className: HEADING_CLASSES[tag] },
+            renderInlineHtml(headingMatch[2], key)
+          );
+        }
+      }
+
       return (
-        <p key={`${keyPrefix}-text-${gi}`} className="text-sm text-gray-300">
-          {renderInlineHtml(group.items[0], `${keyPrefix}-text-${gi}`)}
+        <p key={key} className="text-sm text-gray-300">
+          {renderInlineHtml(item, key)}
         </p>
       );
     }
