@@ -70,7 +70,7 @@ export const projects = [
     {
         id: "texpact",
         title: "TEXP@CT - Innovation Pact for the Digitalization of Textiles and Clothing",
-        tags: ["ccg", "android", "ar", "backend", "csharp", "js", "mobile", "networking", "nodejs", "unity", "webrtc", "websocket", "xr"],
+        tags: ["ccg", "android", "ar", "backend", "csharp", "http", "js", "mobile", "networking", "nodejs", "unity", "webrtc", "websocket", "xr"],
         date: {
             start: "2024-09",
             end: null
@@ -107,7 +107,7 @@ export const projects = [
     {
         id: "ecp",
         title: "ECP - Ecoceramics and Crystalware of Portugal",
-        tags: ["featured", "ccg", "android", "ar", "arfoundation", "backend", "csharp", "js", "mobile", "networking", "nodejs", "unity", "windows", "xr"],
+        tags: ["featured", "ccg", "android", "ar", "arfoundation", "backend", "csharp", "http", "js", "mobile", "networking", "nodejs", "unity", "windows", "xr"],
         date: {
             start: "2023-12",
             end: null
@@ -146,7 +146,7 @@ export const projects = [
     {
         id: "hfpt",
         title: "HfPT - Health from Portugal",
-        tags: ["featured", "ccg", "android", "ar", "arfoundation", "backend", "csharp", "js", "mobile", "networking", "nodejs", "unity", "webgl", "webrtc", "websocket", "windows", "xr"],
+        tags: ["featured", "ccg", "android", "ar", "arfoundation", "backend", "csharp", "http", "js", "mobile", "networking", "nodejs", "unity", "webgl", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2023-10",
             end: null
@@ -193,7 +193,7 @@ export const projects = [
     {
         id: "openlabs",
         title: "OpenLabs - Open Pilot Labs Network",
-        tags: ["ccg", "backend", "csharp", "js", "linux", "ml", "networking", "nodejs", "unity", "webrtc", "websocket"],
+        tags: ["ccg", "backend", "csharp", "http", "js", "linux", "ml", "networking", "nodejs", "unity", "webrtc", "websocket"],
         date: {
             start: "2024-06",
             end: "2024-07"
@@ -236,7 +236,7 @@ export const projects = [
     {
         id: "cmms",
         title: "Cognitive CMMS - Cognitive Computerized Maintenance Management System",
-        tags: ["ccg", "arfoundation", "android", "ar", "backend", "csharp", "firebase", "js", "mobile", "networking", "nodejs", "webgl", "webrtc", "websocket", "xr"],
+        tags: ["ccg", "arfoundation", "android", "ar", "backend", "csharp", "firebase", "http", "js", "mobile", "networking", "nodejs", "webgl", "webrtc", "websocket", "xr"],
         date: {
             start: "2021-06",
             end: "2023-06"
@@ -259,7 +259,7 @@ export const projects = [
     {
         id: "i2am",
         title: "I2AM: Intelligent Immersive Aircraft Modification",
-        tags: ["ccg", "ar", "backend", "csharp", "js", "networking", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
+        tags: ["ccg", "ar", "backend", "csharp", "http", "js", "networking", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2022-03",
             end: "2023-08"
@@ -281,7 +281,7 @@ export const projects = [
     {
         id: "admin",
         title: "ADM.IN: Advanced Decision Making IN Productive Systems Through Intelligent Networks",
-        tags: ["featured", "ccg", "ar", "backend", "csharp", "js", "networking", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
+        tags: ["featured", "ccg", "ar", "backend", "csharp", "http", "js", "networking", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2022-09",
             end: "2023-07"
@@ -304,7 +304,7 @@ export const projects = [
     {
         id: "tsim",
         title: "TSIM - Test System Intelligent Machines",
-        tags: ["ccg", "backend", "ar", "aspnet", "csharp", "frontend", "js", "nestjs", "networking", "nextjs", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
+        tags: ["ccg", "backend", "ar", "aspnet", "csharp", "frontend", "js", "http", "nestjs", "networking", "nextjs", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2021-05",
             end: "2023-10"
@@ -337,7 +337,7 @@ export const projects = [
             value: 19,
             range: 20
         },
-        tags: ["featured", "university", "android", "ar", "arfoundation", "backend", "csharp", "frontend", "fullstack", "gamedev", "js", "mapbox", "mobile", "mysql", "networking", "nodejs", "reactjs", "sql", "unity", "xr"],
+        tags: ["featured", "university", "android", "ar", "arfoundation", "backend", "csharp", "frontend", "fullstack", "gamedev", "http", "js", "mapbox", "mobile", "mysql", "networking", "nodejs", "reactjs", "sql", "unity", "xr"],
         date: {
             start: "2020-09",
             end: "2022-03"
@@ -355,7 +355,7 @@ export const projects = [
     {
         id: "fof",
         title: "Factory of the Future: Smart Manufacturing / P51 - Training for operators with new methodologies",
-        tags: ["featured", "ccg", "ar", "backend", "csharp", "mysql", "sql", "unity", "webgl", "vr", "xr"],
+        tags: ["featured", "ccg", "ar", "backend", "csharp", "http", "mysql", "sql", "unity", "webgl", "vr", "xr"],
         date: {
             start: "2021-08",
             end: "2022-01"
@@ -395,7 +395,7 @@ export const projects = [
             value: 19,
             range: 20
         },
-        tags: ["featured", "university", "android", "ar", "cardboard", "csharp", "mobile", "sql", "unity", "vuforia", "vr", "xr"],
+        tags: ["featured", "university", "android", "ar", "cardboard", "csharp", "http", "mobile", "sql", "unity", "vuforia", "vr", "xr"],
         date: {
             start: "2020-09",
             end: "2021-02"
@@ -411,7 +411,7 @@ export const projects = [
             value: 18.53,
             range: 20
         },
-        tags: ["featured", "university", "android", "androidstudio", "firebase", "java", "ml", "mobile", "python", "tensorflow"],
+        tags: ["featured", "university", "android", "androidstudio", "firebase", "http", "java", "ml", "mobile", "python", "tensorflow"],
         date: {
             start: "2020-09",
             end: "2021-01"
@@ -429,7 +429,7 @@ export const projects = [
     {
         id: "edshot",
         title: "edShot",
-        tags: ["personal", "backend", "android", "androidstudio", "ar", "gamedev", "java", "mobile", "networking", "tensorflow", "xr"],
+        tags: ["personal", "backend", "android", "androidstudio", "ar", "gamedev", "java", "mobile", "networking", "tcp", "tensorflow", "udp", "xr"],
         date: {
             start: "2019-07",
             end: "2020-09"
@@ -446,7 +446,7 @@ export const projects = [
             value: 17.0,
             range: 20
         },
-        tags: ["university", "backend", "java", "linux", "networking"],
+        tags: ["university", "backend", "java", "linux", "networking", "udp", "tcp"],
         date: {
             start: "2020-05",
             end: "2020-07"
@@ -478,7 +478,7 @@ export const projects = [
             value: 19,
             range: 20
         },
-        tags: ["featured", "university", "backend", "core", "iot", "java", "linux", "mysql", "networking", "python", "sql"],
+        tags: ["featured", "university", "backend", "core", "iot", "java", "http", "linux", "mysql", "networking", "python", "sql", "tcp", "udp"],
         date: {
             start: "2020-02",
             end: "2020-06"
@@ -534,7 +534,7 @@ export const projects = [
             value: 15.0,
             range: 20
         },
-        tags: ["university", "backend", "java", "linux", "networking", "snmp"],
+        tags: ["university", "backend", "http", "java", "linux", "networking", "snmp"],
         date: {
             start: "2020-01",
             end: "2020-02"
@@ -564,7 +564,7 @@ export const projects = [
             value: 18,
             range: 20
         },
-        tags: ["featured", "university", "android", "androidstudio", "clang", "backend", "iot", "java", "js", "linux", "mobile", "mysql", "networking", "sql"],
+        tags: ["featured", "university", "android", "androidstudio", "backend", "clang", "coap", "http", "iot", "java", "js", "linux", "mobile", "mysql", "networking", "sql"],
         date: {
             start: "2019-09",
             end: "2020-01"
@@ -603,7 +603,7 @@ export const projects = [
             value: 16.0,
             range: 20
         },
-        tags: ["university", "linux", "python"],
+        tags: ["university", "linux", "python", "udp"],
         date: {
             start: "2019-09",
             end: "2020-01"
@@ -619,7 +619,7 @@ export const projects = [
             value: 18,
             range: 20
         },
-        tags: ["university", "backend", "java", "linux", "networking"],
+        tags: ["university", "backend", "java", "linux", "networking", "tcp"],
         date: {
             start: "2019-05",
             end: "2019-06"
@@ -665,7 +665,7 @@ export const projects = [
             value: 17.69,
             range: 20
         },
-        tags: ["featured", "university", "arduino", "backend", "clang", "embedded", "iot", "linux", "mysql", "networking", "sql"],
+        tags: ["featured", "university", "arduino", "backend", "clang", "embedded", "http", "iot", "linux", "mysql", "networking", "sql", "tcp", "udp"],
         date: {
             start: "2019-02",
             end: "2019-06"
@@ -716,7 +716,7 @@ export const projects = [
             value: 14.0,
             range: 20
         },
-        tags: ["university", "core", "networking"],
+        tags: ["university", "core", "networking", "tcp"],
         date: {
             start: "2018-11",
             end: "2019-01"

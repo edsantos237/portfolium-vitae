@@ -6,7 +6,7 @@ import { PiMicrosoftWordLogoFill, PiMicrosoftPowerpointLogoFill, PiMicrosoftExce
 import { LuBrainCircuit } from "react-icons/lu";
 import { FaServer, FaMobileAlt, FaCode, FaNetworkWired, FaWindows, FaCloud } from "react-icons/fa";
 import { CgSmartphoneChip } from "react-icons/cg";
-import { MdViewQuilt } from "react-icons/md";
+import { MdHttp, MdViewQuilt } from "react-icons/md";
 import { VscVscode } from "react-icons/vsc";
 
 export const categories = [    
@@ -27,12 +27,12 @@ export const categories = [
         title: "Tools"
     },
     {
-        id: "ai",
-        title: "AI Tools"
+        id: "technology",
+        title: "Technologies",
     },
     {
-        id: "protocol",
-        title: "Protocols",
+        id: "ai",
+        title: "AI Tools"
     },
     {
         id: "platform",
@@ -59,7 +59,7 @@ export const skills = [
         id: "android",
         title: "Android",
         icon: SiAndroid,
-        tags: ["platform", "personal", "university", "ccg"]
+        tags: ["featured", "platform", "personal", "university", "ccg"]
     },
     {
         id: "androidstudio",
@@ -132,6 +132,12 @@ export const skills = [
         title: "Microsoft Clipchamp / Windows Movie Maker",
         icon: "clipchamp.png",
         tags: ["tool", "personal", "middle_school", "high_school"]
+    },
+    {
+        id: "coap",
+        title: "CoAP",
+        icon: FaNetworkWired,
+        tags: ["technology", "university"]
     },
     {
         id: "corda",
@@ -230,6 +236,12 @@ export const skills = [
         tags: ["tool", "university"]
     },
     {
+        id: "http",
+        title: "HTTP / REST",
+        icon: MdHttp,
+        tags: ["featured", "technology", "ccg", "university"]
+    },
+    {
         id: "intellij",
         title: "IntelliJ IDEA",
         icon: SiIntellijidea,
@@ -263,7 +275,7 @@ export const skills = [
         id: "linux",
         title: "Linux",
         icon: SiLinux,
-        tags: ["platform", "personal", "university", "ccg"]
+        tags: ["featured", "platform", "personal", "university", "ccg"]
     },
     {
         id: "mapbox",
@@ -395,7 +407,7 @@ export const skills = [
         id: "snmp",
         title: "SNMP",
         icon: FaNetworkWired,
-        tags: ["protocol", "university"]
+        tags: ["technology", "university"]
     },
     {
         id: "sql",
@@ -410,10 +422,22 @@ export const skills = [
         tags: ["ai", "personal"]
     },
     {
+        id: "tcp",
+        title: "TCP/IP",
+        icon: FaNetworkWired,
+        tags: ["technology", "university", "personal"]
+    },
+    {
         id: "tensorflow",
         title: "TensorFlow",
         icon: SiTensorflow,
         tags: ["tool", "personal", "university"]
+    },
+    {
+        id: "udp",
+        title: "UDP",
+        icon: FaNetworkWired,
+        tags: ["technology", "university", "personal"]
     },
     {
         id: "unity",
@@ -476,19 +500,19 @@ export const skills = [
         id: "webgl",
         title: "WebGL",
         icon: SiWebgl,
-        tags: ["framework", "ccg"]
+        tags: ["technology", "ccg"]
     },
     {
         id: "webrtc",
         title: "WebRTC",
         icon: SiWebrtc,
-        tags: ["featured", "protocol", "ccg"]
+        tags: ["featured", "technology", "ccg"]
     },
     {
         id: "websocket",
         title: "WebSocket",
         icon: "websocket.svg",
-        tags: ["featured", "protocol", "ccg"]
+        tags: ["featured", "technology", "ccg"]
     },
     {
         id: "windows",
