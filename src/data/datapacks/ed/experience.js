@@ -1,8 +1,11 @@
+import { IoLocationSharp } from "react-icons/io5";
+
 export const companies = [
     {
         id: "ccg",
         title: "CCG/ZGDV Institute",
         icon: "ccg.svg",
+        // label: (optional)
         department: "CVIG-CG - Computer Vision, Interaction and Graphics - Computer Graphics",
         description: [
             {
@@ -16,6 +19,12 @@ export const companies = [
                 icon: "ccg.svg",
                 label: "CVIG",
                 link: "https://ccg.pt/en/research-and-innovation/ri-departments/computer-vision-interaction-and-graphics"
+            },
+            {
+                type: "button",
+                icon: IoLocationSharp,
+                label: "Universidade do Minho, Guimarães",
+                link: "https://maps.app.goo.gl/5Pnj7W8nLfpWHGXXA"
             }
         ],
         roles: [

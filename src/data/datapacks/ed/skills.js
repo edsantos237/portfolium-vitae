@@ -485,7 +485,7 @@ export const skills = [
         id: "vuforia",
         title: "Vuforia",
         icon: TbAugmentedReality2,
-        tags: ["framework", "university"]
+        tags: ["technology", "university"]
     },
     // {
     //     id: "server",

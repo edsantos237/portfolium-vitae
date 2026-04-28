@@ -5,7 +5,9 @@ export const schools = [
         id: "school1",
         title: "Some school",
         icon: "example.svg", // can be a string (path to image in public/res)
-        labels: ["School1 main label", "Some other label", "Some other other label"],
+        label: "School1 label", // optional, to display in association references instead of the title
+        type: "Some school type", // e.g. "University", "High School", etc.
+        headline: ["Some headline"],
         description: [
             "Some string.", // string elements are placed as paragraphs
             "Another string with <b>HTML tags</b>.", // strings can contain simple HTML tags like <b> (bold), <i> (italic), <a>, etc.
@@ -165,7 +167,9 @@ export const schools = [
         id: "school2",
         title: "Some other school",
         icon: FaServer, // can be a React component
-        labels: ["School2 main label", "Some other label"],
+        label: "School2 label",
+        type: "Some school type",
+        headline: ["Some headline"],
         description: [
             "Some string.",
             "Another string with <b>HTML tags</b>.",

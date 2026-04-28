@@ -3,7 +3,29 @@ import React from "react";
 import { getSectionStyleVars, sections } from "../config/sections";
 import { heroBackgroundStyle } from "../config/heroTheme";
 import { cover } from "@datapack/cover";
+import { companies } from "@datapack/experience";
 import Icon from "./Icon";
+
+function calcProfessionalExperience() {
+  const now = new Date();
+  let earliestStart = null;
+  for (const company of companies) {
+    for (const role of company.roles ?? []) {
+      if (role.date?.start) {
+        const [year, month] = role.date.start.split("-").map(Number);
+        const startDate = new Date(year, month - 1, 1);
+        if (!earliestStart || startDate < earliestStart) earliestStart = startDate;
+      }
+    }
+  }
+  if (!earliestStart) return null;
+  const totalMonths =
+    (now.getFullYear() - earliestStart.getFullYear()) * 12 +
+    (now.getMonth() - earliestStart.getMonth());
+  if (totalMonths < 12) return { stat: `+${totalMonths} months`, label: "of professional experience" };
+  if (totalMonths < 60) return { stat: `+${(totalMonths / 12).toFixed(1)} years`, label: "of professional experience" };
+  return { stat: `+${Math.floor(totalMonths / 12)} years`, label: "of professional experience" };
+}
 
 function renderHeadlineItem(item, idx, onJump) {
   if (typeof item === "string") return <span key={idx}>{item}</span>;
@@ -112,20 +134,34 @@ export default function Cover({ activeSection, onJump }) {
           </div>
 
           <p className="text-sm uppercase tracking-[0.25em] text-gray-400 mb-3">
-            Portfolium Vitae
+            Portfolio / CV
           </p>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold">
             {cover.name}
           </h1>
 
-          <div className="mt-4 text-lg text-gray-300 flex flex-col items-center gap-1">
+          <div className="mt-4 text-base text-gray-300 flex flex-col items-center gap-1">
             {cover.headline_long.map((item, idx) => (
               <div key={idx}>
                 {renderHeadlineItem(item, idx, onJump)}
               </div>
             ))}
           </div>
+
+          {calcProfessionalExperience() && (() => {
+            const { stat, label } = calcProfessionalExperience();
+            return (
+              <div className="mt-6 pt-5 border-t border-white/10 flex flex-col items-center gap-0.5">
+                <span className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+                  {stat}
+                </span>
+                <span className="text-xs uppercase tracking-[0.2em] text-gray-500">
+                  {label}
+                </span>
+              </div>
+            );
+          })()}
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             {sections

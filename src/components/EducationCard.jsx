@@ -12,12 +12,15 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
         return formatRange(d);
     };
 
-    const labelArray = school.labels ?? (school.label ? [school.label] : []);
     const isOpen = forceOpen ? true : open;
     const toggle = forceOpen ? undefined : onToggle;
 
-    // Expanded: only first label; collapsed: all labels (no course titles)
-    const visibleLabels = isOpen ? labelArray.slice(0, 1) : labelArray;
+    // Expanded: show type only; collapsed: type + headline items
+    const typeLabel = school.type ?? school.labels?.[0] ?? null;
+    const headlineItems = school.headline ?? school.labels?.slice(1) ?? [];
+    const visibleLabels = isOpen
+      ? (typeLabel ? [typeLabel] : [])
+      : (typeLabel ? [typeLabel, ...headlineItems] : headlineItems);
 
     return (
         <div className="relative">

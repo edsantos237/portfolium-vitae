@@ -7,6 +7,7 @@ import { FaPersonHiking } from "react-icons/fa6";
 
 export const hobbies = [
     {
+        id: "app_development",
         title: "App development",
         icon: MdOutlineDeveloperMode,
         description: [
@@ -22,6 +23,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "astrophotography",
         title: "Astro-photography",
         icon: IoAperture,
         description: [
@@ -33,6 +35,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "drawing",
         title: "Drawing",
         icon: TbWritingSignFilled,
         description: [
@@ -44,6 +47,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "gym",
         title: "Gym",
         icon: IoMdFitness,
         description: [
@@ -51,6 +55,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "hiking",
         title: "Hiking",
         icon: FaPersonHiking,
         description: [
@@ -58,6 +63,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "music",
         title: "Listening to music",
         icon: MdHeadphones,
         description: [
@@ -71,6 +77,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "piano",
         title: "Playing piano",
         icon: MdPiano,
         description: [
@@ -83,6 +90,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "stargazing",
         title: "Stargazing",
         icon: IoTelescope,
         description: [
@@ -90,6 +98,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "traveling",
         title: "Traveling",
         icon: BiWorld,
         description: [
@@ -97,6 +106,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "volunteering",
         title: "Volunteering",
         icon: BiSolidDonateHeart,
         description: [
@@ -113,6 +123,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "movies_series",
         title: "Watching movies/series",
         icon: MdMovie,
         description: [
@@ -122,6 +133,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "writing",
         title: "Writing",
         icon: TbWritingFilled,
         description: [

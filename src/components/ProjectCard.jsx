@@ -1,4 +1,5 @@
 import Icon from "./Icon";
+import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
 
 function formatMonthYear(dateStr) {
   const [year, month] = dateStr.split("-");
@@ -37,6 +38,7 @@ export default function ProjectCard({
   orderedSkills,
   companies,
   schools,
+  projectsData,
   onProjectClick,
 }) {
   const dateLabel = formatRange(project.date);
@@ -49,18 +51,30 @@ export default function ProjectCard({
     if (company) {
       origins.push({
         id: company.id,
-        title: company.title,
+        title: company.label ?? company.title,
         icon: company.icon,
       });
+      return;
     }
 
     const school = schools.find((s) => s.id === tag);
     if (school) {
       origins.push({
         id: school.id,
-        title: school.labels?.[0] ?? school.label ?? school.title,
+        title: school.label ?? school.title,
         icon: school.icon,
       });
+      return;
+    }
+
+    const proj = projectsData?.find((p) => p.id === tag);
+    if (proj) {
+      origins.push({
+        id: proj.id,
+        title: proj.label ?? proj.title,
+        icon: proj.icon,
+      });
+      return;
     }
 
     if (tag === "personal") {
@@ -110,17 +124,12 @@ export default function ProjectCard({
 
       {/* SUMMARY */}
       <div className="mb-4 flex-1">
-        {project.summary && typeof project.summary === "object" && project.summary.type === "image" ? (
-          <img
-            src={`res/${project.summary.path}`}
-            alt={project.title}
-            className="w-full rounded-lg object-contain max-h-48"
-            style={{display: 'block', margin: '0 auto'}}
-            loading="lazy"
-          />
-        ) : (
-          <p className="text-sm text-gray-400">{project.summary}</p>
-        )}
+        {Array.isArray(project.summary)
+          ? renderGroups(groupDescriptionItems(project.summary), `project-summary-${project.id}`, null, { imageMaxH: 'max-h-48' })
+          : project.summary && typeof project.summary === "object" && project.summary.type === "image"
+            ? <img src={`res/${project.summary.path}`} alt={project.title} className="w-full rounded-lg object-contain max-h-48" style={{ display: 'block', margin: '0 auto' }} loading="lazy" />
+            : <p className="text-sm text-gray-400">{project.summary}</p>
+        }
       </div>
 
       {/* SKILLS */}

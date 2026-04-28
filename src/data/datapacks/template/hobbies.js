@@ -7,6 +7,7 @@ import { FaPersonHiking, FaServer } from "react-icons/fa6";
 
 export const hobbies = [
     {
+        id: "hobby1",
         title: "Some hobby",
         icon: "example.svg", // can be a string (path to image in public/res)
         description: [
@@ -99,6 +100,7 @@ export const hobbies = [
         ]
     },
     {
+        id: "hobby2",
         title: "Some other hobby",
         icon: FaServer, // can be a React component
         description: [

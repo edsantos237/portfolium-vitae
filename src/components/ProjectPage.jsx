@@ -4,6 +4,7 @@ import { companies } from "@datapack/experience";
 import { schools } from "@datapack/education";
 import { skills, categories, getSkillCategoryId } from "@datapack/skills";
 import { projects } from "@datapack/projects";
+import { publications } from "@datapack/publications";
 import { formatRange } from "../utils/dateFormat";
 import Icon from "./Icon";
 import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
@@ -75,12 +76,12 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
   project.tags.forEach((tag) => {
     const company = companies.find((c) => c.id === tag);
     if (company) {
-      origins.push({ type: "company", ...company });
+      origins.push({ ...company, type: "company" });
       return;
     }
     const school = schools.find((s) => s.id === tag);
     if (school) {
-      origins.push({ type: "school", ...school });
+      origins.push({ ...school, type: "school" });
       return;
     }
     if (tag === "personal") {
@@ -103,6 +104,13 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
         .sort((a, b) => a.title.localeCompare(b.title)),
     }))
     .filter((g) => g.items.length > 0);
+
+  // Publications linked to this project (tags may be "type, projectId" comma-concatenated)
+  const relatedPublications = publications.filter((pub) =>
+    pub.tags?.some((tag) =>
+      tag.split(",").map((t) => t.trim()).includes(project.id)
+    )
+  );
 
   const descriptionGroups = groupDescriptionItems(project.description || []);
   
@@ -154,10 +162,20 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
 
               {origins.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {origins.map((origin) => (
+                  {origins.map((origin) => {
+                    const handleOriginClick = () => {
+                      if (origin.type === "company") { close(); onProjectLink?.({ type: "experience", entry: origin.id }); }
+                      else if (origin.type === "school") { close(); onProjectLink?.({ type: "education", entry: origin.id }); }
+                      else if (origin.type === "personal") { close(); onProjectLink?.({ type: "projects", filters: ["personal"] }); }
+                    };
+                    return (
                     <div
                       key={origin.id}
-                      className="flex items-center gap-2 px-3 py-2 text-sm rounded border section-card"
+                      className="flex items-center gap-2 px-3 py-2 text-sm rounded border section-card cursor-pointer transition-opacity hover:opacity-80"
+                      onClick={handleOriginClick}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleOriginClick(); }}
                     >
                       {origin.icon && (
                         <span className="w-6 h-6 flex-shrink-0 flex items-center justify-center">
@@ -165,29 +183,21 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
                         </span>
                       )}
                       <div className="leading-tight">
-                        <span className="font-medium text-white">
-                          {origin.type === "school"
-                            ? origin.title
-                            : origin.title}
-                        </span>
-                          {origin.type === "school" && origin.labels && origin.labels.length > 1 && (
-                            <p className="text-sm text-gray-400">
-                              {origin.labels.slice(1).join(" \u2022 ")}
-                            </p>
-                          )}
+                        <span className="font-medium text-white">{origin.title}</span>
                         {origin.type === "company" && origin.department && (
                           <span className="block text-xs text-gray-500">
                             {origin.department}
                           </span>
                         )}
-                        {origin.type === "school" && origin.course && (
+                        {origin.type === "school" && (origin.headline ?? origin.labels?.slice(1))?.length > 0 && (
                           <span className="block text-xs text-gray-500">
-                            {origin.course}
+                            {(origin.headline ?? origin.labels?.slice(1)).join(" \u2022 ")}
                           </span>
                         )}
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -239,7 +249,11 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
                       {group.items.map((skill) => (
                         <span
                           key={skill.id}
-                          className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
+                          className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip cursor-pointer transition-opacity hover:opacity-80"
+                          onClick={() => { close(); onProjectLink?.({ type: "skills", entry: skill.id }); }}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { close(); onProjectLink?.({ type: "skills", entry: skill.id }); } }}
                         >
                           {skill.icon && <Icon icon={skill.icon} />}
                           {skill.title}
@@ -248,6 +262,35 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* Publications */}
+            {relatedPublications.length > 0 && (
+              <div
+                className="space-y-3 border-t pt-6"
+                style={{ borderColor: theme.cardBorder }}
+              >
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                  Publications
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {relatedPublications.map((pub) => (
+                    <button
+                      key={pub.id}
+                      type="button"
+                      className="flex items-center gap-2 px-3 py-2 text-sm rounded border section-card cursor-pointer transition-opacity hover:opacity-80 text-left"
+                      onClick={() => { close(); onProjectLink?.({ type: "publications", entry: pub.id }); }}
+                    >
+                      <div className="leading-tight">
+                        <span className="font-medium text-white">{pub.title}</span>
+                        {pub.publisher && (
+                          <span className="block text-xs text-gray-500">{pub.publisher}</span>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>

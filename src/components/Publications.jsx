@@ -2,31 +2,15 @@ import { publications } from "@datapack/publications";
 import { getSectionTheme } from "../config/sections";
 import { companies } from "@datapack/experience";
 import { schools } from "@datapack/education";
+import { projects } from "@datapack/projects";
 import Icon from "./Icon";
 
-function renderDate(date) {
-  if (!date) return null;
-  const parts = String(date).split("/");
-  try {
-    if (parts.length === 3) {
-      const [year, month, day] = parts.map((p) => parseInt(p, 10));
-      const d = new Date(year, month - 1, day);
-      return d.toLocaleDateString('en-US', { day: "numeric", month: "short", year: "numeric" });
-    }
+import { groupDescriptionItems, renderGroups } from "../utils/descriptionRenderer.jsx";
+import { formatSingle } from "../utils/dateFormat.js";
 
-    if (parts.length === 2) {
-      const [year, month] = parts.map((p) => parseInt(p, 10));
-      const d = new Date(year, month - 1);
-      return d.toLocaleDateString('en-US', { month: "short", year: "numeric" });
-    }
-  } catch (e) {
-    // fallthrough
-  }
 
-  return date;
-}
 
-export default function Publications({ isActive }) {
+export default function Publications({ isActive, onPublicationClick }) {
   const sectionTheme = getSectionTheme("publications");
 
   return (
@@ -49,11 +33,21 @@ export default function Publications({ isActive }) {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {publications.map((pub, idx) => (
-          <div key={`${pub.title}-${idx}`} className="p-4 rounded-lg border h-full flex flex-col section-card">
+          <div
+            key={`${pub.title}-${idx}`}
+            className="p-4 rounded-lg border h-full flex flex-col section-card cursor-pointer transition-colors section-soft-hover"
+            onClick={() => onPublicationClick?.(pub.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onPublicationClick?.(pub.id); }}
+          >
             <div className="mb-2">
               <h3 className="font-semibold text-white">{pub.title}</h3>
+              {pub.publisher && (
+                <p className="text-sm text-gray-400 mt-1">{pub.publisher}</p>
+              )}
               {pub.date && (
-                <p className="text-xs text-gray-500">{renderDate(pub.date)}</p>
+                <p className="text-xs text-gray-500">{formatSingle(pub.date)}</p>
               )}
             </div>
             {/** Origin pills: resolve companies/schools/personal from tags (ignore 'arcticle') */}
@@ -67,18 +61,37 @@ export default function Publications({ isActive }) {
                     return (
                       <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
                         <Icon icon={company.icon} />
-                        {company.title}
+                        {company.label ?? company.title}
                       </span>
                     );
                   }
 
                   const school = schools.find((s) => s.id === tag);
                   if (school) {
-                    const schoolLabel = school.labels?.[0] ?? school.label ?? school.title;
+                    const schoolLabel = school.label ?? school.title;
                     return (
                       <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
                         <Icon icon={school.icon} />
                         {schoolLabel}
+                      </span>
+                    );
+                  }
+
+                  const project = projects.find((p) => p.id === tag);
+                  if (project) {
+                    const projectOriginIcon = (() => {
+                      for (const ptag of (project.tags || [])) {
+                        const c = companies.find((co) => co.id === ptag);
+                        if (c) return c.icon;
+                        const s = schools.find((sc) => sc.id === ptag);
+                        if (s) return s.icon;
+                      }
+                      return project.icon;
+                    })();
+                    return (
+                      <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                        {projectOriginIcon && <Icon icon={projectOriginIcon} />}
+                        {project.label ?? project.title}
                       </span>
                     );
                   }
@@ -103,25 +116,9 @@ export default function Publications({ isActive }) {
 
             <div className="text-sm text-gray-400 mb-4 flex-1">
               {Array.isArray(pub.summary)
-                ? pub.summary.map((d, i) => <p key={i}>{d}</p>)
+                ? renderGroups(groupDescriptionItems(pub.summary), `pub-summary-${pub.id ?? pub.title}`)
                 : <p>{pub.summary}</p>}
             </div>
-
-            {pub.links && pub.links.length > 0 && (
-              <div className="mt-auto flex flex-wrap gap-2">
-                {pub.links.map((l, i) => (
-                  <a
-                    key={i}
-                    href={l}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-1 text-xs rounded border section-accent-button"
-                  >
-                    {i === 0 && pub.publisher ? pub.publisher : "Link"}
-                  </a>
-                ))}
-              </div>
-            )}
           </div>
         ))}
       </div>

@@ -7,7 +7,7 @@ import { projects } from "@datapack/projects";
 import { companies } from "@datapack/experience";
 import { schools } from "@datapack/education";
 
-export default function Skills({ onShowProjects, isActive, isPrevious = false, activeAccentLine, focusFilters = null, onClearFocusFilters }) {
+export default function Skills({ onShowProjects, isActive, isPrevious = false, activeAccentLine, focusFilters = null, onClearFocusFilters, focusedSkillId = null, onClearFocusedSkillId, onShowCompany, onShowSchool }) {
     const sectionTheme = getSectionTheme("skills");
     // Only use activeAccentLine if isPrevious is true AND activeAccentLine is from Skills section
     // Otherwise, use Skills' own accentBorder
@@ -184,6 +184,17 @@ export default function Skills({ onShowProjects, isActive, isPrevious = false, a
         }, [focusFilters, onClearFocusFilters]);
 
         useEffect(() => {
+            if (!focusedSkillId) return;
+            setSelectedProfessional([]);
+            setSelectedAcademic([]);
+            setPersonalSelected(false);
+            setFeaturedSelected(false);
+            const id = focusedSkillId;
+            setTimeout(() => setSelectedSkillId(id), 0);
+            onClearFocusedSkillId?.();
+        }, [focusedSkillId]);
+
+        useEffect(() => {
             const newRowMap = {};
             Object.entries(categoryRefs.current).forEach(([type, container]) => {
                 if (!container) return;
@@ -336,6 +347,12 @@ export default function Skills({ onShowProjects, isActive, isPrevious = false, a
                                 setSelectedSkillId={setSelectedSkillId}
                                 getUsage={getUsage}
                                 onShowProjects={onShowProjects}
+                                onCompanyClick={(company) => onShowCompany?.(company.id)}
+                                onSchoolClick={(school) => onShowSchool?.(school.id)}
+                                onPersonalClick={() => {
+                                    setFeaturedSelected(false);
+                                    setPersonalSelected(true);
+                                }}
                             />
                         );
                     })}

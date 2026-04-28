@@ -51,7 +51,7 @@ export default function SkillInspector({ skill, usage, onShowProjects, onProject
                     className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
                   >
                     {item.icon && <Icon icon={item.icon} />}
-                    {item.title ?? item.label}
+                    {item.label ?? item.title}
                   </span>
                 ))}
               </div>
@@ -72,7 +72,7 @@ export default function SkillInspector({ skill, usage, onShowProjects, onProject
                     className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
                   >
                     {item.icon && <Icon icon={item.icon} />}
-                    {item.labels?.[0] ?? item.label ?? item.title}
+                    {item.label ?? item.title}
                   </span>
                 ))}
               </div>

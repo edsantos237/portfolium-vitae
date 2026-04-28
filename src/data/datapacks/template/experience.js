@@ -5,6 +5,7 @@ export const companies = [
         id: "company1",
         title: "Some company",
         icon: "example.svg", // can be a string (path to image in public/res)
+        label: "Company1 label", // optional, to display in association references instead of the title
         department: "Some department",
         description: [
             "Some string.", // string elements are placed as paragraphs

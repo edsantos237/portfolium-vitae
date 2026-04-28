@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { getSectionTheme } from "../config/sections";
 import { schools } from "@datapack/education";
 import { projects } from "@datapack/projects";
@@ -6,11 +6,21 @@ import { skills } from "@datapack/skills";
 import EducationCard from "./EducationCard";
 import VerticalTimeline from "./VerticalTimeline";
 
-export default function Education({ isActive, onShowProjects, onShowSkills, onProjectLink }) {
+export default function Education({ isActive, onShowProjects, onShowSkills, onProjectLink, focusedSchoolId, onClearFocusedSchool }) {
   const sectionTheme = getSectionTheme("education");
   const single = schools.length === 1;
   const [selectedId, setSelectedId] = useState(null);
   const [openId, setOpenId] = useState(single ? schools[0].id : null);
+  const entryRefs = useRef({});
+
+  useEffect(() => {
+    if (!focusedSchoolId) return;
+    setOpenId(focusedSchoolId);
+    setTimeout(() => {
+      entryRefs.current[focusedSchoolId]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 320);
+    onClearFocusedSchool?.();
+  }, [focusedSchoolId]);
 
   const sorted = useMemo(
     () =>
@@ -138,7 +148,8 @@ export default function Education({ isActive, onShowProjects, onShowSkills, onPr
             return (
               <div
                 key={school.id}
-                className={`section-entry pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
+                ref={(el) => { entryRefs.current[school.id] = el; }}
+                className={`section-entry scroll-mt-20 pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
               >
                 <EducationCard
                   school={school}

@@ -1,9 +1,13 @@
+import { IoLocationSharp } from "react-icons/io5";
+
 export const schools = [
     {
         id: "university",
         title: "University of Minho",
         icon: "uminho.jpg",
-        labels: ["University", "Integrated Master", "Telecommunications and Informatics Engineering"],
+        label: "University",
+        type: "University",
+        headline: ["Integrated Master", "Telecommunications and Informatics Engineering"],
         description: [
             {
                 type: "button",
@@ -24,7 +28,13 @@ export const schools = [
                     value: 15.072,
                     range: 20
                 },                
-                description: [
+                description: [                    
+                    {
+                        type: "button",
+                        icon: "uminho.jpg",
+                        label: "Website",
+                        link: "https://www.uminho.pt/EN/education/educational-offer/Cursos-Conferentes-a-Grau/_layouts/15/UMinho.PortalUM.UI/Pages/CatalogoCursoDetail.aspx?itemId=3802&catId=11"
+                    },
                     {
                         type: "button",
                         icon: "uminho.jpg",
@@ -42,7 +52,9 @@ export const schools = [
         id: "high_school",
         title: "Escola Secundária D. Sancho I",
         icon: "aesancho.png",
-        labels: ["High School", "Science and Technologies"],
+        label: "High School",
+        type: "High School",
+        headline: ["Science and Technology"],
         description: [
             {
                 type: "button",
@@ -53,7 +65,7 @@ export const schools = [
         ],
         courses: [
             {
-                title: "Science and Technologies",
+                title: "Science and Technology",
                 degrees: ["Secondary Education", "10th — 12th grade"],
                 date: {
                     start: "2013-09",
@@ -70,7 +82,8 @@ export const schools = [
         id: "middle_school",
         title: "Escola EB 2, 3 de Ribeirão",
         icon: "eb23ribeirao.png",
-        labels: ["Middle School"],
+        label: "Middle School",
+        type: "Middle School",
         description: [
             {
                 type: "button",
@@ -103,7 +116,8 @@ export const schools = [
     {
         id: "elementary_school",
         title: "Escola Básica de Ribeirão",
-        labels: ["Elementary School"],
+        label: "Elementary School",
+        type: "Elementary School",
         courses: [
             {
                 degrees: ["Primary Education", "Basic Education - 1st cycle", "1st — 4th grade"],

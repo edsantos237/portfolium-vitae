@@ -12,6 +12,9 @@ export default function SkillContainer({
     setSelectedSkillId,
     getUsage,
     onShowProjects,
+    onCompanyClick,
+    onSchoolClick,
+    onPersonalClick,
 }) {
     const [activeInspectorId, setActiveInspectorId] = useState(null);
     const [isActiveInspectorOpen, setIsActiveInspectorOpen] = useState(false);
@@ -156,32 +159,40 @@ export default function SkillContainer({
 
                             <div className="flex flex-wrap gap-2 text-xs mb-4 text-gray-300">
                                 {usage.professional?.map((company) => (
-                                    <span
+                                    <button
                                         key={company.id}
-                                        className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
+                                        type="button"
+                                        onClick={() => onCompanyClick?.(company)}
+                                        className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip cursor-pointer hover:opacity-80 transition-opacity"
                                     >
                                         {company.icon && <Icon icon={company.icon} />}
                                         {company.title}
-                                    </span>
+                                    </button>
                                 ))}
 
                                 {usage.academic?.map((school) => {
                                     const labelText = school.labels?.[0] ?? school.label ?? school.title;
                                     return (
-                                        <span
+                                        <button
                                             key={school.id}
-                                            className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip"
+                                            type="button"
+                                            onClick={() => onSchoolClick?.(school)}
+                                            className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip cursor-pointer hover:opacity-80 transition-opacity"
                                         >
                                             {school.icon && <Icon icon={school.icon} />}
                                             {labelText}
-                                        </span>
+                                        </button>
                                     );
                                 })}
 
                                 {usage.personal?.length > 0 && (
-                                    <span className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                                    <button
+                                        type="button"
+                                        onClick={() => onPersonalClick?.()}
+                                        className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip cursor-pointer hover:opacity-80 transition-opacity"
+                                    >
                                         Personal
-                                    </span>
+                                    </button>
                                 )}
                             </div>
 

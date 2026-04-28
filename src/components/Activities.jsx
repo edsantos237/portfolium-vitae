@@ -144,18 +144,28 @@ export default function Activities({ isActive, onShowProjects, focusedActivityId
                                 return (
                                   <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
                                     <Icon icon={company.icon} />
-                                    {company.title}
+                                    {company.label ?? company.title}
                                   </span>
                                 );
                               }
 
                               const school = schools.find((s) => s.id === tag);
                               if (school) {
-                                const schoolLabel = school.labels?.[0] ?? school.label ?? school.title;
+                                const schoolLabel = school.label ?? school.title;
                                 return (
                                   <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
                                     <Icon icon={school.icon} />
                                     {schoolLabel}
+                                  </span>
+                                );
+                              }
+
+                              const project = projects.find((p) => p.id === tag);
+                              if (project) {
+                                return (
+                                  <span key={tag} className="flex items-center gap-1 px-2 py-1 text-xs rounded border whitespace-nowrap section-chip">
+                                    {project.icon && <Icon icon={project.icon} />}
+                                    {project.label ?? project.title}
                                   </span>
                                 );
                               }

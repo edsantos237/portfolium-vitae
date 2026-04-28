@@ -359,6 +359,7 @@ export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany
             orderedSkills={renderProjectSkills(project)}
             companies={companies}
             schools={schools}
+            projectsData={projects}
             onProjectClick={onProjectClick}
           />
         ))}

@@ -4,12 +4,16 @@ export const projects = [
     {
         id: "xrgrit",
         title: "XR-GRIT - Gamified XR Platform for Robotics Instruction and Training Consulte",
+        label: "XR-GRIT",
         tags: ["featured", "ccg", "csharp", "gamedev", "unity", "viroo", "vr", "xr", "xritk"],
         date: {
             start: "2025-09",
             end: null
         },
-        summary: "VR training course for robotics learning.",
+        summary: [
+            "VR training course for robotics learning.",
+            "what else?"
+        ],
         description: [
             {
                 type: "image",
@@ -51,12 +55,14 @@ export const projects = [
             start: "2025-08",
             end: null
         },
-        summary: {
-            type: "image",
-            path: "nyxium_horiz.jpg"
-        },
+        summary: [
+            {
+                type: "image",
+                path: "nyxium_horiz.jpg"
+            }
+        ],
         description: [
-            "Mobile app with clock and compass to display the orientation of celestial bodies, with astronomy and astrology (with birth chart) modes.",            
+            "Mobile app with clock and compass to display the orientation of celestial bodies, with astronomy and astrology (with birth chart) modes.",
             {
                 type: "image",
                 path: "nyxium_horiz.jpg"
@@ -70,14 +76,17 @@ export const projects = [
     {
         id: "texpact",
         title: "TEXP@CT - Innovation Pact for the Digitalization of Textiles and Clothing",
+        label: "TEXP@CT",
         tags: ["ccg", "android", "ar", "backend", "csharp", "http", "js", "mobile", "networking", "nodejs", "unity", "webrtc", "websocket", "xr"],
         date: {
             start: "2024-09",
             end: null
         },
-        summary: "Remote Assistance system using AR for the textile and clothing industry.",
+        summary: [
+            "Remote Assistance system using AR for the textile and clothing industry."
+        ],
         description: [
-            "WP6 - Digital Product | PPS22: T&C Product Lifecycle Management 4.0",            
+            "WP6 - Digital Product | PPS22: T&C Product Lifecycle Management 4.0",
             "My contributions:",
             "• Remote Assistance system for video and audio communication through WebRTC between a remote expert on a desktop device and a clothes technician equipped with Magic Leap 2.",
             {
@@ -107,12 +116,15 @@ export const projects = [
     {
         id: "ecp",
         title: "ECP - Ecoceramics and Crystalware of Portugal",
+        label: "ECP",
         tags: ["featured", "ccg", "android", "ar", "arfoundation", "backend", "csharp", "http", "js", "mobile", "networking", "nodejs", "unity", "windows", "xr"],
         date: {
             start: "2023-12",
             end: null
         },
-        summary: "Digital Training Academy with virtual and immersive learning methods for continuous and advanced worker training.",
+        summary: [
+            "Digital Training Academy with virtual and immersive learning methods for continuous and advanced worker training."
+        ],
         description: [
             "WP7: Digital Training Academy with virtual and immersive learning methods for continuous and advanced worker training.",
             "Role: Technical Project Coordinatorn",
@@ -146,12 +158,15 @@ export const projects = [
     {
         id: "hfpt",
         title: "HfPT - Health from Portugal",
+        label: "HfPT",
         tags: ["featured", "ccg", "android", "ar", "arfoundation", "backend", "csharp", "http", "js", "mobile", "networking", "nodejs", "unity", "webgl", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2023-10",
             end: null
         },
-        summary: "Remote monitoring and telemedicine system for healthcare, and a set of interactive applications for histopathological anatomy learning.",
+        summary: [
+            "Remote monitoring and telemedicine system for healthcare, and a set of interactive applications for histopathological anatomy learning."
+        ],
         description: [
             "WP3 - Sensorization and Robotics | A3.2.3: Development of devices for remote monitoring and physical recovery, based on gamification (Gripwise) - digital games mobile application",
             "My contributions:",
@@ -178,10 +193,12 @@ export const projects = [
             start: "2025-03",
             end: "2025-03"
         },
-        summary: {
-            type: "image",
-            path: "skyscanner_cover.png"
-        },
+        summary: [
+            {
+                type: "image",
+                path: "skyscanner_cover.png"
+            }
+        ],
         description: [
             "Mobile app in development to track airplanes in 3D and eventually satellites. Currently in standby.",
             {
@@ -193,12 +210,15 @@ export const projects = [
     {
         id: "openlabs",
         title: "OpenLabs - Open Pilot Labs Network",
+        label: "OpenLabs",
         tags: ["ccg", "backend", "csharp", "http", "js", "linux", "ml", "networking", "nodejs", "unity", "webrtc", "websocket"],
         date: {
             start: "2024-06",
             end: "2024-07"
         },
-        summary: "Demonstrative app to display in real-time a digital twin of a given environment (CCG's building) along with a mobile robot and a set of detection cameras.",
+        summary: [
+            "Demonstrative app to display in real-time a digital twin of a given environment (CCG's building) along with a mobile robot and a set of detection cameras."
+        ],
         description: [
             "Demonstrative app to display in real-time a digital twin of a given environment (CCG's building) along with a mobile robot and a set of detection cameras.",
             "My contributions:",
@@ -220,7 +240,9 @@ export const projects = [
             start: "2024-07",
             end: "2024-07"
         },
-        summary: "Unity project to view and interact with the Solar System in AR.",
+        summary: [
+            "Unity project to view and interact with the Solar System in AR."
+        ],
         description: [
             "AR and 3D modeling training course for CCG's Tech Training Hub where users develop a Unity project to view and interact with the Solar System in Augmented Reality.",
             "My contributions:",
@@ -236,12 +258,15 @@ export const projects = [
     {
         id: "cmms",
         title: "Cognitive CMMS - Cognitive Computerized Maintenance Management System",
+        label: "Cognitive CMMS",
         tags: ["ccg", "arfoundation", "android", "ar", "backend", "csharp", "firebase", "http", "js", "mobile", "networking", "nodejs", "webgl", "webrtc", "websocket", "xr"],
         date: {
             start: "2021-06",
             end: "2023-06"
         },
-        summary: "Mobile app to list and display assets info and tasks on a given location with indoor navigation system.",
+        summary: [
+            "Mobile app to list and display assets info and tasks on a given location with indoor navigation system."
+        ],
         description: [
             "Mobile app to list and display assets info and tasks on a given location with indoor navigation system.",
             "My contributions:",
@@ -258,13 +283,16 @@ export const projects = [
     },
     {
         id: "i2am",
+        label: "I2AM",
         title: "I2AM: Intelligent Immersive Aircraft Modification",
         tags: ["ccg", "ar", "backend", "csharp", "http", "js", "networking", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2022-03",
             end: "2023-08"
         },
-        summary: "Remote Assistance system for aviation inspection in AR.",
+        summary: [
+            "Remote Assistance system for aviation inspection in AR."
+        ],
         description: [
             "Solution based on augmented reality for remote assistance centered on aviation maintenance operations (borescope inspection) and with holographic visualization of information (from the worker on-site to the remote inspector)",
             "My contributions:",
@@ -281,12 +309,15 @@ export const projects = [
     {
         id: "admin",
         title: "ADM.IN: Advanced Decision Making IN Productive Systems Through Intelligent Networks",
+        label: "ADM.IN",
         tags: ["featured", "ccg", "ar", "backend", "csharp", "http", "js", "networking", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2022-09",
             end: "2023-07"
         },
-        summary: "Maintenance Configurator and Remote Assistance system for maintenance operations in AR.",
+        summary: [
+            "Maintenance Configurator and Remote Assistance system for maintenance operations in AR."
+        ],
         description: [
             "Development of a knowledge management architecture and framework for the integration of Augmented Reality and Mixed Reality, oriented towards knowledge of the maintenance and monitoring process through indicators applied in some critical maintenance activities.",
             "My contributions:",
@@ -304,12 +335,15 @@ export const projects = [
     {
         id: "tsim",
         title: "TSIM - Test System Intelligent Machines",
+        label: "TSIM",
         tags: ["ccg", "backend", "ar", "aspnet", "csharp", "frontend", "js", "http", "nestjs", "networking", "nextjs", "nodejs", "unity", "webrtc", "websocket", "windows", "xr"],
         date: {
             start: "2021-05",
             end: "2023-10"
         },
-        summary: "Auto diagnosis and validation system, with maintenance step-by-step holographic indications and remote assistance support.",
+        summary: [
+            "Auto diagnosis and validation system, with maintenance step-by-step holographic indications and remote assistance support."
+        ],
         description: [
             "Auto diagnosis and validation system, with maintenance step-by-step holographic indications and remote assistance support for HoloLens equipped by a technician performing operations on a machine.",
             "My contributions:",
@@ -333,6 +367,7 @@ export const projects = [
     {
         id: "dissertation",
         title: "Augmented Reality System with Gamification for Education",
+        label: "Dissertation",
         grade: {
             value: 19,
             range: 20
@@ -342,7 +377,9 @@ export const projects = [
             start: "2020-09",
             end: "2022-03"
         },
-        summary: "Master's Dissertation",
+        summary: [
+            "Master's Dissertation"
+        ],
         description: [
             "• Original title (PT): \"Sistema de Realidade Aumentada com Gamificação para o Ensino\"",
             "• Curricular unit: Dissertation in Telecommunications and Informatics Engineering (5th year)",
@@ -354,13 +391,16 @@ export const projects = [
     },
     {
         id: "fof",
+        label: "Factory of the Future / P51",
         title: "Factory of the Future: Smart Manufacturing / P51 - Training for operators with new methodologies",
         tags: ["featured", "ccg", "ar", "backend", "csharp", "http", "mysql", "sql", "unity", "webgl", "vr", "xr"],
         date: {
             start: "2021-08",
             end: "2022-01"
         },
-        summary: "Gamified training and evaluation system for machine operations in VR and AR.",
+        summary: [
+            "Gamified training and evaluation system for machine operations in VR and AR."
+        ],
         description: [
             "Gamified training and evaluation system for machine operations in VR and AR (HoloLens).",
             "My contributions:",
@@ -383,7 +423,9 @@ export const projects = [
             start: "2021-07",
             end: "2021-07"
         },
-        summary: "Voice Transcription mobile app shared with my family so they can communicate with its deaf members.",
+        summary: [
+            "Voice Transcription mobile app shared with my family so they can communicate with its deaf members."
+        ],
         description: [
             "Voice Transcription mobile app shared with my family so they can communicate with its deaf members."
         ]
@@ -407,6 +449,7 @@ export const projects = [
     {
         id: "su_1",
         title: "Detection of bike riding events with a mobile phone",
+        label: "BikeMonitor",
         grade: {
             value: 18.53,
             range: 20
@@ -434,7 +477,9 @@ export const projects = [
             start: "2019-07",
             end: "2020-09"
         },
-        summary: "Mobile AR multiplayer laser tag game.",
+        summary: [
+            "Mobile AR multiplayer laser tag game."
+        ],
         description: [
             "Unfinished project that consists on a mobile AR multiplayer laser tag game."
         ]
@@ -491,6 +536,7 @@ export const projects = [
     {
         id: "rm_1",
         title: "E-Scudo - Mobile application to carry out criptocurrency transactions",
+        label: "E-Scudo",
         grade: {
             value: 18,
             range: 20
@@ -552,7 +598,9 @@ export const projects = [
             start: "2019-12",
             end: "2019-12"
         },
-        summary: "Mobile app that plays random audioclips that were sent from a friend over four years across group chats.",
+        summary: [
+            "Mobile app that plays random audioclips that were sent from a friend over four years across group chats."
+        ],
         description: [
             "Mobile app that plays random audioclips that were sent from a friend over four years across group chats."
         ]
@@ -751,7 +799,9 @@ export const projects = [
             start: "2018-05",
             end: "2018-06"
         },
-        summary: "Project to optimize storage of pallets in a warehouse.",
+        summary: [
+            "Project to optimize storage of pallets in a warehouse."
+        ],
         description: [
             "• Original title (PT): \"Armazém de Paletes\"",
             "• Curricular unit: Operations Research (2nd year)",
@@ -770,7 +820,9 @@ export const projects = [
             start: "2018-02",
             end: "2018-06"
         },
-        summary: "Mobile app to monitor user's health.",
+        summary: [
+            "Mobile app to monitor user's health."
+        ],
         description: [
             "• Curricular unit: Programming Paradigms II (2nd year)",
             "Mobile app to monitor user's health through a set of features:",
@@ -782,6 +834,7 @@ export const projects = [
     {
         id: "io_1",
         title: "Scientific article research - \"Resolution of an Antenna-Satellite assignment problem by means of Integer Linear Programming\"",
+        label: "Scientific article research",
         grade: {
             value: 62,
             range: 100
@@ -791,7 +844,9 @@ export const projects = [
             start: "2018-04",
             end: "2018-05"
         },
-        summary: "Research and presentation of existing scientific article related to resources optimization.",
+        summary: [
+            "Research and presentation of existing scientific article related to resources optimization."
+        ],
         description: [
             "• Curricular unit: Operations Research (2nd year)",
             "Research and presentation of existing scientific article related to resources optimization.",
@@ -814,7 +869,9 @@ export const projects = [
             start: "2017-11",
             end: "2018-01"
         },
-        summary: "Java program to manage parking at a hotel.",
+        summary: [
+            "Java program to manage parking at a hotel."
+        ],
         description: [
             "• Original title (PT): \"Gestão de Parques de longa duração\"",
             "• Curricular unit: Programming Paradigms I (2nd year)",
@@ -833,7 +890,9 @@ export const projects = [
             start: "2017-05",
             end: "2017-06"
         },
-        summary: "Quiz fighter game in C where the player must answer questions to defeat themed characters.",
+        summary: [
+            "Quiz fighter game in C where the player must answer questions to defeat themed characters."
+        ],
         description: [
             "• Curricular unit: Programming Methods II (1st year)",
             "Quiz fighter game in C where the player must answer questions to defeat themed characters.",
@@ -859,7 +918,9 @@ export const projects = [
             start: "2017-03",
             end: "2017-04"
         },
-        summary: "C program to read and store files content and store it in linked lists.",
+        summary: [
+            "C program to read and store files content and store it in linked lists."
+        ],
         description: [
             "• Original title (PT): \"Pointers e Listas Ligadas\"",
             "• Curricular unit: Programming Methods II (1st year)",
@@ -878,7 +939,9 @@ export const projects = [
             start: "2017-02",
             end: "2017-03"
         },
-        summary: "C program to read and store files content and store it in arrays of structs.",
+        summary: [
+            "C program to read and store files content and store it in arrays of structs."
+        ],
         description: [
             "• Curricular unit: Programming Methods II (1st year)",
             "C program to read and store files content and store it in arrays of structs."
@@ -896,7 +959,9 @@ export const projects = [
             start: "2016-11",
             end: "2017-01"
         },
-        summary: "Morse code decoder that translates an input into a list of every possible set of words from a dictionary.",
+        summary: [
+            "Morse code decoder that translates an input into a list of every possible set of words from a dictionary."
+        ],
         description: [
             "• Curricular unit: Programming Methods I (1st year)",
             "Decoder app where, upon inputting a Morse code, the app would decode it into a list of every possible set of words that would be translated from that code. Such words would have to be previously added to a dictionary with each one's Morse code conversion."
@@ -910,10 +975,12 @@ export const projects = [
             start: "2016-04",
             end: "2016-05"
         },
-        summary: {
-            type: "image",
-            path: "tictactorchic.png"
-        },
+        summary: [
+            {
+                type: "image",
+                path: "tictactorchic.png"
+            }
+        ],
         description: [
             "• Subject: Computer Applications B (12th grade)",
             "Tic Tac Toe game based on Pokémon battling, where both players would peak one of six Pokémon and battle each other as if a completed row would invoke one of the Pokémon moves and deal damage according to each other's stats, until someone would run out of HP.",

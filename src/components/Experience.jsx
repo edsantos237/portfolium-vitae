@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { getSectionTheme } from "../config/sections";
 import { companies } from "@datapack/experience";
 import { projects } from "@datapack/projects";
@@ -6,12 +6,21 @@ import { skills } from "@datapack/skills";
 import ExperienceCard from "./ExperienceCard";
 import VerticalTimeline from "./VerticalTimeline";
 
-export default function Experience({ isActive, onShowProjects, onShowSkills, onProjectLink }) {
+export default function Experience({ isActive, onShowProjects, onShowSkills, onProjectLink, focusedCompanyId, onClearFocusedCompany }) {
   const sectionTheme = getSectionTheme("experience");
-  // If only one company, sub-entries (roles) are selectable and always expanded
   const single = companies.length === 1;
   const [selectedId, setSelectedId] = useState(null);
   const [openId, setOpenId] = useState(single ? companies[0].id : null);
+  const entryRefs = useRef({});
+
+  useEffect(() => {
+    if (!focusedCompanyId) return;
+    setOpenId(focusedCompanyId);
+    setTimeout(() => {
+      entryRefs.current[focusedCompanyId]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 320);
+    onClearFocusedCompany?.();
+  }, [focusedCompanyId]);
 
   // sort by most recent role start date
   const sorted = useMemo(
@@ -117,7 +126,8 @@ export default function Experience({ isActive, onShowProjects, onShowSkills, onP
             return (
               <div
                 key={company.id}
-                className={`section-entry pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
+                ref={(el) => { entryRefs.current[company.id] = el; }}
+                className={`section-entry scroll-mt-20 pt-8 first:pt-0 pb-6 last:pb-0 border-b border-gray-800 last:border-b-0 transition-all duration-200 rounded-r-sm ${isEntryOpen && !single ? 'open' : ''} ${single ? 'force-open' : ''}`}
               >
                 <ExperienceCard
                   company={company}

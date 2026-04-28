@@ -6,6 +6,7 @@ import About from "./About";
 
 import Projects from "./Projects";
 import ProjectPage from "./ProjectPage";
+import PublicationPage from "./PublicationPage";
 import Publications from "./Publications";
 import Activities from "./Activities";
 import Skills from "./Skills";
@@ -31,6 +32,10 @@ export default function Layout() {
   // Focus filters for Skills (applied when jumping to Skills section)
   const [focusedSkillFilters, setFocusedSkillFilters] = useState(null);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [selectedPublicationId, setSelectedPublicationId] = useState(null);
+  const [focusedCompanyId, setFocusedCompanyId] = useState(null);
+  const [focusedSchoolId, setFocusedSchoolId] = useState(null);
+  const [focusedSkillId, setFocusedSkillId] = useState(null);
   const showProjectsForAcademic = (schoolId) => {
     setFocusedAcademic(schoolId);
     jumpTo("projects");
@@ -158,6 +163,30 @@ export default function Layout() {
     setTimeout(() => setSelectedProjectId(projectId), 420);
   };
 
+  // Open a specific publication page
+  const showPublication = (pubId) => {
+    if (!pubId) return;
+    if (activeSection === "publications") {
+      setSelectedPublicationId(pubId);
+      return;
+    }
+    jumpTo("publications");
+    setTimeout(() => setSelectedPublicationId(pubId), 420);
+  };
+
+  const showCompany = (companyId) => {
+    setFocusedCompanyId(companyId);
+    jumpTo("experience");
+  };
+  const showSchool = (schoolId) => {
+    setFocusedSchoolId(schoolId);
+    jumpTo("education");
+  };
+  const showSkillById = (skillId) => {
+    setFocusedSkillId(skillId);
+    jumpTo("skills");
+  };
+
   // Generic handler for link objects that point to projects/activities/sections
   const handleProjectLink = (link) => {
     if (!link) return;
@@ -183,6 +212,10 @@ export default function Layout() {
     }
 
     if (link.type === "skills") {
+      if (link.entry) {
+        showSkillById(link.entry);
+        return;
+      }
       const filters = link.filters || [];
       setFocusedSkillFilters({
         professional: filters.filter((f) => f !== "personal" && f !== "featured"),
@@ -195,12 +228,20 @@ export default function Layout() {
     }
 
     if (link.type === "experience") {
-      jumpTo("experience");
+      if (link.entry) showCompany(link.entry);
+      else jumpTo("experience");
       return;
     }
 
     if (link.type === "education") {
-      jumpTo("education");
+      if (link.entry) showSchool(link.entry);
+      else jumpTo("education");
+      return;
+    }
+
+    if (link.type === "publications") {
+      if (link.entry) showPublication(link.entry);
+      else jumpTo("publications");
       return;
     }
   };
@@ -293,6 +334,10 @@ export default function Layout() {
                   activeAccentLine={activeAccentLine}
                   focusFilters={focusedSkillFilters}
                   onClearFocusFilters={() => setFocusedSkillFilters(null)}
+                  focusedSkillId={focusedSkillId}
+                  onClearFocusedSkillId={() => setFocusedSkillId(null)}
+                  onShowCompany={showCompany}
+                  onShowSchool={showSchool}
                 />
               </div>
             </section>
@@ -301,7 +346,7 @@ export default function Layout() {
             {sectionIds.has("experience") && (
             <section id="experience" style={getSectionSurfaceStyle("experience")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
-                <Experience isActive={activeSection === "experience"} onShowProjects={showProjectsForCompany} onShowSkills={showSkillsForCompany} onProjectLink={handleProjectLink} />
+                <Experience isActive={activeSection === "experience"} onShowProjects={showProjectsForCompany} onShowSkills={showSkillsForCompany} onProjectLink={handleProjectLink} focusedCompanyId={focusedCompanyId} onClearFocusedCompany={() => setFocusedCompanyId(null)} />
               </div>
             </section>
             )}
@@ -309,7 +354,7 @@ export default function Layout() {
             {sectionIds.has("education") && (
             <section id="education" style={getSectionSurfaceStyle("education")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
-                <Education isActive={activeSection === "education"} onShowProjects={showProjectsForAcademic} onShowSkills={showSkillsForAcademic} onProjectLink={handleProjectLink} />
+                <Education isActive={activeSection === "education"} onShowProjects={showProjectsForAcademic} onShowSkills={showSkillsForAcademic} onProjectLink={handleProjectLink} focusedSchoolId={focusedSchoolId} onClearFocusedSchool={() => setFocusedSchoolId(null)} />
               </div>
             </section>
             )}
@@ -333,7 +378,7 @@ export default function Layout() {
             {sectionIds.has("publications") && (
             <section id="publications" style={getSectionSurfaceStyle("publications")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
-                <Publications isActive={activeSection === "publications"} />
+                <Publications isActive={activeSection === "publications"} onPublicationClick={showPublication} />
               </div>
             </section>
             )}
@@ -371,6 +416,14 @@ export default function Layout() {
         <ProjectPage
           projectId={selectedProjectId}
           onBack={() => setSelectedProjectId(null)}
+          onProjectLink={handleProjectLink}
+        />
+      )}
+
+      {selectedPublicationId && (
+        <PublicationPage
+          publicationId={selectedPublicationId}
+          onBack={() => setSelectedPublicationId(null)}
           onProjectLink={handleProjectLink}
         />
       )}

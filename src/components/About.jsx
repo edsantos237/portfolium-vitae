@@ -130,7 +130,9 @@ export default function About({ isActive, onShowProjectFilters, onShowActivity, 
                           className="-mt-1 rounded-b-lg border p-5 text-sm text-gray-300 relative z-0 section-card"
                           style={{ borderColor: 'var(--section-accent-border)' }}
                         >
-                          {s.description}
+                          {Array.isArray(s.description)
+                            ? renderGroups(groupDescriptionItems(s.description), `strength-desc-${idx}`, onProjectLink)
+                            : s.description}
                         </div>
                       </div>
                     </div>

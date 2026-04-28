@@ -10,7 +10,9 @@ export const projects = [
             start: "2025-01", // ISO date string (YYYY-MM)
             end: null // leave null if ongoing
         },
-        summary: "Some string.", // can be a string
+        summary: [
+            "Some string." // can be a string
+        ],
         description: [
             "Some string.", // string elements are placed as paragraphs
             "Another string with <b>HTML tags</b>.", // strings can contain simple HTML tags like <b> (bold), <i> (italic), <a>, etc.
@@ -112,10 +114,12 @@ export const projects = [
             start: "2020-01",
             end: "2020-06"
         },
-        summary: { // can be an image
-            type: "image",
-            path: "example.jpg"
-        },
+        summary: [
+            { // can be an image
+                type: "image",
+                path: "example.jpg"
+            }
+        ],
         description: [
             "Some string.",
             "Another string with <b>HTML tags</b>.",
@@ -130,7 +134,9 @@ export const projects = [
             start: "2019-01",
             end: "2019-12"
         },
-        summary: "Some string.",
+        summary: [
+            "Some string."
+        ],
         description: [
             "Some string.",
             "Another string with <b>HTML tags</b>.",

@@ -94,13 +94,14 @@ export function groupDescriptionItems(items = []) {
 
 export function renderMediaItem(item, key, opts = {}) {
   const compact = !!opts.compact;
+  const imageMaxH = opts.imageMaxH || (compact ? 'max-h-20' : 'max-h-[32rem]');
   if (item.type === "image") {
     return (
       <img
         key={key}
         src={`res/${item.path}`}
         alt={item.alt || ""}
-        className={`w-full rounded-lg object-contain ${compact ? 'max-h-20' : 'max-h-[32rem]'}`}
+        className={`w-full rounded-lg object-contain ${imageMaxH}`}
         style={{ display: "block", margin: "0 auto" }}
         loading="lazy"
       />
