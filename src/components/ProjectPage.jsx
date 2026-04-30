@@ -71,7 +71,10 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
 
   if (!project) return null;
 
-  const dateLabel = formatRange(project.date);
+  const rawDateLabel = formatRange(project.date)?.replace("— Present", "— Ongoing");
+  const dateLabel = rawDateLabel
+    ? (project.tags.includes("suspended") ? `${rawDateLabel} — Suspended` : rawDateLabel)
+    : null;
 
   // Resolve origins (company / school / personal)
   const origins = [];
@@ -150,6 +153,11 @@ export default function ProjectPage({ projectId, onBack, onProjectLink }) {
                 ← Projects
               </button>
               <h2 className="text-2xl font-bold leading-tight" style={titlePaddingRight ? { paddingRight: titlePaddingRight } : undefined}>{project.title}</h2>
+              {(project.year || project.subject) && (
+                <p className="text-sm text-gray-400 mt-1">
+                  {[project.year, project.subject].filter(Boolean).join(" · ")}
+                </p>
+              )}
             </div>
           </div>
 

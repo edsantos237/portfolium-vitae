@@ -262,7 +262,7 @@ export const projects = [
     {
         id: "skyscanner",
         title: "Sky Scanner",
-        tags: ["personal", "mobile", "android", "csharp", "mapbox", "unity"],
+        tags: ["suspended", "personal", "mobile", "android", "csharp", "mapbox", "unity"],
         date: {
             start: "2025-03",
             end: "2025-03"
@@ -461,6 +461,8 @@ export const projects = [
         id: "dissertation",
         title: "Augmented Reality System with Gamification for Education",
         label: "Dissertation",
+        year: "5th year",
+        subject: "Dissertation in Telecommunications and Informatics Engineering",
         grade: {
             value: 19,
             range: 20
@@ -474,8 +476,7 @@ export const projects = [
             "Master's Dissertation"
         ],
         description: [
-            "• Original title (PT): \"Sistema de Realidade Aumentada com Gamificação para o Ensino\"",
-            "• Curricular unit: Dissertation in Telecommunications and Informatics Engineering (5th year)",
+            "<h1>Original title (PT): <i>\"Sistema de Realidade Aumentada com Gamificação para o Ensino\"</i></h1>",
             {
                 type: "pdf",
                 path: "Dissertation-a82350.pdf"
@@ -526,6 +527,8 @@ export const projects = [
     {
         id: "rva_1",
         title: "VRollercoastAR",
+        year: "5th year",
+        subject: "Virtual and Augmented Reality",
         grade: {
             value: 19,
             range: 20
@@ -536,13 +539,14 @@ export const projects = [
             end: "2021-02"
         },
         description: [
-            "• Curricular unit: Virtual and Augmented Reality (5th year)"
         ]
     },
     {
         id: "su_1",
         title: "Detection of bike riding events with a mobile phone",
         label: "BikeMonitor",
+        year: "5th year",
+        subject: "Ubiquitous Systems",
         grade: {
             value: 18.53,
             range: 20
@@ -553,7 +557,6 @@ export const projects = [
             end: "2021-01"
         },
         description: [
-            "• Curricular unit: Ubiquitous Systems (5th year)",
             {
                 type: "button",
                 label: "GitHub",
@@ -565,7 +568,7 @@ export const projects = [
     {
         id: "edshot",
         title: "edShot",
-        tags: ["personal", "backend", "android", "androidstudio", "ar", "gamedev", "java", "mobile", "networking", "tcp", "tensorflow", "udp", "xr"],
+        tags: ["suspended", "personal", "backend", "android", "androidstudio", "ar", "gamedev", "java", "mobile", "networking", "tcp", "tensorflow", "udp", "xr"],
         date: {
             start: "2019-07",
             end: "2020-09"
@@ -580,6 +583,8 @@ export const projects = [
     {
         id: "tsm_2",
         title: "PCM Audio Distribution",
+        year: "4th year",
+        subject: "Multimedia Technologies and Services",
         grade: {
             value: 17.0,
             range: 20
@@ -590,12 +595,13 @@ export const projects = [
             end: "2020-07"
         },
         description: [
-            "• Curricular unit: Multimedia Technologies and Services (4th year)"
         ]
     },
     {
         id: "tsm_1",
         title: "Shannon-Fano and LZW file compressor",
+        year: "4th year",
+        subject: "Multimedia Technologies and Services",
         grade: {
             value: 19.0,
             range: 20
@@ -606,12 +612,13 @@ export const projects = [
             end: "2020-07"
         },
         description: [
-            "• Curricular unit: Multimedia Technologies and Services (4th year)"
         ]
     },
     {
         id: "pti2_1",
         title: "Corporative messaging and alerting services for vehicular networks",
+        year: "4th year",
+        subject: "Project of Telecommunications and Informatics II",
         grade: {
             value: 19,
             range: 20
@@ -622,14 +629,15 @@ export const projects = [
             end: "2020-06"
         },
         description: [
-            "• Original title (PT): \"Serviços corporativos de mensagens e alertas para redes veiculares\"",
-            "• Curricular unit: Project of Telecommunications and Informatics II (4th year)"
+            "<h1>Original title (PT): <i>\"Serviços corporativos de mensagens e alertas para redes veiculares\"</i></h1>"
         ]
     },
     {
         id: "rm_1",
         title: "E-Scudo - Mobile application to carry out criptocurrency transactions",
         label: "E-Scudo",
+        year: "4th year",
+        subject: "Mobile Networks",
         grade: {
             value: 18,
             range: 20
@@ -640,8 +648,7 @@ export const projects = [
             end: "2020-06"
         },
         description: [
-            "• Original title (PT): \"E-Scudo - Aplcação móvel para efetuar transações em criptomoedas\"",
-            "• Curricular unit: Mobile Networks (4th year)",
+            "<h1>Original title (PT): <i>\"E-Scudo - Aplcação móvel para efetuar transações em criptomoedas\"</i></h1>",
             "Participated in the 1st edition of INNCYBER Innovation Award (2019/2020).",
             {
                 type: "pdf",
@@ -652,6 +659,8 @@ export const projects = [
     {
         id: "gr_1",
         title: "Monitoring tool",
+        year: "4th year",
+        subject: "Network Management",
         grade: {
             value: 15.0,
             range: 20
@@ -662,13 +671,14 @@ export const projects = [
             end: "2020-02"
         },
         description: [
-            "• Original title (PT): \"Ferramenta de monitorização\"",
-            "• Curricular unit: Network Management (4th year)"
+            "<h1>Original title (PT): <i>\"Ferramenta de monitorização\"</i></h1>"
         ]
     },
     {
         id: "gr_2",
         title: "Music server with SNMP interface",
+        year: "4th year",
+        subject: "Network Management",
         grade: {
             value: 15.0,
             range: 20
@@ -679,8 +689,7 @@ export const projects = [
             end: "2020-02"
         },
         description: [
-            "• Original title (PT): \"Servidor musical com interface SNMP\"",
-            "• Curricular unit: Network Management (4th year)"
+            "<h1>Original title (PT): <i>\"Servidor musical com interface SNMP\"</i></h1>"
         ]
     },
     {
@@ -701,6 +710,8 @@ export const projects = [
     {
         id: "pti1_1",
         title: "Colaborative sensing-based traffic monitoring services",
+        year: "4th year",
+        subject: "Project of Telecommunications and Informatics I",
         grade: {
             value: 18,
             range: 20
@@ -711,8 +722,7 @@ export const projects = [
             end: "2020-01"
         },
         description: [
-            "• Original title (PT): \"Serviços de monitorização de tráfego baseado em collaborative sensing\"",
-            "• Curricular unit: Project of Telecommunications and Informatics I (4th year)",
+            "<h1>Original title (PT): <i>\"Serviços de monitorização de tráfego baseado em collaborative sensing\"</i></h1>",
             {
                 type: "button",
                 label: "GitHub",
@@ -724,6 +734,8 @@ export const projects = [
     {
         id: "sco_1",
         title: "Communication between two devices using laser and through air",
+        year: "4th year",
+        subject: "Optical Communications Systems",
         grade: {
             value: 14,
             range: 20
@@ -734,7 +746,6 @@ export const projects = [
             end: "2020-01"
         },
         description: [
-            "• Curricular unit: Optical Communications Systems (4th year)"
         ]
     },
     {
@@ -750,12 +761,13 @@ export const projects = [
             end: "2020-01"
         },
         description: [
-            "• Curricular unit: Cryptography (4th year)"
         ]
     },
     {
         id: "sd_1",
         title: "Chat server",
+        year: "3rd year",
+        subject: "Distributed Systems",
         grade: {
             value: 18,
             range: 20
@@ -766,26 +778,28 @@ export const projects = [
             end: "2019-06"
         },
         description: [
-            "• Original title (PT): \"Servidor de chat\"",
-            "• Curricular unit: Distributed Systems (3rd year)"
+            "<h1>Original title (PT): <i>\"Servidor de chat\"</i></h1>"
         ]
     },
     {
         id: "pds_1",
         title: "Electrocardiogram signal",
+        year: "3rd year",
+        subject: "Digital Signal Processing",
         tags: ["university", "matlab"],
         date: {
             start: "2019-05",
             end: "2019-06"
         },
         description: [
-            "• Original title (PT): \"Sinal de electrocardiograma\"",
-            "• Curricular unit: Digital Signal Processing (3rd year)"
+            "<h1>Original title (PT): <i>\"Sinal de electrocardiograma\"</i></h1>",
         ]
     },
     {
         id: "rc2_1",
         title: "IPv4 packet forwarding router",
+        year: "3rd year",
+        subject: "Computer Networks II",
         grade: {
             value: 17.75,
             range: 20
@@ -796,12 +810,13 @@ export const projects = [
             end: "2019-06"
         },
         description: [
-            "• Curricular unit: Computer Networks II (3rd year)"
         ]
     },
     {
         id: "lti2_1",
         title: "Physical activity monitoring system",
+        year: "3rd year",
+        subject: "Laboratories of Telecommunications and Informatics II",
         grade: {
             value: 17.69,
             range: 20
@@ -812,13 +827,14 @@ export const projects = [
             end: "2019-06"
         },
         description: [
-            "• Original title (PT): \"Sistema de monitorização de atividade física\"",
-            "• Curricular unit: Laboratories of Telecommunications and Informatics II (3rd year)"
+            "<h1>Original title (PT): <i>\"Sistema de monitorização de atividade física\"</i></h1>"
         ]
     },
     {
         id: "lti1_1",
         title: "Chatting Application",
+        year: "3rd year",
+        subject: "Laboratories of Telecommunications and Informatics I",
         grade: {
             value: 16,
             range: 20
@@ -829,13 +845,14 @@ export const projects = [
             end: "2019-01"
         },
         description: [
-            "• Original title (PT): \"Aplicação de Conversação\"",
-            "• Curricular unit: Laboratories of Telecommunications and Informatics I (3rd year)"
+            "<h1>Original title (PT): <i>\"Aplicação de Conversação\"</i></h1>"
         ]
     },
     {
         id: "so_1",
         title: "Scheduled Execution of Program Sets",
+        year: "3rd year",
+        subject: "Operating Systems",
         grade: {
             value: 14.0,
             range: 20
@@ -846,13 +863,14 @@ export const projects = [
             end: "2019-01"
         },
         description: [
-            "• Original title (PT): \"Execução Agendada de Conjuntos de Programas\"",
-            "• Curricular unit: Operating Systems (3rd year)"
+            "<h1>Original title (PT): <i>\"Execução Agendada de Conjuntos de Programas\"</i></h1>"
         ]
     },
     {
         id: "rc1_1",
         title: "Simulation of Ethernet LANs and TCP/IP networks using CORE",
+        year: "3rd year",
+        subject: "Computer Networks I",
         grade: {
             value: 14.0,
             range: 20
@@ -863,26 +881,28 @@ export const projects = [
             end: "2019-01"
         },
         description: [
-            "• Original title (PT): \"Simulação de LANs Ethernet e redes TCP/IP usando o CORE\"",
-            "• Curricular unit: Computer Networks I (3rd year)"
+            "<h1>Original title (PT): <i>\"Simulação de LANs Ethernet e redes TCP/IP usando o CORE\"</i></h1>"
         ]
     },
     {
         id: "eletro2_1",
         title: "PCBs Project",
+        year: "2nd year",
+        subject: "Electronics II",
         tags: ["university"],
         date: {
             start: "2018-06",
             end: "2018-06"
         },
         description: [
-            "• Original title (PT): \"Projeto de PCBs\"",
-            "• Curricular unit: Electronics II (2nd year)"
+            "<h1>Original title (PT): <i>\"Projeto de PCBs\"</i></h1>"
         ]
     },
     {
         id: "io_2",
         title: "Pallet Warehouse",
+        year: "2nd year",
+        subject: "Operations Research",
         grade: {
             value: 67,
             range: 100
@@ -896,14 +916,15 @@ export const projects = [
             "Project to optimize storage of pallets in a warehouse."
         ],
         description: [
-            "• Original title (PT): \"Armazém de Paletes\"",
-            "• Curricular unit: Operations Research (2nd year)",
+            "<h1>Original title (PT): <i>\"Armazém de Paletes\"</i></h1>",
             "Project to optimize storage of pallets in a warehouse."
         ]
     },
     {
         id: "pp2_1",
         title: "Smart Health Control",
+        year: "2nd year",
+        subject: "Programming Paradigms II",
         grade: {
             value: 13,
             range: 20
@@ -917,7 +938,6 @@ export const projects = [
             "Mobile app to monitor user's health."
         ],
         description: [
-            "• Curricular unit: Programming Paradigms II (2nd year)",
             "Mobile app to monitor user's health through a set of features:",
             "• Steps counter and distance measuring - using accelerometer, gyroscope and GPS.",
             "• Heart rate measure - using the device's camera and flashlight covered with the user's finger.",
@@ -928,6 +948,8 @@ export const projects = [
         id: "io_1",
         title: "Scientific article research - \"Resolution of an Antenna-Satellite assignment problem by means of Integer Linear Programming\"",
         label: "Scientific article research",
+        year: "2nd year",
+        subject: "Operations Research",
         grade: {
             value: 62,
             range: 100
@@ -941,7 +963,6 @@ export const projects = [
             "Research and presentation of existing scientific article related to resources optimization."
         ],
         description: [
-            "• Curricular unit: Operations Research (2nd year)",
             "Research and presentation of existing scientific article related to resources optimization.",
             {
                 type: "button",
@@ -953,6 +974,8 @@ export const projects = [
     {
         id: "pp1_1",
         title: "Long term park management",
+        year: "2nd year",
+        subject: "Programming Paradigms I",
         grade: {
             value: 13,
             range: 20
@@ -966,14 +989,15 @@ export const projects = [
             "Java program to manage parking at a hotel."
         ],
         description: [
-            "• Original title (PT): \"Gestão de Parques de longa duração\"",
-            "• Curricular unit: Programming Paradigms I (2nd year)",
+            "<h1>Original title (PT): <i>\"Gestão de Parques de longa duração\"</i></h1>",
             "Java program to manage parking at a hotel."
         ]
     },
     {
         id: "mp2_3",
         title: "The QUIZZER",
+        year: "1st year",
+        subject: "Programming Methods II",
         grade: {
             value: 16,
             range: 20
@@ -987,7 +1011,6 @@ export const projects = [
             "Quiz fighter game in C where the player must answer questions to defeat themed characters."
         ],
         description: [
-            "• Curricular unit: Programming Methods II (1st year)",
             "Quiz fighter game in C where the player must answer questions to defeat themed characters.",
             {
                 type: "youtube",
@@ -1002,6 +1025,8 @@ export const projects = [
     {
         id: "mp2_2",
         title: "Pointers and Linked Lists",
+        year: "1st year",
+        subject: "Programming Methods II",
         grade: {
             value: 16,
             range: 20
@@ -1015,14 +1040,15 @@ export const projects = [
             "C program to read and store files content and store it in linked lists."
         ],
         description: [
-            "• Original title (PT): \"Pointers e Listas Ligadas\"",
-            "• Curricular unit: Programming Methods II (1st year)",
+            "<h1>Original title (PT): <i>\"Pointers e Listas Ligadas\"</i></h1>",
             "C program to read and store files content and store it in linked lists."
         ]
     },
     {
         id: "mp2_1",
         title: "Arrays, Structs, Files",
+        year: "1st year",
+        subject: "Programming Methods II",
         grade: {
             value: 15,
             range: 20
@@ -1036,13 +1062,14 @@ export const projects = [
             "C program to read and store files content and store it in arrays of structs."
         ],
         description: [
-            "• Curricular unit: Programming Methods II (1st year)",
             "C program to read and store files content and store it in arrays of structs."
         ]
     },
     {
         id: "mp1_1",
         title: "Morse dictionary decoder",
+        year: "1st year",
+        subject: "Programming Methods I",
         grade: {
             value: 13,
             range: 20
@@ -1056,13 +1083,14 @@ export const projects = [
             "Morse code decoder that translates an input into a list of every possible set of words from a dictionary."
         ],
         description: [
-            "• Curricular unit: Programming Methods I (1st year)",
             "Decoder app where, upon inputting a Morse code, the app would decode it into a list of every possible set of words that would be translated from that code. Such words would have to be previously added to a dictionary with each one's Morse code conversion."
         ]
     },
     {
         id: "apib_1",
         title: "Tic Tac Torchic",
+        year: "12th grade",
+        subject: "Computer Applications B",
         tags: ["high_school", "gamedev", "vbasic", "windows"],
         date: {
             start: "2016-04",
@@ -1075,7 +1103,6 @@ export const projects = [
             }
         ],
         description: [
-            "• Subject: Computer Applications B (12th grade)",
             "Tic Tac Toe game based on Pokémon battling, where both players would peak one of six Pokémon and battle each other as if a completed row would invoke one of the Pokémon moves and deal damage according to each other's stats, until someone would run out of HP.",
             {
                 type: "image",

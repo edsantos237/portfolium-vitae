@@ -3,7 +3,7 @@ export const publications = [
         id: "web3d",
         title: "Towards remote rehabilitation with gaming, digital monitor and computer vision technologies",
         publisher: "ACM Digital Library",
-        tags: ["arcticle, hfpt"],
+        tags: ["hfpt"],
         date: "2024-09-24",
         links: ["https://dl.acm.org/doi/10.1145/3665318.3677162"],
         summary: [
@@ -24,7 +24,7 @@ export const publications = [
         id: "itet2023_ux",
         title: "UX and Industry 5.0: A study in Repairing equipment using Augmented Reality",
         publisher: "Springer",
-        tags: ["arcticle, admin"],
+        tags: ["admin"],
         date: "2023-10-31",
         links: ["https://link.springer.com/chapter/10.1007/978-981-99-6303-4_12"],
         summary: [
@@ -45,7 +45,7 @@ export const publications = [
         id: "itet2023_ar",
         title: "Augmented Reality Towards Industry 5.0: Improving Voice and Tap Interaction Based on User Experience Feedback",
         publisher: "Springer",
-        tags: ["arcticle, admin"],
+        tags: ["admin"],
         date: "2023-10-31",
         summary: [
             "Presented at ITET 2023 - International Conference on Information Technology and Education Technology."
@@ -65,7 +65,7 @@ export const publications = [
         id: "icgi2022",
         title: "Generic XR game-based approach for industrial training",
         publisher: "IEEE",
-        tags: ["arcticle, fof"],
+        tags: ["fof"],
         date: "2022-12-21",
         summary: [
             "Presented at ICGI'2022 - International Conference on Graphics and Interaction."
@@ -85,7 +85,7 @@ export const publications = [
         id: "quizhuntar",
         title: "QuizHuntAR: A location-based Augmented Reality game for education",
         publisher: "IEEE",
-        tags: ["arcticle, dissertation"],
+        tags: ["dissertation"],
         date: "2021-11-04",
         summary: [
             "Presented at ICGI'2021 - International Conference on Graphics and Interaction."

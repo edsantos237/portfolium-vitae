@@ -44,7 +44,7 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                             </h3>
                             {visibleLabels.length > 0 && (
                                 <p className="text-sm text-gray-400 mt-1">
-                                    {visibleLabels.join(" \u2022 ")}
+                                    {visibleLabels.join(" · ")}
                                 </p>
                             )}
                         </div>
@@ -150,7 +150,7 @@ export default function EducationCard({ school, open, onToggle, forceOpen, degre
                                 {/* Degrees as inline text */}
                                 {course.degrees && course.degrees.length > 0 && (
                                     <p className="text-sm text-gray-400">
-                                        {course.degrees.join(" \u2022 ")}
+                                        {course.degrees.join(" · ")}
                                     </p>
                                 )}
 

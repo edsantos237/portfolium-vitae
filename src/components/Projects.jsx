@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Fragment } from "react";
 import { IoStar } from "react-icons/io5";
 import { projects } from "@datapack/projects";
 import { companies } from "@datapack/experience";
@@ -354,20 +354,111 @@ export default function Projects({ focusedSkill, setFocusedSkill, focusedCompany
       </div>
 
       {/* PROJECTS */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredProjects.map((project, index) => (
-          <ProjectCard
-            key={`${project.title}-${index}`}
-            project={project}
-            orderedSkills={renderProjectSkills(project)}
-            companies={companies}
-            schools={schools}
-            projectsData={projects}
-            hasAssociatedPublications={hasRelatedPublicationsForProject(project.id, publications)}
-            onProjectClick={onProjectClick}
-          />
-        ))}
-      </div>
+      {(() => {
+        const onlyAcademic =
+          selectedAcademic.length > 0 &&
+          selectedProfessional.length === 0 &&
+          !personalSelected;
+
+        if (onlyAcademic) {
+          // When multiple schools are selected, group school-by-school then by year within each school.
+          // The first year delimiter of each school carries that school's label.
+          const groups = [];
+
+          if (selectedAcademic.length > 1) {
+            activeAcademic.forEach((school) => {
+              const schoolProjects = filteredProjects.filter((p) => p.tags.includes(school.id));
+              let firstForSchool = true;
+              let lastSeenYear = null;
+              schoolProjects.forEach((project) => {
+                const yr = project.year ?? null;
+                // If year-less but we've already seen a year, fold into current group
+                const effectiveYr = (yr === null && lastSeenYear !== null) ? lastSeenYear : yr;
+                if (yr !== null) lastSeenYear = yr;
+                const last = groups[groups.length - 1];
+                // Check if this year already appeared in an earlier group (for this school scope)
+                const existing = effectiveYr !== null
+                  ? groups.find((g) => g.year === effectiveYr && (g.schoolLabel === (school.label ?? school.title) || (!firstForSchool && g.schoolLabel === null)))
+                  : null;
+                if (!firstForSchool && existing) {
+                  existing.projects.push(project);
+                } else if (last && last.year === effectiveYr && !firstForSchool) {
+                  last.projects.push(project);
+                } else {
+                  groups.push({
+                    year: effectiveYr,
+                    projects: [project],
+                    schoolLabel: firstForSchool ? (school.label ?? school.title) : null,
+                  });
+                  firstForSchool = false;
+                }
+              });
+            });
+          } else {
+            // Single school: group by year only
+            let lastSeenYear = null;
+            filteredProjects.forEach((project) => {
+              const yr = project.year ?? null;
+              const effectiveYr = (yr === null && lastSeenYear !== null) ? lastSeenYear : yr;
+              if (yr !== null) lastSeenYear = yr;
+              // If this year already appeared in an earlier group, push into it
+              const existing = effectiveYr !== null ? groups.find((g) => g.year === effectiveYr) : null;
+              if (existing) {
+                existing.projects.push(project);
+              } else {
+                groups.push({ year: effectiveYr, projects: [project], schoolLabel: null });
+              }
+            });
+          }
+
+          return (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {groups.map((group, gi) => (
+                <Fragment key={`${group.schoolLabel ?? ""}-${group.year ?? "noyr"}-${gi}`}>
+                  {(group.year || group.schoolLabel) && (
+                    <div className="col-span-full flex items-center gap-3">
+                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-widest whitespace-nowrap">
+                        {[group.schoolLabel, group.year].filter(Boolean).join(" · ")}
+                      </span>
+                      <hr className="flex-1 border-t border-gray-700" />
+                    </div>
+                  )}
+                  {group.projects.map((project, index) => (
+                    <ProjectCard
+                      key={`${project.title}-${index}`}
+                      project={project}
+                      orderedSkills={renderProjectSkills(project)}
+                      companies={companies}
+                      schools={schools}
+                      projectsData={projects}
+                      hasAssociatedPublications={hasRelatedPublicationsForProject(project.id, publications)}
+                      onProjectClick={onProjectClick}
+                      hideYear
+                    />
+                  ))}
+                </Fragment>
+              ))}
+            </div>
+          );
+        }
+
+        return (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard
+                key={`${project.title}-${index}`}
+                project={project}
+                orderedSkills={renderProjectSkills(project)}
+                companies={companies}
+                schools={schools}
+                projectsData={projects}
+                hasAssociatedPublications={hasRelatedPublicationsForProject(project.id, publications)}
+                onProjectClick={onProjectClick}
+              />
+            ))}
+          </div>
+        );
+      })()}
 
       {featuredSelected && (
         <div className="mt-8 flex justify-center">

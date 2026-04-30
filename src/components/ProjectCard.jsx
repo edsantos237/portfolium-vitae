@@ -19,7 +19,7 @@ function formatRange(date) {
   const start = formatMonthYear(date.start);
 
   if (!date.end) {
-    return `${start.month} ${start.year} — Present`;
+    return `${start.month} ${start.year} — Ongoing`;
   }
 
   const end = formatMonthYear(date.end);
@@ -43,8 +43,12 @@ export default function ProjectCard({
   projectsData,
   hasAssociatedPublications = false,
   onProjectClick,
+  hideYear = false,
 }) {
-  const dateLabel = formatRange(project.date);
+  const rawDateLabel = formatRange(project.date);
+  const dateLabel = rawDateLabel
+    ? (project.tags.includes("suspended") ? `${rawDateLabel} — Suspended` : rawDateLabel)
+    : null;
 
   // 🔥 Resolve origin tags
   const origins = [];
@@ -109,6 +113,12 @@ export default function ProjectCard({
         <h3 className="font-semibold text-white">
           {project.title}
         </h3>
+
+        {(!hideYear && project.year || project.subject) && (
+          <p className="text-sm text-gray-400 mt-1">
+            {[hideYear ? null : project.year, project.subject].filter(Boolean).join(" · ")}
+          </p>
+        )}
 
         {dateLabel && (
           <p className="text-xs text-gray-500">

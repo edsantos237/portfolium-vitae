@@ -143,11 +143,25 @@ export default function Cover({ activeSection, onJump }) {
           </h1>
 
           <div className="mt-4 text-base text-gray-300 flex flex-col items-center gap-1">
-            {cover.headline_long.map((item, idx) => (
-              <div key={idx}>
-                {renderHeadlineItem(item, idx, onJump)}
-              </div>
-            ))}
+            {(cover.headline_short
+              ? [
+                  ...cover.headline_short.map((item, idx) => (
+                    <div key={`short-${idx}`} className="sm:hidden">
+                      {renderHeadlineItem(item, idx, onJump)}
+                    </div>
+                  )),
+                  ...cover.headline_long.map((item, idx) => (
+                    <div key={`long-${idx}`} className="hidden sm:block">
+                      {renderHeadlineItem(item, idx, onJump)}
+                    </div>
+                  )),
+                ]
+              : cover.headline_long.map((item, idx) => (
+                  <div key={idx}>
+                    {renderHeadlineItem(item, idx, onJump)}
+                  </div>
+                ))
+            )}
           </div>
 
           {calcProfessionalExperience() && (() => {

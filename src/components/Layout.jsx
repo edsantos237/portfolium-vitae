@@ -16,6 +16,7 @@ import Contact from "./Contact";
 
 import { getSectionStyleVars, getSectionTheme, sections } from "../config/sections";
 import { heroBackgroundStyle } from "../config/heroTheme";
+import { cover } from "@datapack/cover";
 
 export default function Layout() {
   const [activeSection, setActiveSection] = useState(sections[0].id);
@@ -310,7 +311,7 @@ export default function Layout() {
         />
 
         {/* MAIN CONTENT */}
-        <main className="w-full pb-6">
+        <main className="w-full">
             {sectionIds.has("about-me") && (
             <section id="about-me" style={getSectionSurfaceStyle("about-me")} className="px-6 lg:px-10 py-16 border-b border-gray-800 lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
@@ -398,7 +399,7 @@ export default function Layout() {
             )}
 
             {sectionIds.has("contact") && (
-            <section id="contact" style={getSectionSurfaceStyle("contact")} className="px-6 lg:px-10 py-20 lg:border-l transition-colors duration-300">
+            <section id="contact" style={getSectionSurfaceStyle("contact")} className="px-6 lg:px-10 py-20 border-b lg:border-l transition-colors duration-300">
               <div className="max-w-6xl mx-auto">
                 <Contact
                   isActive={activeSection === "contact"}
@@ -410,6 +411,15 @@ export default function Layout() {
             )}
         </main>
       </div>
+
+      {/* ── Mobile footer ── */}
+      <footer className="lg:hidden relative overflow-hidden py-16">
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={heroBackgroundStyle} />
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+        <div className="relative z-10 flex flex-col items-center gap-1 text-center">
+          <p className="text-xs text-gray-500 select-none">&copy; {new Date().getFullYear()} {cover.name}</p>
+        </div>
+      </footer>
 
       {/* ── Project detail page overlay ── */}
       {selectedProjectId && (
