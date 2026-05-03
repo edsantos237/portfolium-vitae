@@ -387,7 +387,7 @@ export function renderMediaItem(item, key, opts = {}) {
         key={key}
         src={item.link}
         className="w-full rounded-lg"
-        style={{ height: compact ? "120px" : "241px" }}
+        style={{ height: compact ? "150px" : "241px" }}
         seamless
         loading="lazy"
         title={`Bandcamp ${key}`}

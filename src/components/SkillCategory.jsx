@@ -135,15 +135,71 @@ export default function SkillContainer({
             ? rowMap[closingInspectorId]
             : null;
 
-    const renderInspectorPanel = (skillId, isOpen, panelContentVisible) => {
+    const getInspectorEdgeShape = (skillId) => {
+        if (!skillId) {
+            return { flattenLeft: false, flattenRight: false };
+        }
+
+        const skillIndex = sorted.findIndex((entry) => entry.id === skillId);
+        const currentRow = rowMap?.[skillId];
+
+        if (skillIndex < 0 || currentRow === undefined) {
+            return { flattenLeft: false, flattenRight: false };
+        }
+
+        const previousRow =
+            skillIndex > 0 ? rowMap?.[sorted[skillIndex - 1].id] : null;
+        const nextRow =
+            skillIndex < sorted.length - 1
+                ? rowMap?.[sorted[skillIndex + 1].id]
+                : null;
+
+        const isLastInRow = nextRow === null || nextRow !== currentRow;
+
+        // Only flatten the right corner if the selected card is actually at the
+        // visual right edge of the grid. This is only true when the row is "full"
+        // (i.e. it has as many items as the maximum column count). An incomplete
+        // last row ends before the grid's right edge, so the corner should stay
+        // rounded.
+        let flattenRight = false;
+        if (isLastInRow) {
+            const rowCounts = {};
+            Object.values(rowMap || {}).forEach((row) => {
+                rowCounts[row] = (rowCounts[row] || 0) + 1;
+            });
+            const maxRowCols =
+                Object.values(rowCounts).length > 0
+                    ? Math.max(...Object.values(rowCounts))
+                    : 0;
+            flattenRight = (rowCounts[currentRow] || 0) === maxRowCols;
+        }
+
+        return {
+            flattenLeft: previousRow === null || previousRow !== currentRow,
+            flattenRight,
+        };
+    };
+
+    const activeInspectorEdges = getInspectorEdgeShape(activeInspectorId);
+    const closingInspectorEdges = getInspectorEdgeShape(closingInspectorId);
+
+    const renderInspectorPanel = (
+        skillId,
+        isOpen,
+        panelContentVisible,
+        panelEdges = {}
+    ) => {
         const usage = getUsage(skillId);
         const selectedSkill = sorted.find((skill) => skill.id === skillId);
+        const { flattenLeft = false, flattenRight = false } = panelEdges;
 
         if (!usage || !selectedSkill) return null;
 
         return (
             <div
-                className="col-span-full border rounded-t-lg rounded-b-lg text-sm text-gray-300 relative z-0 section-card"
+                className={`col-span-full border rounded-b-lg text-sm text-gray-300 relative z-0 section-card ${
+                    flattenLeft ? "rounded-tl-none" : "rounded-tl-lg"
+                } ${flattenRight ? "rounded-tr-none" : "rounded-tr-lg"}`}
                 style={{ borderColor: isOpen ? 'var(--section-accent-border)' : 'transparent' }}
             >
                 <div
@@ -259,29 +315,23 @@ export default function SkillContainer({
                                         )
                                     }
                                 />
-
-                                {isConnected && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            left: 0,
-                                            right: 0,
-                                            bottom: '-0.75rem',
-                                            height: '0.75rem',
-                                            backgroundColor: 'var(--section-accent-bg)',
-                                            borderLeft: '1px solid var(--section-accent-border)',
-                                            borderRight: '1px solid var(--section-accent-border)',
-                                            pointerEvents: 'none',
-                                        }}
-                                    />
-                                )}
                             </div>
 
                             {isLastInClosingRow && closingInspectorId &&
-                                renderInspectorPanel(closingInspectorId, isClosingInspectorOpen, true)}
+                                renderInspectorPanel(
+                                    closingInspectorId,
+                                    isClosingInspectorOpen,
+                                    true,
+                                    closingInspectorEdges
+                                )}
 
                             {isLastInActiveRow && activeInspectorId &&
-                                renderInspectorPanel(activeInspectorId, isActiveInspectorOpen, contentVisible)}
+                                renderInspectorPanel(
+                                    activeInspectorId,
+                                    isActiveInspectorOpen,
+                                    contentVisible,
+                                    activeInspectorEdges
+                                )}
                         </Fragment>
                     );
                 })}

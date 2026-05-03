@@ -14,8 +14,23 @@ export default function SidebarNav({ activeSection, visible, onJump }) {
   const [stretchable, setStretchable] = useState({});
 
   useEffect(() => {
-    const remPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
-    const curveSize = remPx * 0.75 + 2; // 0.75rem + 2px
+    const rootStyles = getComputedStyle(document.documentElement);
+    const remPx = parseFloat(rootStyles.fontSize) || 16;
+
+    function getCurveSizePx(button) {
+      const buttonStyles = getComputedStyle(button);
+      const curveSizeToken = buttonStyles
+        .getPropertyValue("--sidebar-active-curve-size")
+        .trim();
+      const curveSizeValue = parseFloat(curveSizeToken);
+      const curveBasePx = Number.isNaN(curveSizeValue)
+        ? remPx * 0.6
+        : curveSizeToken.endsWith("rem")
+          ? curveSizeValue * remPx
+          : curveSizeValue;
+      const borderWidthPx = parseFloat(buttonStyles.borderRightWidth) || 2;
+      return curveBasePx + borderWidthPx;
+    }
 
     function checkStretchable() {
       const updates = {};
@@ -28,6 +43,7 @@ export default function SidebarNav({ activeSection, visible, onJump }) {
         }
         const btnRect = btn.getBoundingClientRect();
         const sectionRect = sectionEl.getBoundingClientRect();
+        const curveSize = getCurveSizePx(btn);
         updates[s.id] = {
           stretch: btnRect.top >= sectionRect.top && btnRect.bottom <= sectionRect.bottom,
           topClip: Math.max(0, Math.min(curveSize, sectionRect.top - (btnRect.top - curveSize))),

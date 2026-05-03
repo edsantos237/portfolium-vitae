@@ -105,6 +105,7 @@
 
 /* Both sides rounded by default, but only right side for idle, left for active */
 .sidebar-tab-btn {
+  --sidebar-active-curve-size: 0.3rem;
   border-radius: 1rem 1rem 1rem 1rem;
   border-width: 2px;
   width: 100%;
@@ -155,8 +156,8 @@
   content: "";
   position: absolute;
   right: 0;
-  width: calc(0.75rem + 2px);
-  height: calc(0.75rem + 2px);
+  width: calc(var(--sidebar-active-curve-size) + 2px);
+  height: calc(var(--sidebar-active-curve-size) + 2px);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   pointer-events: none;
@@ -167,30 +168,30 @@
 }
 
 .sidebar-tab-active::before {
-  top: calc(-0.75rem);
+  top: calc(-1 * var(--sidebar-active-curve-size));
   right: calc(-2px);
   clip-path: inset(var(--curve-top-clip, 0px) 0 0 0);
   background-image: radial-gradient(
     circle at top left,
     transparent 0,
-    transparent calc(0.75rem - 1px),
-    var(--section-accent-border) calc(0.75rem - 1px),
-    var(--section-accent-border) 0.75rem,
-    var(--section-bg, #0f172a) 0.75rem
+    transparent calc(var(--sidebar-active-curve-size) - 1px),
+    var(--section-accent-border) calc(var(--sidebar-active-curve-size) - 1px),
+    var(--section-accent-border) var(--sidebar-active-curve-size),
+    var(--section-bg, #0f172a) var(--sidebar-active-curve-size)
   );
 }
 
 .sidebar-tab-active::after {
-  bottom: calc(-0.75rem);
+  bottom: calc(-1 * var(--sidebar-active-curve-size));
   right: calc(-2px);
   clip-path: inset(0 0 var(--curve-bottom-clip, 0px) 0);
   background-image: radial-gradient(
     circle at bottom left,
     transparent 0,
-    transparent calc(0.75rem - 1px),
-    var(--section-accent-border) calc(0.75rem - 1px),
-    var(--section-accent-border) 0.75rem,
-    var(--section-bg, #0f172a) 0.75rem
+    transparent calc(var(--sidebar-active-curve-size) - 1px),
+    var(--section-accent-border) calc(var(--sidebar-active-curve-size) - 1px),
+    var(--section-accent-border) var(--sidebar-active-curve-size),
+    var(--section-bg, #0f172a) var(--sidebar-active-curve-size)
   );
 }
 
